@@ -1,0 +1,1 @@
+<span><img class="img-responsive" alt="Ad1" src="http://visit.com.tr/ad/1200x100.png"></span>
