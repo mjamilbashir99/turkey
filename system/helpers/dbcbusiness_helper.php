@@ -362,7 +362,18 @@ if ( ! function_exists('get_all_countries'))
 		return $query;
 	}
 }
-
+if ( ! function_exists('listMagazines'))
+{
+	function listMagazines($region='all',$category='all')
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->order_by('title', 'asc');
+		$query = $CI->db->get_where('magazines');
+		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
+		return $query;
+	}
+}
 if ( ! function_exists('get_all_locations_by_type'))
 {
 	function get_all_locations_by_type($type='country')
@@ -506,6 +517,16 @@ if ( ! function_exists('get_post_custom_value'))
 		}
 	}
 }
+if ( ! function_exists('get_magazine_image'))
+{
+	function get_magazine_image($img='')
+	{
+		if($img=='')
+		return base_url('assets/admin/img/preview.jpg');
+		else
+		return base_url('uploads/thumbs/'.$img);
+	}
+}
 
 
 if ( ! function_exists('get_featured_photo_by_id'))
@@ -611,6 +632,31 @@ if ( ! function_exists('get_post_data_by_lang'))
 	}
 }
 
+if ( ! function_exists('get_emagazine_data_by_lang'))
+{
+	function get_emagazine_data_by_lang($post,$column='title',$lang='')
+	{
+		if($lang=='')
+			$lang = get_current_lang();
+
+		if($column=='title')
+		{
+			$titles = json_decode($post->title);
+			if(isset($titles->{$lang}) &&  $titles->{$lang}!='')
+				return $titles->{$lang};
+			else
+				return $titles->{default_lang()};
+		}
+		else
+		{
+			$descriptions = json_decode($post->description);
+			if(isset($descriptions->{$lang}) &&  $descriptions->{$lang}!='')
+				return $descriptions->{$lang};
+			else
+				return $descriptions->{default_lang()};
+		}
+	}
+}
 if ( ! function_exists('get_description_for_edit_by_id_lang'))
 {
 	function get_description_for_edit_by_id_lang($id,$lang)

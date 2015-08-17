@@ -646,7 +646,25 @@ class Show_core extends CI_controller {
 		load_template($data,$this->active_theme);
 
 	}
+    
+	public function emagazine()
+	{
 
+		$value = array();
+		$value['countries'] = listMagazines();
+
+		$data['content'] 	= load_view('emagazines_view',$value,TRUE);
+		$data['alias']	    = 'location';
+		load_template($data,$this->active_theme);
+	}
+	
+	function emagazines_posts_ajax($limit=5,$view_type='grid',$location_id='', $location_type='country')
+	{
+		$this->load->model('user/post_model');
+		$value['magazines'] = listMagazines();
+		load_view($view_type.'_view_magazines',$value);
+	}
+	
 	public function location()
 	{
 

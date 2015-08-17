@@ -54,6 +54,13 @@ if($host=="localhost")
 	$db['default']['password'] = '';
 	$db['default']['database'] = 'turkeyvi_cities';
 }
+elseif($host=="themindgauge.com" || $host=="www.themindgauge.com")
+{
+	$db['default']['hostname'] = 'localhost';
+	$db['default']['username'] = 'mrj0909_dev';
+	$db['default']['password'] = 'mrj0909_dev';
+	$db['default']['database'] = 'mrj0909_visitturkey';
+}
 else
 {
     $db['default']['hostname'] = 'localhost';

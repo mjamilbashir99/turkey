@@ -54,22 +54,28 @@ if ( ! function_exists('base_url'))
 
 
 if ( ! function_exists('post_detail_url'))
-
 {
-
 	function post_detail_url($post)
-
 	{
 
 		$CI =& get_instance();
 		$url = site_url('ads/'.$post->unique_id); #never remove this line
 		$url .= '/'.dbc_url_title(get_category_title_by_id($post->category));
 		$url .= '/'.dbc_url_title(get_post_data_by_lang($post,'title'));
-
 		return $url;
-
 	}
+}
+if ( ! function_exists('magazine_detail_url'))
+{
+	function magazine_detail_url($post)
+	{
 
+		$CI =& get_instance();
+		$url = site_url('ads/'.$post->id); #never remove this line
+		$url .= '/'.dbc_url_title(get_category_title_by_id($post->tags));
+		$url .= '/'.dbc_url_title(get_post_data_by_lang($post,'title'));
+		return $url;
+	}
 }
 
 
