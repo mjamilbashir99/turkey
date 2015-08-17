@@ -44,7 +44,7 @@
                 <div class="clearfix"></div>
             <?php } ?>
 
-
+            <?php render_widgets('location_page');?>
             <div class="clearfix"></div>
         </div>
 

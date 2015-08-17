@@ -136,8 +136,9 @@ $route['(:any)/embed/(:any)'] = "(:any)/show/embed/$2";
 $route['(:any)/meme/(:any)'] = "(:any)/show/detail";
 
 $route['(:any)/video/(:any)'] = "(:any)/tv/v";
-
-
+// Edit by TMG
+$route['(:any)/videos'] 		= "(:any)/videos";
+$route['(:any)/videos-posts/(:any)'] = "(:any)/videos_posts/$2/$3";
 
 /* End of file routes.php */
 
