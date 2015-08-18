@@ -20,8 +20,8 @@
             <div class="block-heading-two">
                 <h3><span><i class="fa fa-newspaper-o"></i><?php echo lang_key($location_type);?> : <?php echo get_location_name_by_id($location_id);?></span>
                     <div class="pull-right list-switcher">
-                        <a target="recent-posts" href="<?php echo site_url('show/emagazines_posts_ajax/'.$per_page.'/grid/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th "></i></a>
-                        <a target="recent-posts" href="<?php echo site_url('show/emagazines_posts_ajax/'.$per_page.'/list/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th-list "></i></a>
+                        <a target="recent-posts" href="<?php echo site_url('show/apps_posts_ajax/'.$per_page.'/grid/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th "></i></a>
+                        <a target="recent-posts" href="<?php echo site_url('show/apps_posts_ajax/'.$per_page.'/list/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th-list "></i></a>
                     </div>
                 </h3>
             </div>

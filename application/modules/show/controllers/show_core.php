@@ -664,6 +664,43 @@ class Show_core extends CI_controller {
 		$value['magazines'] = listMagazines();
 		load_view($view_type.'_view_magazines',$value);
 	}
+
+public function apps()
+	{
+
+		$value = array();
+		$value['countries'] = listApps();
+
+		$data['content'] 	= load_view('apps_view',$value,TRUE);
+		$data['alias']	    = 'location';
+		load_template($data,$this->active_theme);
+	}
+	
+	function apps_posts_ajax($limit=5,$view_type='grid',$location_id='', $location_type='country')
+	{
+		$this->load->model('user/post_model');
+		$value['apps'] = listApps();
+		load_view($view_type.'_view_apps',$value);
+	}
+	
+public function videos()
+	{
+
+		$value = array();
+		$value['countries'] = listVideos();
+
+		$data['content'] 	= load_view('videos_view',$value,TRUE);
+		$data['alias']	    = 'location';
+		load_template($data,$this->active_theme);
+	}
+	
+	function videos_posts_ajax($limit=5,$view_type='grid',$location_id='', $location_type='country')
+	{
+		$this->load->model('user/post_model');
+		$value['videos'] = listVideos();
+		load_view($view_type.'_view_apps',$value);
+	}
+
 	
 	public function location()
 	{

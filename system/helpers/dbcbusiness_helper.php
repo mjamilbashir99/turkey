@@ -374,6 +374,35 @@ if ( ! function_exists('listMagazines'))
 		return $query;
 	}
 }
+
+if ( ! function_exists('listApps'))
+{
+	function listApps($region='all',$category='all')
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->order_by('title', 'asc');
+		$query = $CI->db->get_where('apps');
+		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
+		return $query;
+	}
+}
+
+if ( ! function_exists('listvideos'))
+{
+	function listvideos($region='all',$category='all')
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->order_by('title', 'user_id');
+		$query = $CI->db->get_where('videos');
+		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
+		return $query;
+	}
+}
+
+
+
 if ( ! function_exists('get_all_locations_by_type'))
 {
 	function get_all_locations_by_type($type='country')

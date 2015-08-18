@@ -1,16 +1,16 @@
 <?php $CI = get_instance();?>df asdf  hhfhfg hfhfj asd
 <div class="img-box-4 text-center">
     <?php
-    if($magazines->num_rows()<=0)
+    if($videos->num_rows()<=0)
     {
         echo '<div class="alert alert-info">'.lang_key('no_posts').'</div>';
     }
     else
     {
     $i = 0;
-    foreach($magazines->result() as $post){
+    foreach($videos->result() as $post){
         $i++;
-        $detail_link = site_url('emagazine_details/'.$post->id);
+        $detail_link = site_url('videos_details/'.$post->id);
     ?>
     <div class="col-md-4 col-sm-6">
         <div class="img-box-4-item">
@@ -20,7 +20,7 @@
                 <!-- Image -->
                 <a href="<?php echo $detail_link;?>">
                 <?php $image = str_replace(array('"','[',']',"'"),array(''),$post->gallery)?>
-                    <img class="img-responsive" alt="" src="<?php echo get_magazine_image('');?>">                        <!-- image hover style for image #1 -->
+                    <img class="img-responsive" alt="" src="<?php echo get_videos_image('');?>">                        <!-- image hover style for image #1 -->
                 </a>
 
             </div>

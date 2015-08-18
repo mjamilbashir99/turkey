@@ -143,6 +143,9 @@ $route['(:any)/videos-posts/(:any)'] = "(:any)/videos_posts/$2/$3";
 $route['(:any)/emagazine'] 		= "(:any)/show/emagazine";
 $route['(:any)/emagazine_details/(:any)'] = "(:any)/show/emagazine_details/$2/$3";
 
+$route['(:any)/apps'] 		= "(:any)/show/apps";
+$route['(:any)/apps_details/(:any)'] = "(:any)/show/apps_details/$2/$3";
+
 /* End of file routes.php */
 
 /* Location: ./application/config/routes.php */
