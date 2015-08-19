@@ -148,7 +148,23 @@ class Post_model_core extends CI_Model
 		$query = $this->db->get('posts');
 		return $query;
 	}
-
+	function get_emagazines($limit=6,$location_id='any',$category='any')
+	 {
+		$this->db->select('magazines.*,posts.id,,posts.category,posts.city');
+		$this->db->from('magazines');
+		$this->db->join('posts', 'magazines.post_id = posts.id');
+		
+		$this->db->where('posts.status',1);
+		if($location_id!='any')
+		  $this->db->where('posts.city',$location_id);
+		if($category!='any')  
+			$this->db->where('posts.category',$category);  
+		$this->db->limit($limit);
+		$this->db->order_by('magazines.id');
+		$query = $this->db->get();
+		return $query;
+	}
+	
 	function get_location_posts($limit=6,$location_id='', $location_type='country') {
 		$this->db->where('status',1);
 		$this->db->where($location_type,$location_id);

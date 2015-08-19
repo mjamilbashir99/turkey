@@ -21,7 +21,7 @@
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
                                         <label for="input-11"><?php echo lang_key('select_city');?></label>
-                                        <select id="input-11" name="city" class="form-control chosen-select">
+                                        <select id="city" name="city" class="form-control chosen-select">
                                             <option data-name="" value="any"><?php echo lang_key('any_city');?></option>
                                               <?php foreach (get_all_locations_by_type('city')->result() as $row) {
                                                   $sel = ($row->id==set_value('city'))?'selected="selected"':'';
@@ -39,7 +39,7 @@
                                         $CI->load->model('user/post_model');
                                         $categories = $CI->post_model->get_all_categories();
                                         ?>
-                                        <select id="input-14" name="category" class="form-control chosen-select">
+                                        <select id="category" name="category" class="form-control chosen-select">
                                             <option value="any"><?php echo lang_key('any_category');?></option>
                                               <?php foreach ($categories as $row) {
                                                   $sel = (set_value('category')==$row->id)?'selected="selected"':'';
@@ -50,21 +50,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                 
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label><?php echo lang_key('distance_around_my_position'); ?>: <span class="price-range-amount-view" id="amount"></span></label>
-                                        <div class="clearfix"></div>
-                                        <a href="javascript:void(0);" onclick="findLocation()" class="btn btn-orange btn-xs find-my-location" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo lang_key('identify_my_location');?>"><i class="fa fa-location-arrow"></i></a>
-                                        <div id="slider-price-sell" class="price-range-slider"></div>
-                                        <input type="hidden" id="price-slider-sell" name="distance" value="">
-                                        <input type="hidden" id="geo_lat" name="geo_lat" value="">
-                                        <input type="hidden" id="geo_lng" name="geo_lng" value="">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-color"><i class="fa fa-search"></i>&nbsp; <?php echo lang_key('search_businesses'); ?></button>
+                                        <button type="button" class="btn btn-color btn_filter"><i class="fa fa-search"></i>&nbsp; <?php echo lang_key('search_businesses'); ?></button>
                                     </div>
                                 </div>
                             </div>
