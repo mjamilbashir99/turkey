@@ -1,4 +1,4 @@
-<?php $CI = get_instance();?>
+<?php $CI = get_instance();?> 
 <div class="blog-one">
 	<?php
 	if($apps->num_rows()<=0)

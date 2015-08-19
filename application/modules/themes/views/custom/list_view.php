@@ -1,12 +1,14 @@
 <?php $CI = get_instance();?>
 <div class="blog-one">
+
+
 	<?php
 	if($posts->num_rows()<=0)
 	{
 		echo '<div class="alert alert-info">'.lang_key('no_posts').'</div>';
 	}
 	else
-	{
+	{.
     $i = 0;
     foreach($posts->result() as $post){
         $i++;
