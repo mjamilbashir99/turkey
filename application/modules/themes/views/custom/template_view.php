@@ -98,7 +98,7 @@
     .header-2 .navy ul ul .active a{
         color: <?php echo $active_text_color;?>        
     }
-
+.sidebar span{ margin-top:10px; display:block}
     .real-estate .re-big-form{
         padding: 15px 0 0 0;
         <?php 

@@ -63,7 +63,10 @@ if( ! ini_get('date.timezone') )
  *
 
  */
-
+ $host = $_SERVER['HTTP_HOST'];
+if($host=='localhost')
+	define('ENVIRONMENT', 'development');
+else	
 	define('ENVIRONMENT', 'production');
 
 /*

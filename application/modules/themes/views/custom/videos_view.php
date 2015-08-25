@@ -1,11 +1,12 @@
-<?php require 'home_custom_search.php';  ?>
-<?php $per_page = get_settings('business_settings', 'posts_per_page', 6); ?>
+<?php require 'common_custom_search.php';  ?>
 <!-- Page heading two starts -->
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php echo get_location_name_by_id($location_id);?></h2>
+        <h2>Vidoes</h2>
         <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <a href="<?php echo site_url('show/location/'); ?>"><?php echo lang_key('location'); ?></a> / <?php echo get_location_name_by_id($location_id);?>
+            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / 
+            <a href="<?php echo site_url('show/Vidoe/'); ?>">Vidoes</a> /
+            <?php if($sel_region!='') echo $sel_region?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -13,70 +14,209 @@
 
 <!-- Container -->
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-9 col-sm-12 col-xs-12">
-            <div class="block-heading-two">
-                <h3><span><i class="fa fa-newspaper-o"></i><?php echo lang_key($location_type);?> : <?php echo get_location_name_by_id($location_id);?></span>
-                    <div class="pull-right list-switcher">
-                        <a target="recent-posts" href="<?php echo site_url('show/emagazines_posts_ajax/'.$per_page.'/grid/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th "></i></a>
-                        <a target="recent-posts" href="<?php echo site_url('show/emagazines_posts_ajax/'.$per_page.'/list/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th-list "></i></a>
-                    </div>
-                </h3>
+        <?php $first_row = $topVideo;?>
+        <div class="magazine">
+        <span id="video_preview">
+        <iframe width="100%" height="420" frameborder="0" allowfullscreen="" src="<?php echo $first_row->video_url?>" class="thumbnail"></iframe></span>
+		<?php 
+		    $k=1;
+			for($j=0;$j<10;$j++)
+			{
+				$obj = 'url_'.$j;
+				$vido_link = $first_row->$obj;
+				//if($vido_link!='')
+				{
+					echo "<a href='".$vido_link."'>Vidoe $k</a>";
+					$k++;
+				} 
+			}
+        ?>
+<br><br><br><br>
+</div>
+          <div class="magazine">
+          <h2><i class="fa fa-film"></i> New Videos</h2>
+    <?php 
+	     if(count($all)>1){
+			 echo "<ul>";
+		 foreach($all as $video)
+	     {
+			 $detail_link = site_url('videos_details/'.$video->video_id);
+	?>
+		<li>
+            <div class="mtop">
+                <a href="<?php echo $detail_link?>">
+                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                </a>
             </div>
-            <span class="recent-posts">
-            </span>
-            <div class="ajax-loading recent-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading..."></div>
-            <a href="" class="load-more-recent btn btn-blue" style="width:100%"><?php echo lang_key('load_more_posts');?></a>
-
-            <script type="text/javascript">
-                var per_page = '<?php echo $per_page;?>';
-                var recent_count = '<?php echo $per_page;?>';
-
-                jQuery(document).ready(function(){
-                    jQuery('.list-switcher a').click(function(e){
-                        jQuery('.list-switcher a').removeClass('selected');
-                        jQuery(this).addClass('selected');
-                        e.preventDefault();
-                        var target = jQuery(this).attr('target');
-                        var loadUrl = jQuery(this).attr('href');
-                        jQuery('.recent-loading').show();
-                        jQuery.post(
-                            loadUrl,
-                            {},
-                            function(responseText){
-                                jQuery('.'+target).html(responseText);
-                                jQuery('.recent-loading').hide();
-                                if(jQuery('.recent-posts > div').children().length<recent_count)
-                                {
-                                    jQuery('.load-more-recent').hide();
-                                }
-                                fix_grid_height();
-                            }
-                        );
-                    });
-
-                    jQuery('.load-more-recent').click(function(e){
-                        e.preventDefault();
-                        var next = parseInt(recent_count)+parseInt(per_page);
-                        jQuery('.list-switcher a').each(function(){
-                            var url = jQuery(this).attr('href');
-                            url = url.replace('/'+recent_count+'/','/'+next+'/');
-                            jQuery(this).attr('href',url);
-                        });
-                        recent_count = next;
-                        jQuery('.list-switcher > .selected').trigger('click');
-                    });
-                });
-            </script>
-            <br /> <br />
-			<?php render_widgets('footervideos');?>
-            
+            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+                <?php echo get_text_by_lang($video->title)?> 1
+            </a>
+            <br>
+            <?php echo humanTiming($video->last_update_time)?>
+		</li>
+        
+        <!--for extra videos-->
+        <?php
+		    $k=1;
+			for($j=0;$j<10;$j++)
+			{
+				$obj = 'url_'.$j;
+				$ex_vido_link = $video->$obj;
+				if($ex_vido_link!='' )
+				{
+					$detail_link = site_url('videos_details/'.$video->$obj);
+					$k++;
+				?>
+                    <li>
+                        <div class="mtop">
+                            <a href="<?php echo $ex_vido_link?>">
+                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            </a>
+                        </div>
+                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                         	   <?php echo get_text_by_lang($video->title)." ".$k?>
+                            </a>
+                        <br>
+                        <?php echo humanTiming($video->last_update_time)?>
+                    </li>
+				<?php
+                } 
+			}
+        ?>
+         <?php
+		 } 
+		  echo "</ul>"; 
+		 }
+		 else
+		 {?>
+           <div>No Vidoes were found</div>
+		<?php }?>
+    </div>
+          <div class="clear"></div>
+          <div class="magazine">
+          <h2><i class="fa fa-film"></i> Top Videos</h2>
+    <?php 
+	     if(count($all)>0){
+			 echo "<ul>";
+		 foreach($latest as $video)
+	     {
+			 $detail_link = site_url('videos_details/'.$video->video_id);
+	?>
+		<li>
+            <div class="mtop">
+                <a href="<?php echo $detail_link?>">
+                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                </a>
+            </div>
+            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+                <?php echo get_text_by_lang($video->title)?> 1
+            </a>
+            <br>
+            <?php echo humanTiming($video->last_update_time)?>
+		</li>
+        
+        <!--for extra videos-->
+        <?php
+		    $k=1;
+			for($j=0;$j<10;$j++)
+			{
+				$obj = 'url_'.$j;
+				$ex_vido_link = $video->$obj;
+				if($ex_vido_link!='' )
+				{
+					$detail_link = site_url('videos_details/'.$video->$obj);
+					$k++;
+				?>
+                    <li>
+                        <div class="mtop">
+                            <a href="<?php echo $ex_vido_link?>">
+                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            </a>
+                        </div>
+                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                         	   <?php echo get_text_by_lang($video->title)." ".$k?>
+                            </a>
+                        <br>
+                        <?php echo humanTiming($video->last_update_time)?>
+                    </li>
+				<?php
+                } 
+			}
+        ?>
+         <?php
+		 } 
+		  echo "</ul>"; 
+		 }
+		 else
+		 {?>
+           <div>No Vidoes were found</div>
+		<?php }?>
+    </div>
+          <div class="clear"></div>
+          <div class="magazine">
+          <h2><i class="fa fa-film"></i> Featured Vidoes</h2>
+    <?php 
+	     if(count($featured)>0){
+			 echo "<ul>";
+		 foreach($featured as $video)
+	     {
+			 $detail_link = site_url('videos_details/'.$video->video_id);
+	?>
+		<li>
+            <div class="mtop">
+                <a href="<?php echo $detail_link?>">
+                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                </a>
+            </div>
+            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+                <?php echo get_text_by_lang($video->title)?> 1
+            </a>
+            <br>
+            <?php echo humanTiming($video->last_update_time)?>
+		</li>
+        
+        <!--for extra videos-->
+        <?php
+		    $k=1;
+			for($j=0;$j<10;$j++)
+			{
+				$obj = 'url_'.$j;
+				$ex_vido_link = $video->$obj;
+				if($ex_vido_link!='' )
+				{
+					$detail_link = site_url('videos_details/'.$video->$obj);
+					$k++;
+				?>
+                    <li>
+                        <div class="mtop">
+                            <a href="<?php echo $ex_vido_link?>">
+                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            </a>
+                        </div>
+                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                         	   <?php echo get_text_by_lang($video->title)." ".$k?>
+                            </a>
+                        <br>
+                        <?php echo humanTiming($video->last_update_time)?>
+                    </li>
+				<?php
+                } 
+			}
+        ?>
+         <?php
+		 } 
+		  echo "</ul>"; 
+		 }
+		 else
+		 {?>
+           <div>No Vidoes were found</div>
+		<?php }?>
+    </div>
+	    <div class="clear"></div>
+		<?php render_widgets('footervideos');?>
         </div>
-            
-    
-
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
                 <?php render_widgets('RightBarVideos');?>

@@ -20,7 +20,7 @@
                 <!-- Image -->
                 <a href="<?php echo $detail_link;?>">
                 <?php $image = str_replace(array('"','[',']',"'"),array(''),$post->gallery)?>
-                    <img class="img-responsive" alt="" src="<?php echo get_magazine_image('');?>">                        <!-- image hover style for image #1 -->
+                    <img class="img-responsive" alt="" src="<?php echo get_gallery_image('');?>">                        <!-- image hover style for image #1 -->
                 </a>
 
             </div>

@@ -362,47 +362,7 @@ if ( ! function_exists('get_all_countries'))
 		return $query;
 	}
 }
-if ( ! function_exists('listMagazines'))
-{
-	function listMagazines($region='all',$category='all')
-	{
-		$CI = get_instance();
-		$CI->load->database();
-		$CI->db->order_by('title', 'asc');
-		$query = $CI->db->get_where('magazines');
-		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
-		return $query;
-	}
-}
-
-if ( ! function_exists('listApps'))
-{
-	function listApps($region='all',$category='all')
-	{
-		$CI = get_instance();
-		$CI->load->database();
-		$CI->db->order_by('title', 'asc');
-		$query = $CI->db->get_where('apps');
-		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
-		return $query;
-	}
-}
-
-if ( ! function_exists('listvideos'))
-{
-	function listvideos($region='all',$category='all')
-	{
-		$CI = get_instance();
-		$CI->load->database();
-		$CI->db->order_by('title', 'user_id');
-		$query = $CI->db->get_where('videos');
-		//$query = $CI->db->get_where('magazines',array('type'=>$type,'status'=>1));
-		return $query;
-	}
-}
-
-
-
+ 
 if ( ! function_exists('get_all_locations_by_type'))
 {
 	function get_all_locations_by_type($type='country')
@@ -546,14 +506,68 @@ if ( ! function_exists('get_post_custom_value'))
 		}
 	}
 }
-if ( ! function_exists('get_magazine_image'))
+if ( ! function_exists('get_gallery_image'))
 {
-	function get_magazine_image($img='')
+	function get_gallery_image($img='')
 	{
 		if($img=='')
-		return base_url('assets/admin/img/preview.jpg');
+		$img_link = base_url('assets/admin/img/preview.jpg');
 		else
-		return base_url('uploads/thumbs/'.$img);
+		$img_link = base_url('uploads/gallery/'.$img);
+		
+		//if(!file_exists($img_link))
+		//  $img_link = base_url('assets/admin/img/preview.jpg');
+		
+		return $img_link;   
+		
+	}
+}
+if ( ! function_exists('get_thumbs_image'))
+{
+	function get_thumbs_image($img='')
+	{
+		if($img=='')
+		$img_link = base_url('assets/admin/img/preview.jpg');
+		else
+		$img_link = base_url('uploads/thumbs/'.$img);
+		
+		//if(!file_exists($img_link))
+		 // $img_link = base_url('assets/admin/img/preview.jpg');
+		
+		return $img_link;   
+		
+	}
+}
+if ( ! function_exists('get_app_image'))
+{
+	function get_app_image($img='')
+	{
+		if($img=='')
+		$img_link = base_url('assets/admin/img/preview.jpg');
+		else
+		$img_link = base_url('uploads/thumbs/'.$img);
+		
+		//if(!file_exists($img_link))
+		//  $img_link = base_url('assets/admin/img/preview.jpg');
+		
+		return $img_link;   
+		
+	}
+}
+if ( ! function_exists('get_app_large_image'))
+{
+	function get_app_large_image($img='')
+	{
+		if($img=='')
+		$img_link = base_url('assets/admin/img/preview.jpg');
+		else
+		$img_link = base_url('uploads/images/'.$img);
+		
+		//if(!file_exists($img_link))
+		 // $img_link = base_url('assets/admin/img/preview.jpg');
+		
+		return $img_link;   
+		
 	}
 }
 
@@ -607,6 +621,15 @@ if ( ! function_exists('get_title_for_edit_by_id_lang'))
 			return 'N/A';
 
 		return $query;
+	}
+}
+if ( ! function_exists('get_text_by_lang'))
+{
+	function get_text_by_lang($text,$lang='en')
+	{
+			$data = json_decode($text);
+			return($data->$lang);
+		 
 	}
 }
 

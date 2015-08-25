@@ -646,62 +646,6 @@ class Show_core extends CI_controller {
 		load_template($data,$this->active_theme);
 
 	}
-    
-	public function emagazine()
-	{
-
-		$value = array();
-		$value['countries'] = listMagazines();
-		$data['content'] 	= load_view('emagazines_view',$value,TRUE);
-		$data['alias']	    = 'location';
-		load_template($data,$this->active_theme);
-	}
-	
-	function emagazines_posts_ajax($limit=5,$view_type='grid',$location_id='any',$category='any')
-	{
-		$this->load->model('user/post_model');
-		$value['magazines'] = $this->post_model->get_emagazines($limit,$location_id,$category);
-		load_view($view_type.'_view_magazines',$value);
-		$this->output->enable_profiler(TRUE);
-	}
-
-public function apps()
-	{
-
-		$value = array();
-		$value['countries'] = listApps();
-
-		$data['content'] 	= load_view('apps_view',$value,TRUE);
-		$data['alias']	    = 'location';
-		load_template($data,$this->active_theme);
-	}
-	
-	function apps_posts_ajax($limit=5,$view_type='grid',$location_id='', $location_type='country')
-	{
-		$this->load->model('user/post_model');
-		$value['apps'] = listApps();
-		load_view($view_type.'_view_apps',$value);
-	}
-	
-public function videos()
-	{
-
-		$value = array();
-		$value['countries'] = listVideos();
-
-		$data['content'] 	= load_view('videos_view',$value,TRUE);
-		$data['alias']	    = 'location';
-		load_template($data,$this->active_theme);
-	}
-	
-	function videos_posts_ajax($limit=5,$view_type='grid',$location_id='', $location_type='country')
-	{
-		$this->load->model('user/post_model');
-		$value['videos'] = listVideos();
-		load_view($view_type.'_view_apps',$value);
-	}
-
-	
 	public function location()
 	{
 

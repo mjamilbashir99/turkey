@@ -46,7 +46,7 @@
 
 $active_group = 'default';
 $active_record = TRUE;
-echo $host = $_SERVER['HTTP_HOST'];
+$host = $_SERVER['HTTP_HOST'];
 if($host=="localhost")
 {
 	$db['default']['hostname'] = 'localhost';
@@ -56,17 +56,17 @@ if($host=="localhost")
 }
 elseif($host=="http://themindgauge.com" || $host=="http://themindgauge.com")
 {
-	$db['default']['hostname'] = 'localhost';
-	$db['default']['username'] = 'mrj0909_dev';
-	$db['default']['password'] = 'mrj0909_dev';
-	$db['default']['database'] = 'mrj0909_visitturkey';
-}
-else
-{
     $db['default']['hostname'] = 'localhost';
 	$db['default']['username'] = 'turkeyvi_guides';
     $db['default']['password'] = 'wow741x852dx';
 	$db['default']['database'] = 'turkeyvi_cities';
+}
+else
+{
+	$db['default']['hostname'] = 'localhost';
+	$db['default']['username'] = 'mrj0909_dev';
+	$db['default']['password'] = 'mrj0909_dev';
+	$db['default']['database'] = 'mrj0909_visitturkey';
 }
 
 $db['default']['dbprefix'] = 'dbc_';

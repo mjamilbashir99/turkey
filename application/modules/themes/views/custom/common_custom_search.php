@@ -1,8 +1,9 @@
-<?php $CI = get_instance(); ?>
+<?php $CI = get_instance(); $sel_region=''; $sel_category=''; ?>
 <link href="<?php echo theme_url();?>/assets/jquery-ui/jquery-ui.css" rel="stylesheet">
 <script src="<?php echo theme_url();?>/assets/jquery-ui/jquery-ui.js"></script>
 
 <link href="<?php echo theme_url();?>/assets/css/select2.css" rel="stylesheet">
+<link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
 <script src="<?php echo theme_url();?>/assets/js/select2.js"></script>
 <div class="real-estate">
     <div class="re-big-form">
@@ -16,17 +17,17 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="tab-1">
 
-                        <form role="form" action="<?php echo site_url('show/advfilter')?>" method="post">
+                        <form role="form" action="<?php echo site_url("show/$module")?>" method="post">
                             <div class="row">
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label for="input-11"><?php echo lang_key('select_city');?></label>
-                                        <select id="city" name="city" class="form-control chosen-select">
-                                            <option data-name="" value="any"><?php echo lang_key('any_city');?></option>
+                                        <label for="input-11"><?php echo 'Select Region';?></label>
+                                        <select name="region" class="form-control chosen-select">
+                                            <option data-name="" value="">Region</option>
                                               <?php foreach (get_all_locations_by_type('city')->result() as $row) {
-                                                  $sel = ($row->id==set_value('city'))?'selected="selected"':'';
+                                                  $sel_region = ($row->id==set_value('city'))?'selected="selected"':'';
                                                   ?>
-                                                  <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
+                                                  <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel_region;?>><?php echo $row->name;?></option>
                                               <?php }?>
                                         </select>
                                     </div>
@@ -40,20 +41,35 @@
                                         $categories = $CI->post_model->get_all_categories();
                                         ?>
                                         <select id="category" name="category" class="form-control chosen-select">
-                                            <option value="any"><?php echo lang_key('any_category');?></option>
+                                            <option value=""><?php echo lang_key('any_category');?></option>
                                               <?php foreach ($categories as $row) {
-                                                  $sel = (set_value('category')==$row->id)?'selected="selected"':'';
+                                                  $sel_category = (set_value('category')==$row->id)?'selected="selected"':'';
                                               ?>
-                                                  <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->title);?></option>
+                                                  <option value="<?php echo $row->id;?>" <?php echo $sel_category;?>><?php echo lang_key($row->title);?></option>
                                               <?php
                                               }?>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label for="input-15"><?php echo lang_key('Limit');?></label>
+                                        <select id="limit" name="limit" class="form-control chosen-select">
+                                            <option value="">Limit</option>
+                                              <?php for($i=4;$i<=24;$i=$i+4) {
+                                                  $sel = (set_value('category')==$row->id)?'selected="selected"':'';
+                                              ?>
+                                                  <option value="<?php echo $i;?>" <?php echo $sel;?>><?php echo $i?></option>
+                                              <?php
+                                              }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
                                  
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-color btn_filter"><i class="fa fa-search"></i>&nbsp; <?php echo lang_key('search_businesses'); ?></button>
+                                        <button type="submit" class="btn btn-color" name="search" value="search"><i class="fa fa-search"></i> Search <?php echo $module?></button>
                                     </div>
                                 </div>
                             </div>

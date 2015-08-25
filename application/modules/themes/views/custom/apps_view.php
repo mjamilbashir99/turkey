@@ -1,11 +1,12 @@
-<?php require 'home_custom_search.php';  ?>
-<?php $per_page = get_settings('business_settings', 'posts_per_page', 6); ?>
+<?php require 'common_custom_search.php';  ?>
 <!-- Page heading two starts -->
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php echo get_location_name_by_id($location_id);?></h2>
+        <h2>Apps</h2>
         <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <a href="<?php echo site_url('show/location/'); ?>"><?php echo lang_key('location'); ?></a> / <?php echo get_location_name_by_id($location_id);?>
+            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / 
+            <a href="<?php echo site_url('show/apps/'); ?>">Apps</a> /
+            <?php if($sel_region!='') echo $sel_region?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -13,66 +14,102 @@
 
 <!-- Container -->
 <div class="container">
-
     <div class="row">
-
         <div class="col-md-9 col-sm-12 col-xs-12">
-            <div class="block-heading-two">
-                <h3><span><i class="fa fa-newspaper-o"></i><?php echo lang_key($location_type);?> : <?php echo get_location_name_by_id($location_id);?></span>
-                    <div class="pull-right list-switcher">
-                        <a target="recent-posts" href="<?php echo site_url('show/apps_posts_ajax/'.$per_page.'/grid/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th "></i></a>
-                        <a target="recent-posts" href="<?php echo site_url('show/apps_posts_ajax/'.$per_page.'/list/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th-list "></i></a>
-                    </div>
-                </h3>
-            </div>
-            <span class="recent-posts">
-            </span>
-            <div class="ajax-loading recent-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading..."></div>
-            <a href="" class="load-more-recent btn btn-blue" style="width:100%"><?php echo lang_key('load_more_posts');?></a>
-
-            <script type="text/javascript">
-                var per_page = '<?php echo $per_page;?>';
-                var recent_count = '<?php echo $per_page;?>';
-
-                jQuery(document).ready(function(){
-                    jQuery('.list-switcher a').click(function(e){
-                        jQuery('.list-switcher a').removeClass('selected');
-                        jQuery(this).addClass('selected');
-                        e.preventDefault();
-                        var target = jQuery(this).attr('target');
-                        var loadUrl = jQuery(this).attr('href');
-                        jQuery('.recent-loading').show();
-                        jQuery.post(
-                            loadUrl,
-                            {},
-                            function(responseText){
-                                jQuery('.'+target).html(responseText);
-                                jQuery('.recent-loading').hide();
-                                if(jQuery('.recent-posts > div').children().length<recent_count)
-                                {
-                                    jQuery('.load-more-recent').hide();
-                                }
-                                fix_grid_height();
-                            }
-                        );
-                    });
-
-                    jQuery('.load-more-recent').click(function(e){
-                        e.preventDefault();
-                        var next = parseInt(recent_count)+parseInt(per_page);
-                        jQuery('.list-switcher a').each(function(){
-                            var url = jQuery(this).attr('href');
-                            url = url.replace('/'+recent_count+'/','/'+next+'/');
-                            jQuery(this).attr('href',url);
-                        });
-                        recent_count = next;
-                        jQuery('.list-switcher > .selected').trigger('click');
-                    });
-                });
-            </script>
-            <br /> <br />
-			<?php render_widgets('footerApps');?>
-            
+          <div class="app">
+    <?php 
+	     if(count($all)>0){
+			 echo "<ul>";
+		 foreach($all as $app)
+	     {
+			 $detail_link = site_url('apps_details/'.$app->id);
+	?>
+		<li>
+		<div class="mtop">
+			<a href="<?php echo $detail_link?>">
+            <img src="<?php echo get_app_image($app->featured_img);?>" width="100" height="109"/>
+            </a>
+			<a href="<?php echo $detail_link?>" title="Read">
+			<img src="<?php echo get_app_image($app->qr);?>" width="66" height="63"/>
+			</a>
+		</div>
+        <div class="middle">
+        <h3><?php echo $app->title?>&nbsp;</h3>
+        <p><?php echo $app->description?> &nbsp;</p>
+        </div>
+        <div class="cellOS">
+        <a class="mname" href="<?php echo $detail_link?>" title="Detail">Detail</a>
+        </div>
+		<div class="cellOS">
+        <a href="<?php echo $app->mac?>" title="to go app">
+        <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="30" height="29"/>
+        </a>
+        <a href="<?php echo $app->android?>" title="to go app">
+		<img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="30" height="29"/>
+        </a>
+        <a href="<?php echo $app->window?>"title="to go app">
+		<img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="30" height="29"/>
+        </a>
+        </div>
+		</li>
+        <?php
+		 } 
+		  echo "</ul>"; 
+		 }
+		 else
+		 {?>
+           <div>No Apps were found</div>
+		<?php }?>
+    </div>
+          <div class="clear"></div>
+          <div class="app">
+          <h2>Featured Apps</h2>
+    <?php 
+	     if(count($featured)>0){
+			 echo "<ul>";
+		 foreach($featured as $app)
+	     {
+			 $detail_link = site_url('apps_details/'.$app->id);
+	?>
+		<li>
+		<div class="mtop">
+			<a href="<?php echo $detail_link?>">
+            <img src="<?php echo get_app_image($app->featured_img);?>" width="100" height="109"/>
+            </a>
+			<a href="<?php echo $detail_link?>" title="Read">
+			<img src="<?php echo get_app_image($app->qr);?>" width="66" height="63"/>
+			</a>
+		</div>
+        <div class="middle">
+        <h3><?php echo $app->title?>&nbsp;</h3>
+        <p><?php echo $app->description?> &nbsp;</p>
+        </div>
+        <div class="cellOS">
+        <a class="mname" href="<?php echo $detail_link?>" title="Detail">Detail</a>
+        </div>
+		<div class="cellOS">
+        <a href="<?php echo $app->mac?>" title="to go app">
+        <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="30" height="29"/>
+        </a>
+        <a href="<?php echo $app->android?>" title="to go app">
+		<img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="30" height="29"/>
+        </a>
+        <a href="<?php echo $app->window?>"title="to go app">
+		<img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="30" height="29"/>
+        </a>
+        </div>
+		</li>
+        <?php
+		 } 
+		  echo "</ul>"; 
+		 }
+		 else
+		 {?>
+           <div>No Apps were found</div>
+		<?php }?>
+    </div>
+<div class="clear"></div>
+		<?php render_widgets('footerApps');?>
         </div>
             
     
