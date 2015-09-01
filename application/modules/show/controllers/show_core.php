@@ -64,9 +64,17 @@ class Show_core extends CI_controller {
 	{	
 		$value = array();
 		$this->load->model('user/post_model');
-		$value['post'] = $this->post_model->get_post_by_unique_id($unique_id);
-		$data['content'] 		= load_view('detail_view',$value,TRUE);
-
+		$this->load->model('show/show_model');
+		
+		$value['post']      = $this->post_model->get_post_by_unique_id($unique_id);
+		$rows 	            = $value['post']->row();
+		$value['app']       = $this->show_model->get_apps_post_id($rows->id,1);
+		$value['apps']      = $this->show_model->get_apps_post_id($rows->id,10);
+		$value['magazines'] = $this->show_model->get_magazines_post_id($rows->id);
+		$value['issues']    = $this->show_model->get_issue_post_id($rows->id,1);
+		$value['issues_url']    = $this->show_model->get_issue_post_id($rows->id,10);
+		$value['video_url'] = $this->show_model->get_video_url_user_id($rows->created_by);
+		$data['content'] 	= load_view('detail_view',$value,TRUE);
 		$data['alias']	    = 'detail';
 		$id = 0;
 		$status = 1;
@@ -98,6 +106,7 @@ class Show_core extends CI_controller {
 			$data['seo']				= $seo;
 			load_template($data,$this->active_theme);
 		}
+		//$this->output->enable_profiler(1);
 	}
 
 	public function printview($unique_id='')

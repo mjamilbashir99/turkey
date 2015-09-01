@@ -5,6 +5,9 @@
 <link href="<?php echo theme_url();?>/assets/css/select2.css" rel="stylesheet">
 <link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
 <script src="<?php echo theme_url();?>/assets/js/select2.js"></script>
+<?php
+$locations = getAllStates();
+?>
 <div class="real-estate">
     <div class="re-big-form">
         <div class="container">
@@ -24,7 +27,7 @@
                                         <label for="input-11"><?php echo 'Select Region';?></label>
                                         <select name="region" class="form-control chosen-select">
                                             <option data-name="" value="">Region</option>
-                                              <?php foreach (get_all_locations_by_type('city')->result() as $row) {
+                                              <?php foreach ($locations as $row) {
                                                   $sel_region = ($row->id==set_value('city'))?'selected="selected"':'';
                                                   ?>
                                                   <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel_region;?>><?php echo $row->name;?></option>

@@ -27,16 +27,11 @@
 		<li>
 		<div class="mtop">
 			<a href="<?php echo $detail_link?>">
-            <img src="<?php echo get_app_image($app->featured_img);?>" width="100" height="109"/>
+            <img src="<?php echo get_app_large_image($app->featured_img);?>" width="134" height="240"/>
             </a>
-			<a href="<?php echo $detail_link?>" title="Read">
-			<img src="<?php echo get_app_image($app->qr);?>" width="66" height="63"/>
-			</a>
+			
 		</div>
-        <div class="middle">
-        <h3><?php echo $app->title?>&nbsp;</h3>
-        <p><?php echo $app->description?> &nbsp;</p>
-        </div>
+       <div class="cellOS app_title"><?php echo $app->title?><br /></div><br />
         <div class="cellOS">
         <a class="mname" href="<?php echo $detail_link?>" title="Detail">Detail</a>
         </div>
@@ -72,18 +67,14 @@
 			 $detail_link = site_url('apps_details/'.$app->id);
 	?>
 		<li>
+                 
 		<div class="mtop">
 			<a href="<?php echo $detail_link?>">
-            <img src="<?php echo get_app_image($app->featured_img);?>" width="100" height="109"/>
+            <img src="<?php echo get_app_large_image($app->featured_img);?>" width="134" height="244"/>
             </a>
-			<a href="<?php echo $detail_link?>" title="Read">
-			<img src="<?php echo get_app_image($app->qr);?>" width="66" height="63"/>
-			</a>
+			
 		</div>
-        <div class="middle">
-        <h3><?php echo $app->title?>&nbsp;</h3>
-        <p><?php echo $app->description?> &nbsp;</p>
-        </div>
+        <div class="cellOS app_title"><?php echo $app->title?><br /></div><br />
         <div class="cellOS">
         <a class="mname" href="<?php echo $detail_link?>" title="Detail">Detail</a>
         </div>
@@ -116,6 +107,8 @@
 
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
+             <?php include_once('category_sidebar_app.php')?>
+                <?php include_once('locations_sidebar_app.php')?>
                 <?php render_widgets('RightBarApps');?>
             </div>
         </div>

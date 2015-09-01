@@ -16,47 +16,79 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-sm-12 col-xs-12">
-        <?php $first_row = $topVideo;?>
+         
+        <?php
+		      if(isset($topVideo->post_id))
+			  {
+			  if($current_video_id=='')
+			  {
+			    $current_video_url = $topVideo->video_url;
+			  }
+			  else
+			  {
+				  $obj = 'url_'.$current_video_id;
+				   $current_video_url = $topVideo->$obj;
+			  }
+		?>
         <div class="magazine">
+        <?php //echo $current_video_url?>
         <span id="video_preview">
-        <iframe width="100%" height="420" frameborder="0" allowfullscreen="" src="<?php echo $first_row->video_url?>" class="thumbnail"></iframe></span>
+		</span>
 		<?php 
 		    $k=1;
 			for($j=0;$j<10;$j++)
 			{
+				
 				$obj = 'url_'.$j;
-				$vido_link = $first_row->$obj;
-				//if($vido_link!='')
-				{
-					echo "<a href='".$vido_link."'>Vidoe $k</a>";
+				$vido_link = $topVideo->$obj;
+				if($vido_link!='')
+				{   $show_link = site_url("videos?watch=").$topVideo->post_id."-".$k;
+					if($k>1)
+					echo " | ";
+					echo "<a href='".$show_link."'><strong>Vidoe $k</strong></a>";
 					$k++;
 				} 
 			}
         ?>
+        <?php //var_dump($topVideo) ?>
+        <h4>PUBLISHED : <?php echo ucwords(get_user_meta ($topVideo->user_id,'company_name'));?><br></h4>
 <br><br><br><br>
+      
 </div>
-          <div class="magazine">
-          <h2><i class="fa fa-film"></i> New Videos</h2>
+<?php }?>
+
+ <!-- Nav tab style 1 starts -->
+                <div class="nav-tabs-one">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#p-nav-1" data-toggle="tab"><i class="fa fa-film"></i> New Videos</a></li>
+                        <li><a href="#p-nav-2" data-toggle="tab"><i class="fa fa-film"></i> Top Videos</a></li>
+                    </ul>
+                    <!-- Tab content -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active magazine" id="p-nav-1">
     <?php 
 	     if(count($all)>1){
 			 echo "<ul>";
 		 foreach($all as $video)
 	     {
-			 $detail_link = site_url('videos_details/'.$video->video_id);
+			 $detail_link = site_url("videos?watch=").$video->post_id;
+			 $video_image = getVideoThumbnail($video->video_url);
 	?>
-		<li>
+		<li><?php //echo $video->video_url;?>
             <div class="mtop">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
                 </a>
             </div>
-            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+             <div style="width:125px; overflow:hidden;height:50px;">
+            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
                 <?php echo get_text_by_lang($video->title)?> 1
             </a>
+            </div>
             <br>
             <?php echo humanTiming($video->last_update_time)?>
 		</li>
-        
         <!--for extra videos-->
         <?php
 		    $k=1;
@@ -66,18 +98,21 @@
 				$ex_vido_link = $video->$obj;
 				if($ex_vido_link!='' )
 				{
-					$detail_link = site_url('videos_details/'.$video->$obj);
+					$detail_link = site_url("videos?watch=").$video->post_id."-".$k;
+					$video_image = getVideoThumbnail($ex_vido_link);
 					$k++;
 				?>
                     <li>
                         <div class="mtop">
-                            <a href="<?php echo $ex_vido_link?>">
-                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            <a href="<?php echo $detail_link?>">
+                                 <img src="<?php echo $video_image;?>" width="126" height="70"/>
                             </a>
                         </div>
-                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                        <div style="width:125px; overflow:hidden;height:50px;">
+                            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
                          	   <?php echo get_text_by_lang($video->title)." ".$k?>
                             </a>
+                        </div>
                         <br>
                         <?php echo humanTiming($video->last_update_time)?>
                     </li>
@@ -91,32 +126,33 @@
 		 }
 		 else
 		 {?>
-           <div>No Vidoes were found</div>
+          <strong> No Vidoes were found</strong>
 		<?php }?>
-    </div>
-          <div class="clear"></div>
-          <div class="magazine">
-          <h2><i class="fa fa-film"></i> Top Videos</h2>
+      </div>
+					     <div class="clear"></div>
+           			    <div class="tab-pane fade in active magazine" id="p-nav-2">
     <?php 
 	     if(count($all)>0){
 			 echo "<ul>";
 		 foreach($latest as $video)
 	     {
-			 $detail_link = site_url('videos_details/'.$video->video_id);
+			 $detail_link = site_url("videos?watch=").$video->post_id;
+			 $video_image = getVideoThumbnail($video->video_url);
 	?>
-		<li>
+		<li><?php //echo $video->video_url;?>
             <div class="mtop">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
                 </a>
             </div>
-            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+             <div style="width:125px; overflow:hidden;height:50px;">
+            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
                 <?php echo get_text_by_lang($video->title)?> 1
             </a>
+            </div>
             <br>
             <?php echo humanTiming($video->last_update_time)?>
 		</li>
-        
         <!--for extra videos-->
         <?php
 		    $k=1;
@@ -126,18 +162,21 @@
 				$ex_vido_link = $video->$obj;
 				if($ex_vido_link!='' )
 				{
-					$detail_link = site_url('videos_details/'.$video->$obj);
+					$detail_link = site_url("videos?watch=").$video->post_id."-".$k;
+					$video_image = getVideoThumbnail($ex_vido_link);
 					$k++;
 				?>
                     <li>
                         <div class="mtop">
-                            <a href="<?php echo $ex_vido_link?>">
-                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            <a href="<?php echo $detail_link?>">
+                                     <img src="<?php echo $video_image;?>" width="126" height="70"/>
                             </a>
                         </div>
-                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                        <div style="width:125px; overflow:hidden;height:50px;">
+                            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
                          	   <?php echo get_text_by_lang($video->title)." ".$k?>
                             </a>
+                        </div>
                         <br>
                         <?php echo humanTiming($video->last_update_time)?>
                     </li>
@@ -151,10 +190,14 @@
 		 }
 		 else
 		 {?>
-           <div>No Vidoes were found</div>
+          <strong>No Vidoes were found</strong>
 		<?php }?>
-    </div>
+          </div>
           <div class="clear"></div>
+		        </div>
+          </div>
+           <div class="clear"></div>
+               
           <div class="magazine">
           <h2><i class="fa fa-film"></i> Featured Vidoes</h2>
     <?php 
@@ -162,21 +205,23 @@
 			 echo "<ul>";
 		 foreach($featured as $video)
 	     {
-			 $detail_link = site_url('videos_details/'.$video->video_id);
+			 $detail_link = site_url("videos?watch=").$video->post_id;
+			 $video_image = getVideoThumbnail($video->video_url);
 	?>
-		<li>
+		<li><?php //echo $video->video_url;?>
             <div class="mtop">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
                 </a>
             </div>
-            <a href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
+             <div style="width:125px; overflow:hidden;height:50px;">
+            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
                 <?php echo get_text_by_lang($video->title)?> 1
             </a>
+            </div>
             <br>
             <?php echo humanTiming($video->last_update_time)?>
 		</li>
-        
         <!--for extra videos-->
         <?php
 		    $k=1;
@@ -186,18 +231,21 @@
 				$ex_vido_link = $video->$obj;
 				if($ex_vido_link!='' )
 				{
-					$detail_link = site_url('videos_details/'.$video->$obj);
+					$detail_link = site_url("videos?watch=").$video->post_id."-".$k;
+					$video_image = getVideoThumbnail($ex_vido_link);
 					$k++;
 				?>
                     <li>
                         <div class="mtop">
-                            <a href="<?php echo $ex_vido_link?>">
-                                     <img src="<?php //echo get_app_image($app->featured_img);?>" width="126" height="70"/>
+                            <a href="<?php echo $detail_link?>">
+                                     <img src="<?php echo $video_image;?>" width="126" height="70"/>
                             </a>
                         </div>
-                            <a href="<?php echo $ex_vido_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
+                        <div style="width:125px; overflow:hidden;height:50px;">
+                            <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
                          	   <?php echo get_text_by_lang($video->title)." ".$k?>
                             </a>
+                        </div>
                         <br>
                         <?php echo humanTiming($video->last_update_time)?>
                     </li>
@@ -219,9 +267,80 @@
         </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
+             <?php include_once('category_sidebar_video.php')?>
+                <?php include_once('locations_sidebar_video.php')?>
                 <?php render_widgets('RightBarVideos');?>
             </div>
         </div>
 
     </div>
 </div>
+<script>
+ function getUrlVars(url) {
+
+        var vars = {};
+
+        var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+
+            vars[key] = value;
+
+        });
+
+        return vars;
+
+    }
+
+ function showVideoPreview(url)
+
+    {
+
+        if(url.search("youtube.com")!=-1)
+
+        {
+
+            var video_id = getUrlVars(url)["v"];
+
+            //https://www.youtube.com/watch?v=jIL0ze6_GIY
+
+            var src = '//www.youtube.com/embed/'+video_id;
+
+            //var src  = url.replace("watch?v=","embed/");
+
+            var code = '<iframe class="thumbnail" width="100%" height="420" src="'+src+'" frameborder="0" allowfullscreen></iframe>';
+
+            jQuery('#video_preview').html(code);
+
+        }
+
+        else if(url.search("vimeo.com")!=-1)
+
+        {
+
+            //http://vimeo.com/64547919
+
+            var segments = url.split("/");
+
+            var length = segments.length;
+
+            length--;
+
+            var video_id = segments[length];
+
+            var src  = url.replace("vimeo.com","player.vimeo.com/video");
+
+            var code = '<iframe class="thumbnail" src="//player.vimeo.com/video/'+video_id+'" width="100%" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+
+            jQuery('#video_preview').html(code);
+
+        }
+
+        else
+
+        {
+
+
+        }
+
+    }
+showVideoPreview('<?php echo $current_video_url?>');
+</script>

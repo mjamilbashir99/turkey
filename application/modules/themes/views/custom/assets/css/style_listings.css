@@ -232,11 +232,11 @@ h2 {
    */
 	margin-left: 5px;
 	margin-bottom: 20px;
-	border: 2px solid #B2C0D8;
+	border: 4px solid #ededed;
 	text-align: center;
 }
 .app li:hover {
-	border: 2px solid #ccc;
+	border: 4px solid #ccc;
 }
 .app li a {
 	color: #999;
@@ -259,6 +259,11 @@ h2 {
 	margin-right: -6px;
 	margin-left: -6px;
 	margin-bottom: -10px;
+}
+.app .app_title {
+	font-size:16px;
+	font-weight:bold;
+	line-height:o !important;
 }
 .aContent {
 	float: left;

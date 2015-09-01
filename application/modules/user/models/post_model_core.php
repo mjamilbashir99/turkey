@@ -60,7 +60,42 @@ class Post_model_core extends CI_Model
 		$query = $this->db->get('posts');
 		return $query->num_rows();
 	}
-
+	function count_magazine_by($category='',$region='')
+	{
+		$this->db->select('magazines.post_id');
+		$this->db->from('magazines');
+		$this->db->join('posts', 'posts.id = magazines.post_id');
+		if($region!='')
+			$this->db->where('posts.state', $region);		
+	    if($category!='')
+		   $this->db->where('posts.category', $category); 
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+	function count_apps_by($category='',$region='')
+	{
+		$this->db->select('apps.post_id');
+		$this->db->from('apps');
+		$this->db->join('posts', 'posts.id = apps.post_id');
+		if($region!='')
+			$this->db->where('posts.state', $region);		
+	    if($category!='')
+		   $this->db->where('posts.category', $category); 
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+	function count_video_by($category='',$region='')
+	{
+	    $this->db->select('extra_video_urls.user_id');
+		$this->db->from('extra_video_urls');
+		$this->db->join('posts', 'posts.created_by = extra_video_urls.user_id');
+		if($region!='')
+			$this->db->where('posts.state', $region);		
+	    if($category!='')
+		   $this->db->where('posts.category', $category); 
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 	function get_category_icon($cat_id)
 	{
 		$this->db->where('id',$cat_id);
@@ -148,23 +183,7 @@ class Post_model_core extends CI_Model
 		$query = $this->db->get('posts');
 		return $query;
 	}
-	function get_emagazines($limit=6,$location_id='any',$category='any')
-	 {
-		$this->db->select('magazines.*,posts.id,,posts.category,posts.city');
-		$this->db->from('magazines');
-		$this->db->join('posts', 'magazines.post_id = posts.id');
-		
-		$this->db->where('posts.status',1);
-		if($location_id!='any')
-		  $this->db->where('posts.city',$location_id);
-		if($category!='any')  
-			$this->db->where('posts.category',$category);  
-		$this->db->limit($limit);
-		$this->db->order_by('magazines.id');
-		$query = $this->db->get();
-		return $query;
-	}
-	
+
 	function get_location_posts($limit=6,$location_id='', $location_type='country') {
 		$this->db->where('status',1);
 		$this->db->where($location_type,$location_id);

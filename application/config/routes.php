@@ -147,6 +147,7 @@ $route['(:any)/apps'] 		= "(:any)/show/apps";
 $route['(:any)/apps_details/(:any)'] = "(:any)/show/apps_details/$2";
 
 $route['(:any)/videos'] 		= "(:any)/show/videos";
+$route['(:any)/videos/watch/(:any)'] 		= "(:any)/show/videos/$2/$3";
 $route['(:any)/videos_details/(:any)'] = "(:any)/show/videos_details/$2";
 
 /* End of file routes.php */

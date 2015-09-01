@@ -445,6 +445,28 @@ if ( ! function_exists('get_user_meta'))
 	}
 }
 
+
+if ( ! function_exists('get_user_by_id'))
+{
+	function get_user_by_id ($user_id)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->select('first_name,last_name');
+		$query = $CI->db->get_where('users',array('id'=>$user_id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return $row->first_name." ".$row->last_name;
+		}
+		else
+		{
+			return "";
+		}
+	}
+}
+
+
 #-----------------
 
 if ( ! function_exists('add_post_meta'))
@@ -480,6 +502,26 @@ if ( ! function_exists('get_post_meta'))
 		else
 		{
 			return $default;
+		}
+	}
+}
+if ( ! function_exists('get_issues_by_id'))
+{
+	function get_issues_by_id($id,$limit=1)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+        $CI->db->limit($limit);
+        $CI->db->order_by("id","desc");
+		$query = $CI->db->get_where('issues',array('magazine_id'=>$id));
+		
+		if($query->num_rows()>0)
+		{
+			return $row = $query->row();
+		}
+		else
+		{
+			return array();
 		}
 	}
 }
@@ -1175,6 +1217,24 @@ if ( ! function_exists('videoType'))
 	    {
 	        return 'unknown';
 	    }
+	}
+}
+if ( ! function_exists('getVideoThumbnail'))
+{
+	function getVideoThumbnail($url) 
+	{
+	    if (strpos($url, 'youtube') > 0) 
+	    {
+			parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
+			$youtube_id = $my_array_of_vars['v']; 
+			$thumb_url = 'http://img.youtube.com/vi/'. $youtube_id .'/mqdefault.jpg';
+	    } 
+	    
+	    else 
+	    {
+	        $thumb_url =  base_url('assets/admin/img/preview.jpg');
+	    }
+		return $thumb_url;
 	}
 }
 

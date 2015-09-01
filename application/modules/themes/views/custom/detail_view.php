@@ -1,4 +1,6 @@
 <link href="<?php echo theme_url();?>/assets/css/lightGallery.css" rel="stylesheet">
+<link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
+
 <script type="text/javascript">
     var switchTo5x=true;
     var url = "//w.sharethis.com/button/buttons.js";
@@ -49,7 +51,8 @@
             }
 
             ?>   
-        <h2 class="business-title-detail"><?php echo get_post_data_by_lang($post,'title'); ?> <span><?php echo get_category_title_by_id($post->category); ?></span></h2>
+        <h2 class="business-title-detail"><?php echo get_post_data_by_lang($post,'title'); ?> 
+        <span><?php echo get_category_title_by_id($post->category); ?></span></h2>
         
             
         </div>
@@ -138,7 +141,7 @@
                                     </div>
 
                                     <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-clock-o clock-icon"></i> <?php echo lang_key('added'); ?>:</span>
+                 <span class="span-left"><i class="fa fa-clock-o clock-icon"></i> <?php echo lang_key('added'); ?>:</span>
 
                                         <span class="span-right">
                 						    	<?php echo date('M d, Y', $post->create_time); ?>
@@ -154,48 +157,73 @@
                                     </div>
 
                                     <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-envelope price-icon"></i> <?php echo lang_key('email'); ?>:</span>
+                        <span class="span-left"><i class="fa fa-envelope price-icon"></i> <?php echo lang_key('email'); ?>:</span>
                 
                                         <span class="span-right">
-                						    	<a href="mailto:<?php echo $post->email; ?>" target="_top"><?php echo $post->email; ?></a>
+                						<a href="mailto:<?php echo $post->email; ?>" target="_top"><?php echo $post->email; ?></a>
                                         </span>
                                     </div>
 
-                                    <?php if($post->website!=''){?>
-                                    <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-link bg-lblue"></i> <?php echo lang_key('website'); ?>:</span>
-
-                                        <span class="span-right">
-                                                <?php 
-                                                $link = $post->website;
-                                                if(strpos($post->website, '//')<=0)
-                                                $link = '//'.$post->website;
-                                                ?>
-                						    	<a href="<?php echo $link;?>" target="_blank"><?php echo $post->website;?></a>
-                                        </span>
-                                    </div>
-                                    <?php }?>
+                                       
+                                       
+                                       
+                                       
 
                                     <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-phone phone-icon"></i> <?php echo lang_key('phone'); ?>:</span>
+                          <span class="span-left"><i class="fa fa-phone phone-icon"></i> <?php echo lang_key('phone'); ?>:</span>
                 
                                         <span class="span-right">
-                						    	<?php echo $post->phone_no; ?>
+                						    	<?php echo $post->phone_no;
+												
+												 ?>
                                         </span>
                                     </div>
 
                                     <?php if($post->founded!=''){?>
                                         <div class="ad-detail-info">
-                                            <span class="span-left"><i class="fa fa-key bg-lblue"></i> <?php echo lang_key('founded'); ?>:</span>
+                              <span class="span-left"><i class="fa fa-key bg-lblue"></i> <?php echo lang_key('founded'); ?>:</span>
 
                                         <span class="span-right">
                 						    	<?php echo $post->founded; ?>
                                         </span>
                                         </div>
                                     <?php }?>
+                                    
+                                    
+				<?php if($post->website!=''){?>
+                <div class="ad-detail-info">
+                <span class="span-left"><i class="fa fa-globe globe-icon price-icon"></i> <?php echo lang_key('website'); ?>:</span>
+                
+                <span class="span-right">
+                <?php 
+                $link = $post->website;
+                if(strpos($post->website, '//')<=0)
+                $link = '//'.$post->website;
+                ?>
+                <a href="<?php echo $link;?>" target="_blank"><?php echo $post->website;?></a>
+                </span>
+                </div>
+                <?php }?>
+                
+                
+                <?php if($post->project_website!=''){?>
+                <div class="ad-detail-info">
+                <span class="span-left"><i class="fa fa-globe globe-icon price-icon"></i> <?php echo lang_key('Visit project website'); ?>:</span>
+                
+                <span class="span-right">
+                <?php 
+                $link = $post->project_website;
+                if(strpos($post->project_website, '//')<=0)
+                $link = '//'.$post->project_website;
+                ?>
+                <a href="<?php echo $link;?>" target="_blank"><?php echo $post->project_website;?></a>
+                </span>
+                </div>
+                <?php }?>
 
+                                    
                                     <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-eye view-icon"></i> <?php echo lang_key('views'); ?>:</span>
+                              <span class="span-left"><i class="fa fa-eye view-icon"></i> <?php echo lang_key('views'); ?>:</span>
 
                                         <span class="span-right">
                 						    	<?php echo $post->total_view; ?>
@@ -204,7 +232,7 @@
 
                                     <?php if($post->featured==1){?>
                                     <div class="ad-detail-info">
-                                        <span class="span-left"><i class="fa fa-bookmark bookmark-icon"></i> <?php echo lang_key('featured'); ?>:</span>
+                   <span class="span-left"><i class="fa fa-bookmark bookmark-icon"></i> <?php echo lang_key('featured'); ?>:</span>
                 
                                         <span class="span-right">
                                                 <?php echo lang_key('yes'); ?>
@@ -240,12 +268,12 @@
 
 
                                 <?php if($post->opening_hour != ''){ ?>
-                                    <h4 class="info-subtitle"><i class="fa fa-list-ul"></i> <?php echo lang_key('opening_hour'); ?></h4>
+                       <h4 class="info-subtitle"><i class="fa fa-list-ul"></i> <?php echo lang_key('opening_hour'); ?></h4>
                                     <?php $opening_hours = json_decode($post->opening_hour); ?>
                                     <?php //print_r($opening_hours); die; ?>
                                     <ul class="list-6">
                                         <?php foreach($opening_hours as $value){ ?>
-                                            <li><span><?php echo lang_key($value->day); ?></span><?php echo $value->closed == 1 ? lang_key('closed') : $value->start_time.'-'.$value->close_time ; ?></li>
+            <li><span><?php echo lang_key($value->day); ?></span><?php echo $value->closed == 1 ? lang_key('closed') : $value->start_time.'-'.$value->close_time ; ?></li>
                                         <?php } ?>
                                     </ul>
                                     <div class="clearfix"></div>
@@ -253,7 +281,7 @@
 
 
                                 <?php if($post->additional_features != '' && $post->additional_features != '[]'){ ?>
-                                    <h4 class="info-subtitle"><i class="fa fa-list-ul"></i> <?php echo lang_key('additional_features'); ?></h4>
+                     <h4 class="info-subtitle"><i class="fa fa-list-ul"></i> <?php echo lang_key('additional_features'); ?></h4>
                                     <?php $additional_features= json_decode($post->additional_features); ?>
                                     <ul class="list-2">
                                         <?php foreach($additional_features as $feature){ ?>
@@ -308,28 +336,239 @@
                                             fjs.parentNode.insertBefore(js, fjs);
                                         }(document, 'script', 'facebook-jssdk'));
                                     </script>
-
                                     <div style="clear:both;margin-top:10px;"></div>
-                                    <div class="fb-comments" data-href=" <?php echo current_url();?>" data-numposts="10" data-colorscheme="light"></div>
-
+                   <div class="fb-comments" data-href=" <?php echo current_url();?>" data-numposts="10" data-colorscheme="light">
+                   </div>
                                 <?php 
                                 } 
                                 ?>
-                                
-                                <?php $full_address = get_formatted_address($post->address, $post->city, $post->state, $post->country, $post->zip_code); ?>
+  <?php $full_address = get_formatted_address($post->address, $post->city, $post->state, $post->country, $post->zip_code); ?>
                                 <div id="ad-address"><span><?php echo $full_address; ?></span></div>
-                                
-                                <h4 class="info-subtitle"><i class="fa fa-map-marker"></i> <?php echo lang_key('location_on_map'); ?></h4>
+                         <h4 class="info-subtitle"><i class="fa fa-map-marker"></i> <?php echo lang_key('location_on_map'); ?></h4>
                                 <div class="gmap" id="details-map"></div>
                                 <div class="clearfix"></div>
 
-
-                                <?php if($post->video_url !=''){?>
+                                <?php if(count($post->video_url)>0) 
+								{?>  
+                              
                                 <h4 class="info-subtitle"><i class="fa fa-film"></i> <?php echo lang_key('featured_video'); ?></h4>
                                     <span id="video_preview"></span>
 
                                     <input type="hidden" name="video_url" id="video_url" value="<?php echo $post->video_url;?>">
-                                <?php }?>
+                            
+                                
+                                      
+                                         <h4>PUBLISHED : <?php echo get_user_by_id($post->created_by);?></h4>
+                                  <div class="col-sm-12" style="text-align:center;">
+                                  
+                                  <?php
+								   $k=1;
+								  foreach ($video_url as $video_urls) 
+								  //var_dump($video_urls);
+                                  {
+                                     for($i=0;$i<10;$i++)
+									 {
+									  $obj = "url_".$i;
+									  if($video_urls->$obj!='')
+									  {
+										 if($k>1)
+										 echo " | ";
+										 $tmp_url =  site_url('videos?watch='.$post->id."-".$i);
+										 echo " <a href='".$tmp_url."'>video $k</a>";
+										 $k++;
+									  }
+									 }
+								  }
+								 ?>
+                                            </div> 
+                                            <?php } ?> 
+                                        
+                                <!--feature apps-->
+                                <?php if(count($app)>0){
+								
+										 $images = json_decode($app[0]->gallery);
+											   ?>
+                                <h4 class="info-subtitle"><i class="fa fa-film"></i> Feature App</h4>
+                               <div class="mPictureBox">
+  <img src="<?php echo get_app_large_image($app[0]->featured_img); ?>" id="image" style="display: block; margin: 0px auto;" class="img-responsive img-thumbnail" width="288" height="408" align="left"/>
+     <h4> Gallery  </h4>
+<?php if(count($images)>0){?>
+	<ul class="gallery">
+		<?php for($img=0;$img<count($images);$img++){?>
+        <li>
+		<div class="mtop">
+			 <a href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
+			<img src="<?php echo get_gallery_image($images[$img])?>" width="84" height="100"/>
+			</a>
+		</div>
+		</li>
+        <?php }?>
+     </ul>
+<?php }?>
+</div>
+                            <div class="mContent">
+ <h2 style="border-bottom:none; margin-bottom:0px;">
+<font size="6"> <?php echo $app[0]->title;?> </font></h2>
+<!-- AddThis Button BEGIN -->
+								<!-- Go to www.addthis.com/dashboard to customize your tools -->
+				 <table>
+				<tr>
+					<td>
+				<div style="display:inline" class="addthis_native_toolbox"></div>
+				</td>
+					<td>
+				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp;
+			</td>
+				
+			</tr></table>
+			<p></p>
+				<!-- AddThis Button END -->
+	LANGUAGE : English
+	</br>
+	<h5>Apps Description</h5>
+	<p ><?php echo $app[0]->description;?>.</p>
+	<center> <a href="<?php echo $app[0]->android?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $app[0]->mac?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $app[0]->window?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $app[0]->qr?>">
+                                        <img src="<?php echo get_thumbs_image($app[0]->qr); ?>" width="85" />
+                                        </a>
+                                        </center> <br>
+	<!-- <a href="#" class="dRead">READ MORE</a> -->
+	<p>&nbsp;</p></div>
+                              
+
+                          <div class="col-sm-12" style="text-align:center;">
+                                  <?php
+									if(count($apps))
+									{   
+									   $i=1;
+									   foreach($apps as $app)
+									   {
+											if($i>1)
+											echo " | ";
+											  echo "<a href='".site_url("apps_details/".$app->id)."'>$app->title $i</a>";
+											$i++;  
+                   					   }
+									  }
+									?>
+                                            </div> 
+                                
+                                <?php  } ?>
+                                <div class="clearfix"></div>
+                                 <!--feature magazines-->
+                                 <?php if(count($magazines) >0 ){?>  
+                                 <div class="mDetail">
+                  <h4 class="info-subtitle"><i class="fa fa-book"></i> Feature Emagazine</h4>
+
+                                 <?php if(count($magazines)>0){
+                                  foreach ($magazines as $magazine) 
+					
+                                           {
+										 $images = json_decode($magazine->gallery);
+										 
+											   ?>
+
+<div class="mPictureBox">
+<img id="image" src="<?php echo get_thumbs_image($issues[0]->featured_img)?>"  style="display: block; margin: 0px auto;" width="288" height="408"/>
+ 
+     <h4> Gallery  </h4>
+  <?php if(count($images)>0){?>
+	<ul class="gallery">
+     
+    <?php for($img=0;$img<count($images);$img++){?>
+
+		<li>
+		<div class="mtop">
+			<a title="Read" href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
+<img src="<?php echo get_gallery_image($images[$img])?>" width="60" height="80"/>			</a>
+		</div>
+        </li>
+		 <?php }?>
+     </ul>
+<?php }?>
+</div>
+
+
+<div class="mContent">
+ <h2 style="border-bottom:none; margin-bottom:0px;">
+<font size="6"> <?php echo $issues[0]->name;?> </font></h2>
+<!-- AddThis Button BEGIN -->
+								<!-- Go to www.addthis.com/dashboard to customize your tools -->
+				 <table>
+				<tr>
+					<td>
+				<div style="display:inline" class="addthis_native_toolbox"></div>
+				</td>
+					<td>
+				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp;
+			</td>
+				
+			</tr></table>
+			<p></p>
+				<!-- AddThis Button END -->
+	
+	<div class="cFl">
+	
+FREQUENCY : <?php echo $magazine->magazine_frequency;?> <br> 
+LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div></br>
+	<h5>Magazine Description</h5>
+	<p ><?php echo $magazine->description;?>.</p>
+	<h5 >Issue Description</h5>
+     <?php if(count($issues)>0){
+                                    ?>
+	 <p><?php echo $issues[0]->description;?></p>
+     </br>
+	<center> <a href="<?php echo $magazine->android?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $magazine->mac?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $magazine->window?>">
+                                        <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="<?php echo $magazine->qr?>">
+                                        <img src="<?php echo get_thumbs_image($magazine->qr); ?>" width="85" />
+                                        </a>
+                                        </center> <br>
+	<!-- <a href="#" class="dRead">READ MORE</a> -->
+	<p>&nbsp;</p></div>
+
+
+ <?php }
+										   }
+								}?>
+
+<br style="clear:both;">
+<center>
+	
+	 <?php
+								  $n=1;             
+								  foreach ($issues_url as $issue) 
+                                            {   ?>
+                                         
+                                <a href="<?php echo $issue->url;?>">  <?php echo $issue->name; $n ?> |</a>
+
+                                            
+                                           <?php
+										   $n++;
+										    } 
+											 ?></center>
+<p align="center">
+	</div>
+                             <?php } ?>
+                                   <div class="col-sm-12" style="text-align:center;">
+                                  
+                                            </div> 
+                                <div class="clearfix"></div>
+
                             </div>
                         </div>
 
@@ -362,10 +601,10 @@
                                         </tr>
                                     </table>
                                 </div>
-
                                 <div class="rs-enquiry">
                                     <h3><?php echo lang_key('send_email_to_business');?></h3>
-                                    <div class="ajax-loading recent-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading..."></div>
+             <div class="ajax-loading recent-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading...">
+                                    </div>
                                     <div class="clearfix"></div>
                                     <span class="agent-email-form-holder">
                                     </span>
@@ -376,10 +615,9 @@
                         </div>
 
                          <div class="tab-pane fade" id="p-nav-3">
-                             <div class="ajax-loading review-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading..."></div>
-
+       <div class="ajax-loading review-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading...">
+       </div>
                              <?php if(is_loggedin()){?>
-
                              <span class="review-form-holder"></span>
                             <?php } else { ?>
                                  <div class="alert alert-info" role="alert"><?php echo lang_key('review_alert'); ?></div>
@@ -402,7 +640,7 @@
                         <div class="widget-content gallery">
                             <div class="thumb">
                                 <a href="<?php echo base_url('uploads/images/' . $post->featured_img); ?>" class="lightbox">
-                                <img src="<?php echo base_url('uploads/images/' . $post->featured_img); ?>" alt="" class="img-responsive " />
+        <img src="<?php echo base_url('uploads/images/' . $post->featured_img); ?>" alt="" class="img-responsive " />
                                 </a>
                             </div>
                             <?php foreach ($images as $img) { ?>
@@ -427,7 +665,7 @@
                             <div class="widget-content tags">
                                 <?php $tags = explode(',',$tags);
                                 foreach ($tags as $tag) { ?>
-                                    <a class="label label-color" href="<?php echo site_url('show/results/plainkey='.$tag)?>"><?php echo character_limiter($tag,30,'...'); ?></a>
+      <a class="label label-color" href="<?php echo site_url('show/results/plainkey='.$tag)?>"><?php echo character_limiter($tag,30,'...'); ?></a>
                                 <?php } ?>
                             </div>
                         <?php } ?>
@@ -835,3 +1073,4 @@ function init_send_contact_email_js()
     }
 </script>
 <?php } ?>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55d3aa799154da71" async="async"></script>

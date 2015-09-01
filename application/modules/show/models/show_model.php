@@ -16,41 +16,39 @@ class Show_model extends Show_model_core {
 	{
 		parent::__construct();
 	}
-	function listMagazines($type='all',$region='',$category='',$limit=12)
-	{
-			
-		$this->db->select('magazines.*,posts.category,posts.city,issues.*,magazines.id as mag_id');
-		$this->db->from('magazines');
-		$this->db->join('posts', 'posts.id = magazines.post_id');
-		$this->db->join('issues', 'issues.magazine_id = magazines.id');
-		$this->db->limit($limit);
-		if($type!='all')
-			$this->db->where('posts.featured',1);
-	    if($region!='')
-			$this->db->where('posts.city', $region);		
-	    if($category!='')
-		   $this->db->where('posts.category', $category); 
-		
-		$this->db->order_by("issues.id","desc");   
-		$query = $this->db->get();
-		
-		return $query->result();
-	}
-	function getMagazineDetails($id)
-	{
-		$this->db->select('magazines.*,magazines.id as mag_id,issues.*,posts.category');
-		$this->db->from('magazines');
-		$this->db->join('posts', 'posts.id = magazines.post_id');
-		$this->db->join('issues', 'issues.magazine_id = magazines.id','left');
-		$this->db->where('magazines.id', $id); 
-		$query = $this->db->get();
-		return $query->row();
-	}
+ function listMagazines($type='all',$region='',$category='',$limit=12)
+ {
+  $this->db->select('magazines.*,posts.category,posts.city,magazines.id as mag_id');
+  $this->db->from('magazines');
+  $this->db->join('posts', 'posts.id = magazines.post_id');
+  $this->db->limit($limit);
+  if($type!='all')
+   $this->db->where('posts.featured',1);
+     if($region!='')
+   $this->db->where('posts.city', $region);  
+     if($category!='')
+     $this->db->where('posts.category', $category); 
+
+  $this->db->group_by("magazines.id");   
+  $query = $this->db->get();
+  return $query->result();
+ }
+ function getMagazineDetails($id)
+ {
+  $this->db->select('magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by');
+  $this->db->from('magazines');
+  $this->db->join('posts', 'posts.id = magazines.post_id');
+  $this->db->join('issues', 'issues.magazine_id = magazines.id');
+  $this->db->where('issues.id', $id); 
+  $query = $this->db->get();
+  return $query->row();
+ }
+	
 	function getMagazineBackIssues($id)
 	{
 		$this->db->select('magazines.*,magazines.id as mag_id,issues.*');
 		$this->db->from('magazines');
-		$this->db->join('issues', 'issues.magazine_id = magazines.id','left');
+		$this->db->join('issues', 'issues.magazine_id = magazines.id');
 		$this->db->where('magazines.id', $id);
 		$this->db->order_by("issues.id","desc");    
 		$query = $this->db->get();
@@ -66,7 +64,7 @@ class Show_model extends Show_model_core {
 		if($type!='all')
 			$this->db->where('posts.featured',1);
 	    if($region!='')
-			$this->db->where('posts.city', $region);		
+			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
 		$query = $this->db->get();
@@ -74,7 +72,7 @@ class Show_model extends Show_model_core {
 	}
 	function getAppsDetails($id)
 	{
-		$this->db->select('apps.*,apps.title as app_title,apps.description as app_description,posts.*');
+		$this->db->select('apps.*,apps.title as app_title,apps.description as app_description,apps.featured_img as app_img,apps.gallery as app_gallery,posts.*');
 		$this->db->from('apps');
 		$this->db->join('posts', 'posts.id = apps.post_id');
 		$this->db->where('apps.id', $id); 
@@ -84,15 +82,15 @@ class Show_model extends Show_model_core {
 	function listVideos($type='all',$region='',$category='',$limit=12)
 	{
 			
-		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time');
-		$this->db->from('dbc_extra_video_urls');
-		$this->db->join('posts','posts.created_by = dbc_extra_video_urls.user_id');
+		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time,posts.id as post_id,posts.created_by as created_by');
+		$this->db->from('posts');
+		$this->db->join('dbc_extra_video_urls','posts.created_by = dbc_extra_video_urls.user_id','left');
 		$this->db->limit($limit);
-		$this->db->group_by('dbc_extra_video_urls.id');
+		//$this->db->group_by('dbc_extra_video_urls.id');
 		if($type=='featured')
 			$this->db->where('posts.featured',1);
 	    if($region!='')
-			$this->db->where('posts.city', $region);		
+			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
 		if($type=='latest')
@@ -102,15 +100,16 @@ class Show_model extends Show_model_core {
 		$query = $this->db->get();
 		return $query->result();
 	}
-	function topVideo($type='latest',$region='',$category='')
+	function topVideo($type='latest',$region='',$category='',$post_id=0)
 	{
-		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time');
-		$this->db->from('dbc_extra_video_urls');
-		$this->db->join('posts','posts.created_by = dbc_extra_video_urls.user_id');
+		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time,posts.id as post_id');
+		$this->db->from('posts');
+		$this->db->join('dbc_extra_video_urls','posts.created_by = dbc_extra_video_urls.user_id','left');
 		$this->db->limit(1);
-		$this->db->group_by('dbc_extra_video_urls.id');
-	    if($region!='')
-			$this->db->where('posts.city', $region);		
+	   if($post_id!=0)
+			$this->db->where('posts.id', $post_id);
+		if($region!='')
+			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
 		$this->db->where('video_url !=','');

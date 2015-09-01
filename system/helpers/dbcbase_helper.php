@@ -624,6 +624,81 @@ if ( ! function_exists('render_widgets'))
 	}
 }
 
+
+
+if ( ! function_exists('render_banners'))
+{
+	function render_banners($target_area='')
+	{
+		$CI 		= get_instance();
+		$CI->load->helper('inflector');	
+		$CI->load->helper('file');
+		$banners 	= get_banners_by_position($target_area);	
+		if(!empty($banners)){
+			foreach($banners as $row)
+			{
+				$query = $CI->db->get_where('advertesing');
+				if($query->num_rows()>0)
+				{
+					$row = $query->row();
+					if($row->status==1)
+					{
+						$curr_lang = get_current_lang();
+						if ($row->ad_type == 1)
+						{ ?>
+  <img class="thumbnail" id="featured_photo" src="<?php echo get_featured_photo_by_id($row->advertesing);?>" style="width:256px;">
+						<?php }
+						elseif($row->ad_type == 2)					
+						{					
+							echo $row->script_area;
+						}	
+						elseif($row->ad_type == 3)					
+						{					
+							echo "8 second opening";
+						}	
+						elseif($row->ad_type == 4)					
+						{					
+							echo "Background";
+						}	
+						elseif($row->ad_type == 5)					
+						{					
+							echo "Flash";
+						}	
+						elseif($row->ad_type == 6)					
+						{					
+							echo "Growing Flash";
+						}	
+						else{
+							
+							echo "Nothing";
+							}			
+					}
+					else if($row->status==0)
+						echo '';
+					else
+						echo '';
+				}
+				else
+				{
+					echo '';
+				}
+					
+			}
+		}
+	}
+}
+
+if ( ! function_exists('get_banners_by_position'))
+{
+	function get_banners_by_position($id='')
+	{
+			$query = $this->db->get_where('dbc_advertesing',array('target_area'=>$id));
+			return $query->row();
+	}
+}
+
+
+
 if ( ! function_exists('get_widgets_by_position'))
 {
 	function get_widgets_by_position($pos='')
@@ -637,6 +712,7 @@ if ( ! function_exists('get_widgets_by_position'))
 		else
 		{
 			$positions = json_decode($positions->values);
+			
 			$widgets = array();
 			foreach($positions as $position)
 			{
@@ -1176,6 +1252,22 @@ if ( ! function_exists('send_payment_confirmation_email'))
 		$CI->email->message($body);		
 		$CI->email->send();
 
+	}
+	if(! function_exists('getAllStates'))
+	{
+		function getAllStates()
+		{
+				$CI = get_instance();
+				$CI->load->database();
+				$sql  = "SELECT `dbc_posts`.`state`, dbc_posts.id, `loc`.`name`, `loc`.`id`, `loc`.`parent`
+				         FROM (`dbc_posts`) 
+						 JOIN `dbc_locations` as loc ON `dbc_posts`.`state` = `loc`.`id`
+						 WHERE `dbc_posts`.`status` = 1 AND `loc`.`type` = 'state' 
+						 group by `loc`.`id` 
+						 ORDER BY `loc`.`name` asc";
+				$query = $CI->db->query($sql);
+				return $query->result();
+		}
 	}
 }
 

@@ -1,4 +1,5 @@
 <link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
+<?php require 'common_custom_search.php';  ?>
 <!-- Page heading two starts -->
 <div class="page-heading-two">
     <div class="container">
@@ -19,13 +20,13 @@
         <div class="mDetail">
 <div class="mPictureBox">
 <?php $images = json_decode($magazine_data->gallery);?>
-<img id="image" src="<?php echo get_thumbs_image($magazine_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="298" title="<?php echo $title?>">
+<img id="image" src="<?php echo get_app_large_image($magazine_data->issue_image)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="288" height="408" title="<?php echo $title?>">
 <?php if(count($images)>0){?>
 	<ul class="gallery">
 		<?php for($img=0;$img<count($images);$img++){?>
         <li>
 		<div class="mtop">
-			<a href="#" title="Read">
+			 <a href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
 			<img src="<?php echo get_gallery_image($images[$img])?>" width="84" height="100"/>
 			</a>
 		</div>
@@ -47,7 +48,7 @@
 				<div style="display:inline" class="addthis_native_toolbox"></div>
 				</td>
 					<td>
-				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"><img src="https://d1wofkmqsniyp0.cloudfront.net/public/v2.0/imgs/pinit.png" /></a>&nbsp;&nbsp;&nbsp;
+				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp;
 			</td>
 				
 			</tr></table>
@@ -55,6 +56,7 @@
 				<!-- AddThis Button END -->
 	
 	<div class="cFl">
+    PUBLISHED :<?php echo get_post_data_by_lang($magazine_data->post_id,'title');?><br>
 	CATEGORY:  <?php echo get_category_title_by_id($magazine_data->category)?><br>
 	FREQUENCY: <?php echo $magazine_data->magazine_frequency?><br>
 	LANGUAGE:  <?php echo $magazine_data->magazine_language?>  <br></div>
@@ -63,15 +65,15 @@
     <h5>Issue Description</h5>
 	<p><?php echo $magazine_data->description?></p>
 	<a href="<?php echo $magazine_data->mac?>">
-    <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="63" />
-    </a>
+    <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
+    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="<?php echo $magazine_data->android?>">
-    <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="63" />
-    </a>
+    <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
+    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="<?php echo $magazine_data->window?>">
-    <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="63" />
-    </a>
-    <img src="<?php echo get_thumbs_image($magazine_data->qr)?>" width="63" /> <br>
+    <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
+    </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="<?php echo get_thumbs_image($magazine_data->qr)?>" width="85" height="85"/> <br>
 	<a href="<?php echo $magazine_data->url?>" class="dRead" target="_blank">READ MORE</a>
 </div>
 <div class="clear"></div>
@@ -80,22 +82,30 @@
     <?php 
 	     if(count($back)>0){
 			 echo "<ul>";
+//var_dump($back);
 		 foreach($back as $magazine)
 	     {
-			 $detail_link = site_url('emagazine_details/'.$magazine->mag_id);
+			
+			 $issue_data = get_issues_by_id($magazine->mag_id);
+			//var_dump($issue_data);
+			 if($issue_data >0)
+			 {
+			 $detail_link = site_url('emagazine_details/'.$issue_data->id);
+			 $title = $issue_data->name;
 	?>
-		 <li>
-            <div class="mtop">
-                <a href="<?php echo $detail_link?>" title="Read">
-              	  <img src="<?php echo get_thumbs_image($magazine->featured_img);?>" width="193" height="231"/>
-                </a>
-            </div>
-            <div class="cellOS"><?php echo $magazine->name?><br /><?php echo $magazine->year?>/<?php echo $magazine->month?></div>
-            <a class="mname" href="<?php echo $magazine->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
-            <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
-        </li>
+		<li>
+		<div class="mtop">
+			<a href="<?php echo $detail_link?>" title="Read">
+           <img id="image" src="<?php echo get_app_large_image($issue_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="250" height="408" title="<?php echo $title?>">
+			</a>
+		</div>
+        <!--  <div class="cellOS"><?php //echo $magazine->name?><br /><?php //echo $magazine->year?>/<?php //echo $magazine->month?></div>-->
+		<a class="mname" href="<?php echo $issue_data->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
+        <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
+		</li>
         <?php
 		 } 
+		 }
 		  echo "</ul>"; 
 		 }
 		 else
@@ -112,20 +122,26 @@
 			 echo "<ul>";
 		 foreach($featured as $magazine)
 	     {
-			 $detail_link = site_url('emagazine_details/'.$magazine->id);
+			 
+			 $issue_data = get_issues_by_id($magazine->mag_id);
+			 if(1)
+			 {
+			 $detail_link = site_url('emagazine_details/'.$issue_data->id);
+			 $title = $issue_data->name;
 	?>
-        <li>
-            <div class="mtop">
-                <a href="<?php echo $detail_link?>" title="Read">
-              	  <img src="<?php echo get_thumbs_image($magazine->featured_img);?>" width="193" height="231"/>
-                </a>
-            </div>
-            <div class="cellOS"><?php echo $magazine->name?><br /><?php echo $magazine->year?>/<?php echo $magazine->month?></div>
-            <a class="mname" href="<?php echo $magazine->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
-            <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
-        </li>
+		<li>
+		<div class="mtop">
+			<a href="<?php echo $detail_link?>" title="Read">
+           <img id="image" src="<?php echo get_app_large_image($issue_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="250" height="408" title="<?php echo $title?>">
+			</a>
+		</div>
+        <!--  <div class="cellOS"><?php //echo $magazine->name?><br /><?php //echo $magazine->year?>/<?php //echo $magazine->month?></div>-->
+		<a class="mname" href="<?php echo $issue_data->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
+        <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
+		</li>
         <?php
 		 } 
+		 }
 		  echo "</ul>"; 
 		 }
 		 else
@@ -139,6 +155,8 @@
         </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
+             <?php include_once('category_sidebar_magazines.php')?>
+                <?php include_once('locations_sidebar_magazines.php')?>
                 <?php render_widgets('RightBarEmagazines');?>
             </div>
         </div>

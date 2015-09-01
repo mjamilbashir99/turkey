@@ -639,6 +639,53 @@ class Show_model_core extends CI_Model
 		}
 		return $data;
 	}
+	function get_apps_post_id($post_id,$limit=1)
+	{
+		$apps = array();
+		$this->db->select('*');
+		$this->db->from('apps');
+		$this->db->where('post_id', $post_id);
+		$this->db->order_by("id","desc");    
+		$this->db->limit($limit);    
+		$query = $this->db->get();
+		return $apps = $query->result();
+	}
+	function get_magazines_post_id($post_id,$limit=1)
+	{
+		
+		$magazines = array();
+		$this->db->select('*');
+		$this->db->from('magazines');
+		$this->db->where('post_id', $post_id);
+		$this->db->order_by("id","desc");    
+		$this->db->limit($limit);    
+		$query = $this->db->get();
+		return $magazines = $query->result();
+	}
+	function get_issue_post_id($post_id,$limit=1)
+	{
+		$issues = array();
+		$this->db->select('*');
+		$this->db->from('issues');
+		$this->db->where('post_id', $post_id);
+		$this->db->order_by("id","desc");    
+		$this->db->limit($limit);    
+		$query = $this->db->get();
+		return $issues = $query->result();
+	}
+	function get_video_url_user_id($created_by)
+	{
+		$issues = array();
+		$query = $this->db->get_where('extra_video_urls',array('user_id'=>$created_by));
+		if($query->num_rows()<=0)
+		{
+			return  $video_url;
+		}
+		else
+		{
+			return $query->result();
+		}
+	}
 
 }
 

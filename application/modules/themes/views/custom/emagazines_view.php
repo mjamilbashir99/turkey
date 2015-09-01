@@ -22,16 +22,18 @@
 			 echo "<ul>";
 		 foreach($all as $magazine)
 	     {
-			 $detail_link = site_url('emagazine_details/'.$magazine->mag_id);
+			 $issue_data = get_issues_by_id($magazine->mag_id);
+			 $detail_link = site_url('emagazine_details/'.$issue_data->id);
+			 $title = $issue_data->name;
 	?>
 		<li>
 		<div class="mtop">
 			<a href="<?php echo $detail_link?>" title="Read">
-            <img src="<?php echo get_thumbs_image($magazine->featured_img);?>" width="193" height="231"/>
+           <img id="image" src="<?php echo get_app_large_image($issue_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="250" height="408" title="<?php echo $title?>">
 			</a>
 		</div>
-        <div class="cellOS"><?php echo $magazine->name?><br /><?php echo $magazine->year?>/<?php echo $magazine->month?></div>
-		<a class="mname" href="<?php echo $magazine->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
+        <!--  <div class="cellOS"><?php //echo $magazine->name?><br /><?php //echo $magazine->year?>/<?php //echo $magazine->month?></div>-->
+		<a class="mname" href="<?php echo $issue_data->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
         <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
 		</li>
         <?php
@@ -51,22 +53,26 @@
 			 echo "<ul>";
 		 foreach($featured as $magazine)
 	     {
-			 $detail_link = site_url('emagazine_details/'.$magazine->mag_id);
+			 
+			 $issue_data = get_issues_by_id($magazine->mag_id);
+			 if(1)
+			 {
+			 $detail_link = site_url('emagazine_details/'.$issue_data->id);
+			 $title = $issue_data->name;
 	?>
 		<li>
 		<div class="mtop">
 			<a href="<?php echo $detail_link?>" title="Read">
-            <img src="<?php echo get_thumbs_image($magazine->featured_img);?>" width="193" height="231"/>
+           <img id="image" src="<?php echo get_app_large_image($issue_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="250" height="408" title="<?php echo $title?>">
 			</a>
 		</div>
-        <div class="mlower">
-        <div class="cellOS"><?php echo $magazine->name?><br /><?php echo $magazine->year?>/<?php echo $magazine->month?></div>
-		<a class="mname" href="<?php echo $magazine->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
+        <!--  <div class="cellOS"><?php //echo $magazine->name?><br /><?php //echo $magazine->year?>/<?php //echo $magazine->month?></div>-->
+		<a class="mname" href="<?php echo $issue_data->url?>" title="Read"><img src="<?php echo theme_url();?>/assets/img/icopreview.jpg" /></a>
         <a class="mname" href="<?php echo $detail_link?>" title="Detail"><img src="<?php echo theme_url();?>/assets/img/icoread.jpg" /></a>
-        </div>
 		</li>
         <?php
 		 } 
+		 }
 		  echo "</ul>"; 
 		 }
 		 else
@@ -79,6 +85,8 @@
         </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
+               <?php include_once('category_sidebar_magazines.php')?>
+                <?php include_once('locations_sidebar_magazines.php')?>
                 <?php render_widgets('RightBarEmagazines');?>
             </div>
         </div>
