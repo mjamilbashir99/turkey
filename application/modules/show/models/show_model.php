@@ -16,7 +16,7 @@ class Show_model extends Show_model_core {
 	{
 		parent::__construct();
 	}
- function listMagazines($type='all',$region='',$category='',$limit=12)
+ function listMagazines($type='all',$region='',$category='',$limit=18)
  {
   $this->db->select('magazines.*,posts.category,posts.city,magazines.id as mag_id');
   $this->db->from('magazines');
@@ -29,13 +29,14 @@ class Show_model extends Show_model_core {
      if($category!='')
      $this->db->where('posts.category', $category); 
 
+  $this->db->order_by("magazines.id","desc");  
   $this->db->group_by("magazines.id");   
   $query = $this->db->get();
   return $query->result();
  }
  function getMagazineDetails($id)
  {
-  $this->db->select('magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by');
+  $this->db->select('magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by,posts.title,magazines.title as mag_title');
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
   $this->db->join('issues', 'issues.magazine_id = magazines.id');
@@ -54,7 +55,7 @@ class Show_model extends Show_model_core {
 		$query = $this->db->get();
 		return $query->result();
 	}
-	function listApps($type='all',$region='',$category='',$limit=12)
+	function listApps($type='all',$region='',$category='',$limit=18)
 	{
 			
 		$this->db->select('apps.*,posts.category,posts.city');
@@ -67,6 +68,7 @@ class Show_model extends Show_model_core {
 			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
+		$this->db->order_by('apps.id', "desc");    
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -79,7 +81,7 @@ class Show_model extends Show_model_core {
 		$query = $this->db->get();
 		return $query->row();
 	}
-	function listVideos($type='all',$region='',$category='',$limit=12)
+	function listVideos($type='all',$region='',$category='',$limit=18)
 	{
 			
 		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time,posts.id as post_id,posts.created_by as created_by');

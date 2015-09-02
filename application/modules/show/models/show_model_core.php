@@ -652,7 +652,6 @@ class Show_model_core extends CI_Model
 	}
 	function get_magazines_post_id($post_id,$limit=1)
 	{
-		
 		$magazines = array();
 		$this->db->select('*');
 		$this->db->from('magazines');

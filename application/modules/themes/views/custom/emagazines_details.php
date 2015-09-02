@@ -1,9 +1,10 @@
 <link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
-<?php require 'common_custom_search.php';  ?>
+<?php require 'common_custom_search.php';  //var_dump($magazine_data); ?>
 <!-- Page heading two starts -->
+<?php if(isset($magazine_data->mag_title))?>
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php echo $title =$magazine_data->title?> <?php echo $magazine_data->month?> - <?php echo $magazine_data->year?></h2>
+        <h2><?php echo $title =$magazine_data->mag_title?> <?php echo $magazine_data->month?> - <?php echo $magazine_data->year?></h2>
         <div class="breads">
             <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / 
             <a href="<?php echo site_url('emagazine'); ?>"><?php echo lang_key('emagazine'); ?></a> / 
@@ -18,7 +19,8 @@
     <div class="row">
         <div class="col-md-9 col-sm-12 col-xs-12">
         <div class="mDetail">
-<div class="mPictureBox">
+   
+   <div class="mPictureBox">
 <?php $images = json_decode($magazine_data->gallery);?>
 <img id="image" src="<?php echo get_app_large_image($magazine_data->issue_image)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="288" height="408" title="<?php echo $title?>">
 <?php if(count($images)>0){?>
@@ -56,7 +58,7 @@
 				<!-- AddThis Button END -->
 	
 	<div class="cFl">
-    PUBLISHED :<?php echo get_post_data_by_lang($magazine_data->post_id,'title');?><br>
+    PUBLISHED :<?php echo get_post_data_by_lang($magazine_data,'title');?><br>
 	CATEGORY:  <?php echo get_category_title_by_id($magazine_data->category)?><br>
 	FREQUENCY: <?php echo $magazine_data->magazine_frequency?><br>
 	LANGUAGE:  <?php echo $magazine_data->magazine_language?>  <br></div>
@@ -80,20 +82,18 @@
 <div class="magazine">
          <h2>Back Issues</h2>
     <?php 
-	     if(count($back)>0){
+	     if(($back)>0){
 			 echo "<ul>";
 //var_dump($back);
-		 foreach($back as $magazine)
+		 foreach($back as $issue_data)
 	     {
-			
-			 $issue_data = get_issues_by_id($magazine->mag_id);
-			//var_dump($issue_data);
-			 if($issue_data >0)
-			 {
+			 
+			 if($issue_data->id==$magazine_data->id)
+			   continue;
 			 $detail_link = site_url('emagazine_details/'.$issue_data->id);
 			 $title = $issue_data->name;
 	?>
-		<li>
+		<li> 
 		<div class="mtop">
 			<a href="<?php echo $detail_link?>" title="Read">
            <img id="image" src="<?php echo get_app_large_image($issue_data->featured_img)?>" alt="<?php echo $title?>" style="display: block; margin: 0px auto;" width="250" height="408" title="<?php echo $title?>">
@@ -105,7 +105,7 @@
 		</li>
         <?php
 		 } 
-		 }
+	 
 		  echo "</ul>"; 
 		 }
 		 else
@@ -115,7 +115,7 @@
     </div>
 
   <div class="clear"></div>
-         <div class="magazine">
+  <div class="magazine">
          <h2>Featured Magazines</h2>
     <?php 
 	     if(count($featured)>0){
@@ -153,6 +153,13 @@
     <div class="clear"></div>
 		<?php render_widgets('footeremagazine');?>
         </div>
+        <?php }else{?>
+            <div class="container">
+            <div class="row">
+            <div class="col-md-9 col-sm-12 col-xs-12">
+              <div> no data found, Please check the url</div>  
+            </div>        
+        <?php }?>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
              <?php include_once('category_sidebar_magazines.php')?>

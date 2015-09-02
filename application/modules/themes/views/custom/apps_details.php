@@ -42,7 +42,7 @@
           <!-- AddThis Button END --> 
           
           CATEGORY : <?php echo get_category_title_by_id($app_data->category)?><br>
-          PUBLISHED : <?php echo get_post_data_by_lang($app_data->id,'title');?><br>
+          PUBLISHED : <?php echo get_post_data_by_lang($app_data,'title');?><br>
           	LANGUAGE : English
           <h5>App Description</h5>
           <p><?php echo $app_data->app_description?></p>

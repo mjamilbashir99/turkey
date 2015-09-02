@@ -22,7 +22,7 @@ class Show extends Show_core {
 		$value = array();
 		$region = '';
 		$category ='';
-		$limit =12;
+		$limit =18;
 		if($this->input->get('category'))
 		    $category =$this->input->get('category');
 		if($this->input->get('region'))
@@ -45,15 +45,15 @@ class Show extends Show_core {
 		$value = array();
 		$region = '';
 		$category ='';
-		$limit =12;
+		$limit =18;
 		$value['magazine_data'] = $this->show_model->getMagazineDetails($id);
-		
+		$value['module']="emagazine";
    		$magazine_id=$value['magazine_data']->magazine_id;
 		$value['back']      = $this->show_model->getMagazineBackIssues($magazine_id);
 		$value['featured'] = $this->show_model->listMagazines('featured','','',4);
 		$data['content']   = load_view('emagazines_details',$value,TRUE);
 		load_template($data,$this->active_theme);
-		//$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(TRUE);
 	}
 	public function apps()
 	{
@@ -61,7 +61,7 @@ class Show extends Show_core {
 		$value['module']="apps";
 		$region = '';
 		$category ='';
-		$limit =12;
+		$limit =18;
 		if($this->input->get('category'))
 		    $category =$this->input->get('category');
 		if($this->input->get('region'))
@@ -95,7 +95,7 @@ class Show extends Show_core {
 		$value['current_video_id']='';
 		$region = '';
 		$category ='';
-		$limit =12;
+		$limit =18;
 		if($this->input->get('category'))
 		    $category =$this->input->get('category');
 		if($this->input->get('region'))

@@ -51,7 +51,7 @@
 			}
         ?>
         <?php //var_dump($topVideo) ?>
-        <h4>PUBLISHED : <?php echo ucwords(get_user_meta ($topVideo->user_id,'company_name'));?><br></h4>
+        <h4>PUBLISHED : <?php echo ucwords(get_post_data_by_lang($topVideo,'title'));?><br></h4>
 <br><br><br><br>
       
 </div>

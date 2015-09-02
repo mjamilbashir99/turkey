@@ -358,7 +358,7 @@
                             
                                 
                                       
-                                         <h4>PUBLISHED : <?php echo get_user_by_id($post->created_by);?></h4>
+                                         <h4>PUBLISHED : <?php echo get_post_data_by_lang($post,'title');?></h4>
                                   <div class="col-sm-12" style="text-align:center;">
                                   
                                   <?php
@@ -390,7 +390,9 @@
 											   ?>
                                 <h4 class="info-subtitle"><i class="fa fa-film"></i> Feature App</h4>
                                <div class="mPictureBox">
+                               <a href="<?php echo site_url('apps_details/'.$app[0]->id);?>">
   <img src="<?php echo get_app_large_image($app[0]->featured_img); ?>" id="image" style="display: block; margin: 0px auto;" class="img-responsive img-thumbnail" width="288" height="408" align="left"/>
+  </a>
      <h4> Gallery  </h4>
 <?php if(count($images)>0){?>
 	<ul class="gallery">
@@ -469,15 +471,15 @@
 
                                  <?php if(count($magazines)>0){
                                   foreach ($magazines as $magazine) 
-					
                                            {
 										 $images = json_decode($magazine->gallery);
-										 
-											   ?>
+										 $issue_data = get_issues_by_id($magazine->id);
+										  ?>
 
 <div class="mPictureBox">
-<img id="image" src="<?php echo get_thumbs_image($issues[0]->featured_img)?>"  style="display: block; margin: 0px auto;" width="288" height="408"/>
- 
+<a href="<?php echo site_url('emagazine_details/'.$issue_data->id);?>">
+<img id="image" src="<?php echo get_thumbs_image($issue_data->featured_img)?>"  style="display: block; margin: 0px auto;" width="288" height="408"/>
+ </a>
      <h4> Gallery  </h4>
   <?php if(count($images)>0){?>
 	<ul class="gallery">
@@ -498,7 +500,7 @@
 
 <div class="mContent">
  <h2 style="border-bottom:none; margin-bottom:0px;">
-<font size="6"> <?php echo $issues[0]->name;?> </font></h2>
+<font size="6"> <?php echo $issue_data->name;?> </font></h2>
 <!-- AddThis Button BEGIN -->
 								<!-- Go to www.addthis.com/dashboard to customize your tools -->
 				 <table>
