@@ -347,24 +347,19 @@
                          <h4 class="info-subtitle"><i class="fa fa-map-marker"></i> <?php echo lang_key('location_on_map'); ?></h4>
                                 <div class="gmap" id="details-map"></div>
                                 <div class="clearfix"></div>
-
-                                <?php if(isset($post->video_url)) 
-								{?>  
-                              
+                                
+								<?php if($post->video_url !=''){?>
                                 <h4 class="info-subtitle"><i class="fa fa-film"></i> <?php echo lang_key('featured_video'); ?></h4>
                                     <span id="video_preview"></span>
 
                                     <input type="hidden" name="video_url" id="video_url" value="<?php echo $post->video_url;?>">
-                            
-                                
-                                      
-                                         <h4>PUBLISHED : <?php echo get_post_data_by_lang($post,'title');?></h4>
+                                <?php }?>
+								<h4>PUBLISHED : <?php echo get_post_data_by_lang($post,'title');?></h4>
+                                  <?php if(isset($post->video_url) || 1) {?>
                                   <div class="col-sm-12" style="text-align:center;">
-                                  
                                   <?php
 								   $k=1;
 								  foreach ($video_url as $video_urls) 
-								  //var_dump($video_urls);
                                   {
                                      for($i=0;$i<10;$i++)
 									 {
@@ -713,31 +708,38 @@
         return vars;
 
     }
-
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match&&match[7].length==11){
+        return match[7];
+    }else{
+        return '';
+    }
+}
 
 
     function showVideoPreview(url)
-
     {
-
-        if(url.search("youtube.com")!=-1)
-
+        my_id = youtube_parser(url);
+        if(my_id!='')
         {
-
-            var video_id = getUrlVars(url)["v"];
-
+            var video_id = my_id;
             //https://www.youtube.com/watch?v=jIL0ze6_GIY
-
             var src = '//www.youtube.com/embed/'+video_id;
-
             //var src  = url.replace("watch?v=","embed/");
-
             var code = '<iframe class="thumbnail" width="100%" height="420" src="'+src+'" frameborder="0" allowfullscreen></iframe>';
-
             jQuery('#video_preview').html(code);
-
         }
-
+		else if(url.search("youtube.com")!=-1)
+        {
+            var video_id = getUrlVars(url)["v"];
+            //https://www.youtube.com/watch?v=jIL0ze6_GIY
+            var src = '//www.youtube.com/embed/'+video_id;
+            //var src  = url.replace("watch?v=","embed/");
+            var code = '<iframe class="thumbnail" width="100%" height="420" src="'+src+'" frameborder="0" allowfullscreen></iframe>';
+            jQuery('#video_preview').html(code);
+        }
         else if(url.search("vimeo.com")!=-1)
 
         {
@@ -786,9 +788,7 @@
         }); 
 
         jQuery('#video_url').change(function(){
-
             var url = jQuery(this).val();
-
             showVideoPreview(url);
 
         }).change();

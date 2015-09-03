@@ -663,12 +663,12 @@ class Show_model_core extends CI_Model
 			$query = $this->db->get();
 			return $query->row();
 	}
-	function get_issues_post_id($post_id)
+	function get_issues_post_id($id)
 	{
 		$issues = array();
 		$this->db->select('*');
 		$this->db->from('issues');
-		$this->db->where('post_id', $post_id);
+		$this->db->where('magazine_id', $id);
 		$this->db->order_by("id","desc");    
 		$this->db->limit(12);    
 		$query = $this->db->get();
