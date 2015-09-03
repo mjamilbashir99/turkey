@@ -163,7 +163,63 @@
         </li>
 
         <?php } ?>
+        <?php if (is_admin()) { ?>
 
+        <li class="<?php echo is_active_menu('admin/county/'); ?>">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-bars"></i>
+                <span><?php echo lang_key('county'); ?></span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+
+            <ul class="submenu">
+                <li class="<?php echo is_active_menu('admin/county/all'); ?>">
+                    <a href="<?php echo site_url('admin/county/all'); ?>">
+                        <?php echo lang_key('all_counties'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo is_active_menu('admin/county/newcounty'); ?>">
+                    <a href="<?php echo site_url('admin/county/newcounty'); ?>">
+                        <?php echo lang_key('new_county'); ?>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <?php } ?>
+        
+        
+        
+ <?php if (is_admin()) { ?>
+
+        <li class="<?php echo is_active_menu('admin/banners/'); ?>">
+            <a href="#" class="dropdown-toggle">
+                <i class="fa fa-plus-circle"></i>
+                <span><?php echo lang_key('advertesing'); ?></span>
+                <b class="arrow fa fa-angle-right"></b>
+            </a>
+
+            <ul class="submenu">
+                <li class="<?php echo is_active_menu('admin/banners/all'); ?>">
+                    <a href="<?php echo site_url('admin/banners/all'); ?>">
+                        <?php echo lang_key('all_advertesings'); ?>
+                    </a>
+                </li>
+                <li class="<?php echo is_active_menu('admin/banners/newbanners'); ?>">
+                    <a href="<?php echo site_url('admin/banners/newbanners'); ?>">
+                        <?php echo lang_key('new_ad'); ?>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <?php } ?>
+        
+        
+        
+        
+        
+        
         <li class="<?php echo is_active_menu('admin/editprofile'); ?>">
 
 

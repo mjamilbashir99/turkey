@@ -110,8 +110,24 @@ class Blog_model_core extends CI_Model
 
 	}
 
-
-
+function get_all_locations_by_parent($parent='')
+	{
+		$this->db->order_by('name','asc');
+		$query = $this->db->get_where('locations',array('parent'=>$parent,'status'=>1));		
+		return $query;
+	}
+	
+function get_all_categories()
+	{
+		$this->db->order_by('title','desc');
+		$query = $this->db->get_where('categories',array('status'=>1));
+		$categories = array();
+		foreach ($query->result() as $row) {
+			array_push($categories,$row);
+		}
+		return $categories;
+	}
+	
 	function get_post_by_id($id)
 
 	{

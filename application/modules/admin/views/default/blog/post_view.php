@@ -1,3 +1,5 @@
+<link href="<?php echo theme_url();?>/assets/css/custom.css" rel="stylesheet">
+
 <div class="row">
 
   <div class="col-md-12">
@@ -14,17 +16,11 @@
 
           <a href="#" data-action="collapse"><i class="fa fa-chevron-up"></i></a>
 
-
-
         </div>
 
       </div>
 
       <div class="box-content">
-
-
-
-
 
 		<input type="hidden" id="action" name="action" value="1">
 
@@ -50,7 +46,6 @@
 
 		<div style="margin-bottom:20px;"></div>
 
-
 		<?php 
 
 			$type = '';
@@ -65,12 +60,11 @@
 
 		?>
 		
-
 		<div class="form-group">
 
 			<label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('type');?></label>
 
-			<div class="col-sm-6 col-lg-6 controls">
+			<div class="col-sm-12 col-lg-12 controls">
 				<?php 
 					$this->config->load('business_directory');
 					$options = $this->config->item('blog_post_types');
@@ -91,9 +85,47 @@
 			</div>
 
 		</div>
-
+        
+        
+        <div class="form-group">
+       <?php //var_dump($categories) ?>
+            <label class="col-sm12 col-lg-12 control-label" for="inputEmail1"><?php echo lang_key('category');?></label>
+            <div class="col-sm-12 col-lg-12 controls">
+                <select name="category" class="form-control">
+                    <option value=""><?php echo lang_key('select_category');?></option>
+                    <?php foreach ($categories as $row) 
+                    {
+                        
+                        $v = (set_value('category')!='')?set_value('category'):$row->id;
+                        $sel = ($v==$page->category)?'selected="selected"':'';
+                    ?>
+                        <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->title);?></option>
+                    <?php
+                    }?>
+                </select>
+                <?php echo form_error('category');?>
+            </div>
+                            </div>
+                            
+                <div class="form-group">
+                <label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('country');?></label>
+                <div class="col-sm-12 col-lg-12 controls">
+                <select name="country"  class="form-control">
+                <option data-name="" value=""><?php echo lang_key('select_country');?></option>
+               
+                <?php foreach (get_all_locations_by_type('country')->result() as $row) 
+                {
+				 $v = (set_value('country')!='')?set_value('country'):$row->id;
+                $sel = ($v==$page->country)?'selected="selected"':'';
+                ?>
+                <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
+                <?php }?>
+                </select>
+                <?php echo form_error('country');?>
+                </div>
+                </div>
+                
 		<div style="clear:both"></div>
-
 
 		    <?php 
             $CI = get_instance();
@@ -150,7 +182,7 @@
 
 						<div class="form-group">
 
-							<label class="col-sm-12 col-lg-12 control-label"><?php echo lang_key('content');?></label>
+							<label class="col-sm-12 col-lg-12 control-label"><?php echo lang_key('description');?></label>
 
 							<div class="col-sm-12 col-lg-12 controls">
 
@@ -188,9 +220,6 @@
             </div>
 
 
-
-
-
 		<div style="clear:both"></div>	
             
         <div class="form-group">
@@ -212,9 +241,32 @@
                 <span class="help-inline">&nbsp;</span>
             </div>          
         </div>
+   
+        <div class="form-group">
+                    <label class="col-md-12 control-label"><?php echo lang_key('gallery');?></label>
+                    <div class="col-md-12">
+             
+                        <?php $tmp_gallery = ($page->gallery!='')?json_decode($page->gallery):array();?>
+                    
+                        <?php $gallery = (isset($_POST['gallery']))?$_POST['gallery']:$tmp_gallery; ?>
+                        <ul class="multiple-uploads">
+                            <?php foreach ($gallery as $item) {
+                            ?>
+                            <li class="gallery-img-list">
+                              <input type="hidden" name="gallery[]" value="<?php echo $item;?>" />
+                              <img src="<?php echo base_url('uploads/gallery/'.$item);?>" />
+                              <div class="remove-image" onclick="jQuery(this).parent().remove();">X</div>
+                            </li>
+                            <?php }?>
+                            <li class="add-image" id="dragandrophandler" style="padding-top: 0%;">+</li>
+                        </ul>       
+                        <div class="clearfix"></div>
+                        <span class="gallery-upload-instruction">NB: you can drag drop to reorder the gallery photos. Photos are not resized.</span>
+                        <div class="clearfix clear-top-margin"></div>
+                    </div>
+                </div>
+                
         <div class="clearfix"></div>
-
-
 		<div style="margin-bottom:20px;"></div>
 		<div class="form-group">
 			<div class="col-sm-12 col-md-12 col-lg-12">
@@ -231,18 +283,73 @@
 
     </div>
 
-
-
 	</form>
 
   </div>
 
 </div>
 
-
-
 <script type="text/javascript" src="<?php echo base_url('assets/tinymce/tinymce.min.js');?>"></script>
+<?php require'multiple-uploader.php';?>
+<?php require'bulk_uploader_view.php';?>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    
+    jQuery('#photoimg').attr('target','.multiple-uploads');
+    jQuery('#photoimg').attr('input','gallery');
+    var obj = $("#dragandrophandler");
+    obj.on('dragenter', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).css('border', '2px solid #0B85A1');
+    });
 
+    obj.on('dragover', function (e)
+    {
+         e.stopPropagation();
+         e.preventDefault();
+    });
+
+    obj.on('drop', function (e)
+    {
+     
+         $(this).css('border', '2px dotted #0B85A1');
+         e.preventDefault();
+         var files = e.originalEvent.dataTransfer.files;
+         //console.log(files);
+         //We need to send dropped files to Server
+         handleFileUpload(files,obj);
+    });
+
+    $(document).on('dragenter', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+    $(document).on('dragover', function (e)
+    {
+      e.stopPropagation();
+      e.preventDefault();
+      obj.css('border', '2px dotted #0B85A1');
+    });
+    
+    $(document).on('drop', function (e)
+    {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+    jQuery('.multiple-uploads > .add-image').click(function(){
+        jQuery('#photoimg').attr('target','.multiple-uploads');
+        jQuery('#photoimg').attr('input','gallery');
+        jQuery('#photoimg').click();
+    });
+
+    jQuery( ".multiple-uploads" ).sortable();
+});
+</script>
 <script type="text/javascript">
 
 tinymce.init({
@@ -284,8 +391,6 @@ jQuery(document).ready(function(){
 		jQuery('#action').val(jQuery(this).attr('action'));
 
 	});
-
-
 
 	jQuery('#content_from').change(function(){
 

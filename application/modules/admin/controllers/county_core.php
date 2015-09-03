@@ -11,7 +11,7 @@
  */
 
 
-class Category_core extends CI_Controller {
+class County_core extends CI_Controller {
 	
 	var $per_page = 10;
 	
@@ -30,7 +30,7 @@ class Category_core extends CI_Controller {
 
 		$this->per_page = get_per_page_value();#defined in auth helper
 
-		$this->load->model('category_model');
+		$this->load->model('county_model');
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger" style="margin:0">', '</div>');
 	}
 	
@@ -42,27 +42,26 @@ class Category_core extends CI_Controller {
 	#load all services view with paging
 	public function all($start='0')
 	{
-		$value['posts']  	 = $this->category_model->get_all_categories_by_range($start,'id');
-
-        $data['title'] = lang_key('all_categories');
-        $data['content'] = load_admin_view('categories/allcategories_view',$value,TRUE);
+		$value['posts']  	 = $this->county_model->get_all_counties_by_range($start,'id');
+        $data['title'] = lang_key('all_counties');
+        $data['content'] = load_admin_view('counties/allcounties_view',$value,TRUE);
 		 load_admin_view('template/template_view',$data);		
 	}
 
 	#load new service view
-	public function newcategory()
+	public function newcounty()
 	{
-        $data['title'] = lang_key('new_category');
-        $data['content'] = load_admin_view('categories/newcategory_view','',TRUE);
+        $data['title'] = lang_key('new_county');
+        $data['content'] = load_admin_view('counties/newcounty_view','',TRUE);
 		load_admin_view('template/template_view',$data);
 	}
 	
 	#load edit service view
 	public function edit($id='')
 	{
-		$value['post']  = $this->category_model->get_category_by_id($id);
-		$data['title'] = lang_key('edit_category');
-		$data['content'] = load_admin_view('categories/editcategory_view',$value,TRUE);
+		$value['post']  = $this->county_model->get_county_by_id($id);
+		$data['title'] = lang_key('edit_county');
+		$data['content'] = load_admin_view('counties/editcounty_view',$value,TRUE);
 		load_admin_view('template/template_view',$data);		
 	}
 	
@@ -71,7 +70,7 @@ class Category_core extends CI_Controller {
 	{
 		if($confirmation=='')
 		{
-			$data['content'] = load_admin_view('confirmation_view',array('id'=>$id,'url'=>site_url('admin/category/delete')),TRUE);
+			$data['content'] = load_admin_view('confirmation_view',array('id'=>$id,'url'=>site_url('admin/county/delete')),TRUE);
 			 load_admin_view('template/template_view',$data);
 		}
 		else
@@ -84,39 +83,40 @@ class Category_core extends CI_Controller {
 				}
 				else
 				{
-					$this->category_model->delete_category_by_id($id);
+					$this->county_model->delete_county_by_id($id);
 					$this->session->set_flashdata('msg', '<div class="alert alert-success">'.lang_key('data_updated').'</div>');
 				}
 			}
-			redirect(site_url('admin/category/all'));		
+			redirect(site_url('admin/county/all'));		
 			
 		}		
 	}
 
 	#add a service
-	public function addcategory()
+	public function addcounty()
 	{	
-
-		$this->form_validation->set_rules('title', lang_key('title'), 'required');
-		$this->form_validation->set_rules('fa_icon', lang_key('fa_icon'), 'required');
+		//echo 'I am hear'; exit;
+		$this->form_validation->set_rules('state', lang_key('county'), 'required');
+		$this->form_validation->set_rules('city', lang_key('select_city'), 'required');
 		$this->form_validation->set_rules('featured_img', lang_key('featured_img'), 'required');
 
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->newcategory();	
+		
+			$this->newcounty();	
 		}
 		else
 		{
+			
 			$this->load->helper('date');
 			$format = 'DATE_RFC822';
 			$time = time();
-			$data 					= array();			
-			$data['title'] 			= $this->input->post('title');
-			$data['type'] 			= $this->input->post('type');
-			$data['fa_icon'] 		= $this->input->post('fa_icon');
+			$data 					= array();	
+			$data['parent_country'] = 92;
+		    $data['parent']         = $this->input->post('state');
+			$data['name'] 	        = $this->input->post('city');
+			$data['type']           = 'city';
 			$data['featured_img'] 	= $this->input->post('featured_img');
-			$data['create_time'] 	= $time;
-			$data['created_by']		= get_id_by_username($this->session->userdata('user_name'));
 			$data['status']			= 1;
 			$this->load->model('admin/system_model');
             $langs = $this->system_model->get_all_langs();
@@ -133,35 +133,41 @@ class Category_core extends CI_Controller {
 			}
 			else
 			{
-				$this->category_model->insert_category($data);
+				$this->county_model->insert_county($data);
 				$this->session->set_flashdata('msg', '<div class="alert alert-success">'.lang_key('data_inserted').'</div>');				
 			}
-			redirect(site_url('admin/category/newcategory'));		
+			redirect(site_url('admin/county/newcounty'));		
 		}
 	}
 	
 	
 	#update a service
-	public function updatecategory()
+	public function updatecounty()
 	{
-		$this->form_validation->set_rules('title', lang_key('title'), 'required');
-		$this->form_validation->set_rules('fa_icon', lang_key('fa_icon'), 'required');
+		
+		$this->form_validation->set_rules('state', lang_key('county'), 'required');
+		$this->form_validation->set_rules('city', lang_key('select_city'), 'required');
 		$this->form_validation->set_rules('featured_img', lang_key('featured_img'), 'required');
 
 		if ($this->form_validation->run() == FALSE)
 		{
 			$id = $this->input->post('id');
-			$this->editcategory($id);	
+			$this->editcounty($id);	
 		}
 		else
 		{
 			$id = $this->input->post('id');
 
-			$data 					= array();
-			$data['title'] 			= $this->input->post('title');
-			$data['type'] 			= $this->input->post('type');
-			$data['fa_icon'] 		= $this->input->post('fa_icon');
+		$this->load->helper('date');
+			$format = 'DATE_RFC822';
+			$time = time();
+			$data 					= array();			
+			$data['parent_country'] = 92;
+		    $data['parent']         = $this->input->post('state');
+			$data['name'] 	        = $this->input->post('city');
+			$data['type']           = 'city';
 			$data['featured_img'] 	= $this->input->post('featured_img');
+			$data['status']			= 1;
 			$this->load->model('admin/system_model');
             $langs = $this->system_model->get_all_langs();
             $descriptions = array();
@@ -177,10 +183,10 @@ class Category_core extends CI_Controller {
 			}
 			else
 			{
-				$this->category_model->update_category($data,$id);
+				$this->county_model->update_county($data,$id);
 				$this->session->set_flashdata('msg', '<div class="alert alert-success">'.lang_key('data_updated').'</div>');
 			}
-			redirect(site_url('admin/category/edit/'.$id));		
+			redirect(site_url('admin/county/edit/'.$id));		
 		}
 	}
 
@@ -188,7 +194,7 @@ class Category_core extends CI_Controller {
 
 	{
 
-		load_admin_view('categories/featured_img_uploader_view');
+		load_admin_view('counties/featured_img_uploader_view');
 
 	}
 

@@ -28,7 +28,6 @@ class Blog_core extends CI_Controller {
 		}
 
 		$this->per_page = get_per_page_value();#defined in auth helper
-
 		$this->load->model('blog_model');
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">','</div>');
 	}
@@ -52,21 +51,26 @@ class Blog_core extends CI_Controller {
 	{
 		$values 			= array();
 		$values['title'] 	= lang_key('new_post');
+		$values['categories'] 	= $this->blog_model->get_all_categories();
+		//$values['country']       = $this->blog_model->get_all_locations_by_parent($parent);
 		if($id!='')
 		{
 			$values['title']  		= lang_key('update_post');
 			$values['action_type']  = 'update';
 			$values['page'] 		= $this->blog_model->get_post_by_id($id);
+			$values['categories'] 	= $this->blog_model->get_all_categories();
+		  // $values['country']       = $this->blog_model->get_all_locations_by_parent($parent);
 		}
-
+		
         $data['content'] = load_admin_view('blog/post_view',$values,TRUE);
-		load_admin_view('template/template_view',$data);			
+		load_admin_view('template/template_view',$data);
+		
+		/*
+	    	
+	    	*/				
 	}
-
-
 	public function add()
 	{
-
 		$this->form_validation->set_rules('title_'.default_lang(), lang_key('title'), 'required');
 		$this->form_validation->set_rules('type', lang_key('type'), 'required');
 		
@@ -81,14 +85,22 @@ class Blog_core extends CI_Controller {
 		{
 			$data['featured_img'] 	= $this->input->post('featured_img');
 			$data['type'] 			= $this->input->post('type');
-
+			$data['category'] 		= $this->input->post('category');
+            $data['country'] 		= $this->input->post('country');
+			$data['gallery'] 		= $this->input->post('gallery');
+			$data['gallery']        = json_encode($data['gallery']); 
 			$this->load->model('admin/system_model');
             $langs = $this->system_model->get_all_langs();
-            $titles = array();
+            $titles       = array();
+			$category     = array();
+			$country      = array();
             $descriptions = array();
+			$gallery      = array();
             foreach ($langs as $lang=>$long_name)
             { 
             	$titles[$lang] = $this->input->post('title_'.$lang);
+				$category[$lang] = $this->input->post('category_'.$lang);
+				$country[$lang] = $this->input->post('country_'.$lang);
             	$descriptions[$lang] = $this->input->post('description_'.$lang);
             }        	
 
