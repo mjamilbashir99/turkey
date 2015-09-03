@@ -1,6 +1,7 @@
 <link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
 <?php require 'common_custom_search.php';  ?>
 <!-- Page heading two starts -->
+<?php if(isset($app_data->app_title)){?>
 <div class="page-heading-two">
   <div class="container">
     <div class="breads"> <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <a href="<?php echo site_url('apps'); ?>"><?php echo lang_key('Apps'); ?></a> / <?php echo $title =   $app_data->app_title?> </div>
@@ -29,17 +30,7 @@
         </div>
         <div class="mContent">
           <h2><?php echo $title?></h2>
-          
-          <!-- AddThis Button BEGIN --> 
-          <!-- Go to www.addthis.com/dashboard to customize your tools -->
-          <table>
-            <tr>
-              <td><div style="display:inline" class="addthis_native_toolbox"></div></td>
-              <td><a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp; </td>
-            </tr>
-          </table>
-          <p></p>
-          <!-- AddThis Button END --> 
+          <?php include("share_this.php")?>
           
           CATEGORY : <?php echo get_category_title_by_id($app_data->category)?><br>
           PUBLISHED : <?php echo get_post_data_by_lang($app_data,'title');?><br>
@@ -81,6 +72,14 @@
         </div>
       </div>
       <div class="clear"></div>
+      <?php }else{?>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-9 col-sm-12 col-xs-12">
+           <div style="height:50px;font-size:16px;">
+           No Data Found
+           </div>
+    <?php }?>
       <?php render_widgets('footerApps');?>
     </div>
     <div class="col-md-3 col-sm-12 col-xs-12">

@@ -1,5 +1,18 @@
 <?php require 'common_custom_search.php';  ?>
 <!-- Page heading two starts -->
+<style>
+.thumb {position: relative; width: 129px; height:70px; margin-bottom:20px;}
+.thumb a {position: absolute; top: 0; display: block; width: 98%; height: 100%; text-align: center; text-decoration: none;}
+.thumb a .play, .thumb a .overlay {opacity: 0;}
+.thumb a:hover .play, .thumb a:hover .overlay {display: block; transition: opacity .25s ease-in-out;-moz-transition: opacity .25s ease-in-out;-webkit-transition: opacity .25s ease-in-out;}
+.thumb a:hover .play {position: relative; font-size: 35px; color: #ffffff; margin-top: 22px; z-index: 1000; opacity: 1;}
+.thumb a:hover .overlay {position: absolute; top: 0px; width: 100%; height: 100%; background-color: #000000; opacity: .7;}
+
+img.mtop {
+    height: 80px;
+    width: 150px;
+}
+</style>
 <div class="page-heading-two">
     <div class="container">
         <h2>Vidoes</h2>
@@ -76,10 +89,13 @@
 			 $video_image = getVideoThumbnail($video->video_url);
 	?>
 		<li><?php //echo $video->video_url;?>
-            <div class="mtop">
+            <div class="mtop thumb">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                <span class="play">&#9658;</span>
+   				<div class="overlay"></div>
+                  
                 </a>
+                <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
@@ -103,10 +119,13 @@
 					$k++;
 				?>
                     <li>
-                        <div class="mtop">
+                        <div class="mtop thumb">
                             <a href="<?php echo $detail_link?>">
-                                 <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                            <span class="play">&#9658;</span>
+   							<div class="overlay"></div>
+                                 
                             </a>
+                            <img src="<?php echo $video_image;?>" width="126" height="70"/>
                         </div>
                         <div style="width:125px; overflow:hidden;height:50px;">
                             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
@@ -140,10 +159,13 @@
 			 $video_image = getVideoThumbnail($video->video_url);
 	?>
 		<li><?php //echo $video->video_url;?>
-            <div class="mtop">
+            <div class="mtop thumb">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                <span class="play">&#9658;</span>
+   				<div class="overlay"></div>
+                  
                 </a>
+                <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
@@ -167,10 +189,13 @@
 					$k++;
 				?>
                     <li>
-                        <div class="mtop">
+                        <div class="mtop thumb">
                             <a href="<?php echo $detail_link?>">
-                                     <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                            <span class="play">&#9658;</span>
+   							<div class="overlay"></div>
+                                     
                             </a>
+                            <img src="<?php echo $video_image;?>" width="126" height="70"/>
                         </div>
                         <div style="width:125px; overflow:hidden;height:50px;">
                             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)." ".$k?>">
@@ -209,10 +234,12 @@
 			 $video_image = getVideoThumbnail($video->video_url);
 	?>
 		<li><?php //echo $video->video_url;?>
-            <div class="mtop">
+            <div class="mtop thumb">
                 <a href="<?php echo $detail_link?>">
-                  <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                  <span class="play">&#9658;</span>
+   							<div class="overlay"></div>
                 </a>
+                <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">

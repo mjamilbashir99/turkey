@@ -348,7 +348,7 @@
                                 <div class="gmap" id="details-map"></div>
                                 <div class="clearfix"></div>
 
-                                <?php if(count($post->video_url)>0) 
+                                <?php if(isset($post->video_url)) 
 								{?>  
                               
                                 <h4 class="info-subtitle"><i class="fa fa-film"></i> <?php echo lang_key('featured_video'); ?></h4>
@@ -384,7 +384,7 @@
                                             <?php } ?> 
                                         
                                 <!--feature apps-->
-                                <?php if(count($app)>0){
+                                <?php if(isset($app[0]->title)){
 								
 										 $images = json_decode($app[0]->gallery);
 											   ?>
@@ -411,20 +411,7 @@
                             <div class="mContent">
  <h2 style="border-bottom:none; margin-bottom:0px;">
 <font size="6"> <?php echo $app[0]->title;?> </font></h2>
-<!-- AddThis Button BEGIN -->
-								<!-- Go to www.addthis.com/dashboard to customize your tools -->
-				 <table>
-				<tr>
-					<td>
-				<div style="display:inline" class="addthis_native_toolbox"></div>
-				</td>
-					<td>
-				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp;
-			</td>
-				
-			</tr></table>
-			<p></p>
-				<!-- AddThis Button END -->
+<?php include("share_this.php")?>
 	LANGUAGE : English
 	</br>
 	<h5>Apps Description</h5>
@@ -442,10 +429,8 @@
                                         <img src="<?php echo get_thumbs_image($app[0]->qr); ?>" width="85" />
                                         </a>
                                         </center> <br>
-	<!-- <a href="#" class="dRead">READ MORE</a> -->
-	<p>&nbsp;</p></div>
-                              
-
+                        <!-- <a href="#" class="dRead">READ MORE</a> -->
+                        <p>&nbsp;</p></div>
                           <div class="col-sm-12" style="text-align:center;">
                                   <?php
 									if(count($apps))
@@ -461,119 +446,82 @@
 									  }
 									?>
                                             </div> 
-                                
                                 <?php  } ?>
                                 <div class="clearfix"></div>
                                  <!--feature magazines-->
-                                 <?php if(count($magazines) >0 ){?>  
-                                 <div class="mDetail">
-                  <h4 class="info-subtitle"><i class="fa fa-book"></i> Feature Emagazine</h4>
-
-                                 <?php if(count($magazines)>0){
-                                  foreach ($magazines as $magazine) 
-                                           {
-										 $images = json_decode($magazine->gallery);
-										 $issue_data = get_issues_by_id($magazine->id);
-										  ?>
-
-<div class="mPictureBox">
-<a href="<?php echo site_url('emagazine_details/'.$issue_data->id);?>">
-<img id="image" src="<?php echo get_thumbs_image($issue_data->featured_img)?>"  style="display: block; margin: 0px auto;" width="288" height="408"/>
- </a>
-     <h4> Gallery  </h4>
-  <?php if(count($images)>0){?>
-	<ul class="gallery">
-     
-    <?php for($img=0;$img<count($images);$img++){?>
-
-		<li>
-		<div class="mtop">
-			<a title="Read" href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
-<img src="<?php echo get_gallery_image($images[$img])?>" width="60" height="80"/>			</a>
-		</div>
-        </li>
-		 <?php }?>
-     </ul>
-<?php }?>
-</div>
-
-
-<div class="mContent">
- <h2 style="border-bottom:none; margin-bottom:0px;">
-<font size="6"> <?php echo $issue_data->name;?> </font></h2>
-<!-- AddThis Button BEGIN -->
-								<!-- Go to www.addthis.com/dashboard to customize your tools -->
-				 <table>
-				<tr>
-					<td>
-				<div style="display:inline" class="addthis_native_toolbox"></div>
-				</td>
-					<td>
-				<a style="display:inline" href="http://www.pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.magzter.com%2FCA%2FDolce-Media%2FCity-Life-Magazine%2FBusiness&media=http%3A%2F%2Fcdn.magzter.com%2F1417545595%2F1439212736%2Fimages%2Fthumb%2F390_thumb_1.jpg&description=Get+your+digital+edition+of+City+Life+Magazine+Magazine+subscriptions+and+issues+online+from+Magzter.+Buy%2C+download+and+read+City+Life+Magazine+Magazine+on+your+iPad%2C+iPhone%2C+Android%2C+Tablets%2C+Kindle+Fire%2C+Windows+8%2C+Web%2C+Mac+and+PCs+only+from+Magzter+-+The+Digital+Newsstand." data-pin-do="buttonPin" data-pin-config="beside"></a>&nbsp;&nbsp;&nbsp;
-			</td>
-				
-			</tr></table>
-			<p></p>
-				<!-- AddThis Button END -->
-	
-	<div class="cFl">
-	
-FREQUENCY : <?php echo $magazine->magazine_frequency;?> <br> 
-LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div></br>
-	<h5>Magazine Description</h5>
-	<p ><?php echo $magazine->description;?>.</p>
-	<h5 >Issue Description</h5>
-     <?php if(count($issues)>0){
-                                    ?>
-	 <p><?php echo $issues[0]->description;?></p>
-     </br>
-	<center> <a href="<?php echo $magazine->android?>">
-                                        <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
-                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $magazine->mac?>">
-                                        <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
-                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $magazine->window?>">
-                                        <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
-                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $magazine->qr?>">
-                                        <img src="<?php echo get_thumbs_image($magazine->qr); ?>" width="85" />
-                                        </a>
-                                        </center> <br>
-	<!-- <a href="#" class="dRead">READ MORE</a> -->
-	<p>&nbsp;</p></div>
-
-
- <?php }
-										   }
-								}?>
-
-<br style="clear:both;">
-<center>
-	
-	 <?php
-								  $n=1;             
-								  foreach ($issues_url as $issue) 
-                                            {   ?>
-                                         
-                                <a href="<?php echo $issue->url;?>">  <?php echo $issue->name; $n ?> |</a>
-
-                                            
-                                           <?php
-										   $n++;
-										    } 
-											 ?></center>
-<p align="center">
-	</div>
-                             <?php } ?>
-                                   <div class="col-sm-12" style="text-align:center;">
-                                  
-                                            </div> 
+								<?php if(isset($magazine->issue_id)){?>  
+                                <div class="mDetail">
+                                <h4 class="info-subtitle"><i class="fa fa-book"></i> Featured Emagazine</h4>
+                                <?php  
+                                
+                                $images = json_decode($magazine->gallery);
+                                ?>
+                                
+                                <div class="mPictureBox">
+                                <a href="<?php echo site_url('emagazine_details/'.$magazine->issue_id);?>">
+                                <img id="image" src="<?php echo get_app_large_image($magazine->issue_image)?>" style="display: block; margin: 0px auto;" width="288" height="408"/>
+                                </a>
+                                <h4> Gallery  </h4>
+                                <?php if(count($images)>0){?>
+                                <ul class="gallery">
+                                
+                                <?php for($img=0;$img<count($images);$img++){?>
+                                
+                                <li>
+                                <div class="mtop">
+                                <a title="Read" href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
+                                <img src="<?php echo get_gallery_image($images[$img])?>" width="60" height="80"/>			</a>
+                                </div>
+                                </li>
+                                <?php }?>
+                                </ul>
+                                <?php }?>
+                                </div>
+                                <div class="mContent">
+                                <h2 style="border-bottom:none; margin-bottom:0px;">
+                                <font size="6"> <?php echo $magazine->name;?> </font></h2>
+                                <?php include("share_this.php")?>
+                                <div class="cFl">
+                                FREQUENCY : <?php echo $magazine->magazine_frequency;?> <br> 
+                                LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div></br>
+                                <h5>Magazine Description</h5>
+                                <p ><?php echo $magazine->mag_description;?>.</p>
+                                <h5 >Issue Description</h5>
+                                <p><?php echo $magazine->issue_description;?></p>
+                                </br>
+                                <center> <a href="<?php echo $magazine->android?>">
+                                <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
+                                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="<?php echo $magazine->mac?>">
+                                <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
+                                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="<?php echo $magazine->window?>">
+                                <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
+                                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="<?php echo $magazine->qr?>">
+                                <img src="<?php echo get_thumbs_image($magazine->qr); ?>" width="85" />
+                                </a>
+                                </center> <br>
+                                <!-- <a href="#" class="dRead">READ MORE</a> -->
+                                <p>&nbsp;</p></div>
+                                <?php  
+                                }
+                                ?>
+                                <br style="clear:both;">
+                                <center>
+                                <?php
+                                $n=1;             
+                                foreach ($issues as $issue) 
+                                {
+								    echo '<a href="'.site_url('emagazine_details/'.$issue->id).'">'.$issue->name.'|</a>';
+                                } 
+                                ?>
+                                </center>
+                                </div>
+                                <div class="col-sm-12" style="text-align:center;"></div> 
                                 <div class="clearfix"></div>
-
                             </div>
                         </div>
-
                         <div class="tab-pane fade" id="p-nav-2">
 
                             <div class="single-property sp-agent">
@@ -615,8 +563,7 @@ LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div>
                             </div>
 
                         </div>
-
-                         <div class="tab-pane fade" id="p-nav-3">
+                        <div class="tab-pane fade" id="p-nav-3">
        <div class="ajax-loading review-loading"><img src="<?php echo theme_url();?>/assets/img/loading.gif" alt="loading...">
        </div>
                              <?php if(is_loggedin()){?>
@@ -630,7 +577,6 @@ LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div>
                                  <?php require('all_reviews_view.php');?>
                              </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -718,7 +664,6 @@ LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div>
         </div>
     </div>
 </div>
-
 </div>
 
 <div id="reviewModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">

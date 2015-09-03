@@ -650,25 +650,27 @@ class Show_model_core extends CI_Model
 		$query = $this->db->get();
 		return $apps = $query->result();
 	}
-	function get_magazines_post_id($post_id,$limit=1)
+	function get_magazines_post_id($id,$limit=1)
 	{
-		$magazines = array();
-		$this->db->select('*');
-		$this->db->from('magazines');
-		$this->db->where('post_id', $post_id);
-		$this->db->order_by("id","desc");    
-		$this->db->limit($limit);    
-		$query = $this->db->get();
-		return $magazines = $query->result();
+			$select = 'magazines.*,issues.id as issue_id,issues.*,issues.featured_img as issue_image,';
+			$select .= 'magazines.title as mag_title,magazines.id as mag_id,magazines.description as mag_description,issues.description as issue_description';
+			$this->db->select($select);
+			$this->db->from('magazines');
+			$this->db->join('issues', 'issues.magazine_id = magazines.id');
+			$this->db->where('issues.post_id', $id); 
+			$this->db->order_by('issues.id', "desc");
+			$this->db->limit(1);  
+			$query = $this->db->get();
+			return $query->row();
 	}
-	function get_issue_post_id($post_id,$limit=1)
+	function get_issues_post_id($post_id)
 	{
 		$issues = array();
 		$this->db->select('*');
 		$this->db->from('issues');
 		$this->db->where('post_id', $post_id);
 		$this->db->order_by("id","desc");    
-		$this->db->limit($limit);    
+		$this->db->limit(12);    
 		$query = $this->db->get();
 		return $issues = $query->result();
 	}

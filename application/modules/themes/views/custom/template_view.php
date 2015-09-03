@@ -4,7 +4,7 @@
 
 <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <meta charset="utf-8">
 
@@ -98,7 +98,6 @@
     .header-2 .navy ul ul .active a{
         color: <?php echo $active_text_color;?>        
     }
-.sidebar span{ margin-top:10px; display:block}
     .real-estate .re-big-form{
         padding: 15px 0 0 0;
         <?php 

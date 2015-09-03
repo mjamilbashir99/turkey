@@ -65,13 +65,13 @@
     <!-- Container -->
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-3">
+            <div class="col-md-2 col-sm-2">
                 <!-- Logo section -->
                 <div class="logo">
                     <h3><a href="<?php echo site_url();?>"><img src="<?php echo get_site_logo();?>" alt="Logo" style="height:63px"></a></h3>
                 </div>
             </div>
-            <div class="col-md-9 col-sm-9">
+            <div class="col-md-10 col-sm-10">
 
                 <!-- Navigation starts.  -->
                 <div class="navy">
