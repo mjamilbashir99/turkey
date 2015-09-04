@@ -499,9 +499,7 @@
                                 </center> <br>
                                 <!-- <a href="#" class="dRead">READ MORE</a> -->
                                 <p>&nbsp;</p></div>
-                                <?php  
-                                }
-                                ?>
+                               
                                 <br style="clear:both;">
                                 <center>
                                 <?php
@@ -512,7 +510,21 @@
                                 } 
                                 ?>
                                 </center>
+                                <center>
+                                Publications :
+                                <?php 
+									//var_dump($all_Magazines); 
+								foreach ($all_Magazines as $all_Magazines_user_id) 
+                                {
+								echo '<a href="'.site_url('emagazine_details/'.$all_Magazines_user_id->emag_id).'">'.$all_Magazines_user_id->title.'|</a>';
+								}
+								
+								?>
+                                 </center>
                                 </div>
+                                 <?php  
+                                }
+                                ?>
                                 <div class="col-sm-12" style="text-align:center;"></div> 
                                 <div class="clearfix"></div>
                             </div>
