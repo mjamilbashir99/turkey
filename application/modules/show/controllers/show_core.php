@@ -72,6 +72,7 @@ class Show_core extends CI_controller {
 		$value['apps']      = $this->show_model->get_apps_post_id($rows->id,10);
 		$value['magazine'] = $this->show_model->get_magazines_post_id($rows->id);
 		$value['issues']    = $this->show_model->get_issues_post_id($value['magazine']->mag_id);
+		$value['all_Magazines']    = $this->show_model->get_all_Magazines_user_id($rows->created_by);
 		$value['video_url'] = $this->show_model->get_video_url_user_id($rows->created_by);
 		$data['content'] 	= load_view('detail_view',$value,TRUE);
 		$data['alias']	    = 'detail';
@@ -105,7 +106,7 @@ class Show_core extends CI_controller {
 			$data['seo']				= $seo;
 			load_template($data,$this->active_theme);
 		}
-		$this->output->enable_profiler(1);
+		//$this->output->enable_profiler(1);
 	}
 
 	public function printview($unique_id='')
