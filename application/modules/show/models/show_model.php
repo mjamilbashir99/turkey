@@ -34,6 +34,18 @@ class Show_model extends Show_model_core {
   $query = $this->db->get();
   return $query->result();
  }
+ function get_all_magazines_user_id($created_by)
+ {
+  $this->db->select('magazines.*,posts.category,posts.city,magazines.id as emag_id');
+  $this->db->from('magazines');
+  $this->db->join('posts', 'posts.id = magazines.post_id');
+  $this->db->limit($limit);
+  $this->db->where('posts.created_by', $created_by); 
+  $this->db->order_by("magazines.id","desc");  
+  $this->db->group_by("magazines.id");   
+  $query = $this->db->get();
+  return $query->result();
+ }
  function getMagazineDetails($id)
  {
   $select = 'magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by,posts.title,';
