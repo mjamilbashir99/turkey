@@ -16,18 +16,20 @@ class Show_model extends Show_model_core {
 	{
 		parent::__construct();
 	}
- function listMagazines($type='all',$region='',$category='',$limit=18)
+ function listMagazines($type='all',$region='',$category='',$limit=36)
  {
   $this->db->select('magazines.*,posts.category,posts.city,magazines.id as mag_id');
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
-  $this->db->limit($limit);
+  $this->db->limit(36);
   if($type!='all')
    $this->db->where('posts.featured',1);
      if($region!='')
    $this->db->where('posts.city', $region);  
      if($category!='')
-     $this->db->where('posts.category', $category); 
+     $this->db->where('posts.category', $category);
+	 
+      $this->db->where('magazines.title !=', '');	  
 
   $this->db->order_by("magazines.id","desc");  
   $this->db->group_by("magazines.id");   
@@ -39,11 +41,11 @@ class Show_model extends Show_model_core {
   $this->db->select('magazines.*,posts.category,posts.city,magazines.id as emag_id');
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
-  $this->db->limit($limit);
+  $this->db->limit(10);
   $this->db->where('posts.created_by', $created_by); 
+  $this->db->where('magazines.title !=', '');	
   $this->db->order_by("magazines.id","desc");  
-  $this->db->group_by("magazines.id");   
-  $query = $this->db->get();
+   $query = $this->db->get();
   return $query->result();
  }
  function getMagazineDetails($id)
@@ -55,6 +57,7 @@ class Show_model extends Show_model_core {
   $this->db->join('posts', 'posts.id = magazines.post_id');
   $this->db->join('issues', 'issues.magazine_id = magazines.id');
   $this->db->where('issues.id', $id); 
+  $this->db->where('magazines.title !=', '');	
   $query = $this->db->get();
   return $query->row();
  }
@@ -65,6 +68,7 @@ class Show_model extends Show_model_core {
 		$this->db->from('magazines');
 		$this->db->join('issues', 'issues.magazine_id = magazines.id');
 		$this->db->where('magazines.id', $id);
+		$this->db->where('magazines.title !=', '');	
 		$this->db->order_by("issues.id","desc");    
 		$query = $this->db->get();
 		return $query->result();
@@ -82,6 +86,7 @@ class Show_model extends Show_model_core {
 			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
+		$this->db->where('apps.title !=', '');	   
 		$this->db->order_by('apps.id', "desc");    
 		$query = $this->db->get();
 		return $query->result();
@@ -92,6 +97,7 @@ class Show_model extends Show_model_core {
 		$this->db->from('apps');
 		$this->db->join('posts', 'posts.id = apps.post_id');
 		$this->db->where('apps.id', $id); 
+		$this->db->where('apps.title !=', '');	
 		$query = $this->db->get();
 		return $query->row();
 	}

@@ -101,7 +101,7 @@
 
                             <div class="single-property">
 
-                                <?php $i=0; $images = ($post->gallery!='')?json_decode($post->gallery):array();?>
+                                <?php $i=0; $gallery_images = $images = ($post->gallery!='')?json_decode($post->gallery):array();?>
 
                                 <div class="detail-slider">
                                     <ul id="imageGallery">
@@ -349,16 +349,16 @@
                                 <div class="clearfix"></div>
                                 
 								<?php if($post->video_url !=''){?>
-                                <h4 class="info-subtitle"><i class="fa fa-film"></i> <?php echo lang_key('featured_video'); ?></h4>
+                                <h4 class="info-subtitle"><i class="fa fa-film" id="featured_video"></i> <?php echo lang_key('featured_video'); ?></h4>
                                     <span id="video_preview"></span>
 
                                     <input type="hidden" name="video_url" id="video_url" value="<?php echo $post->video_url;?>">
                                 <?php }?>
-								<h4>PUBLISHED : <?php echo get_post_data_by_lang($post,'title');?></h4>
-                                  <?php if(isset($post->video_url) || 1) {?>
-                                  <div class="col-sm-12" style="text-align:center;">
+								 <?php if(isset($post->video_url)) {?>
+                                  
+                                 <h4 class="info-subtitle"><i class="fa fa-film"></i> Other Videos</h4>
                                   <?php
-								   $k=1;
+								  $k=1;
 								  foreach ($video_url as $video_urls) 
                                   {
                                      for($i=0;$i<10;$i++)
@@ -368,29 +368,27 @@
 									  {
 										 if($k>1)
 										 echo " | ";
-										 $tmp_url =  site_url('videos?watch='.$post->id."-".$i);
-										 echo " <a href='".$tmp_url."'>video $k</a>";
-										 $k++;
+										 // $tmp_url =  site_url('videos?watch='.$post->id."-".$i);
+										 echo "<a rel='".$video_urls->$obj."' class='vidoe_links'>video $k</a>";
+										 $k++;	//echo $video_urls->$obj."<br>";
 									  }
 									 }
 								  }
 								 ?>
-                                            </div> 
-                                            <?php } ?> 
-                                        
+                                 <?php } ?> 
                                 <!--feature apps-->
                                 <?php if(isset($app[0]->title)){
 								
 										 $images = json_decode($app[0]->gallery);
 											   ?>
-                                <h4 class="info-subtitle"><i class="fa fa-film"></i> Feature App</h4>
+                                <h4 class="info-subtitle"><i class="fa fa-film" id="featured_app"></i> Featured Application</h4>
                                <div class="mPictureBox">
-                               <a href="<?php echo site_url('apps_details/'.$app[0]->id);?>">
-  <img src="<?php echo get_app_large_image($app[0]->featured_img); ?>" id="image" style="display: block; margin: 0px auto;" class="img-responsive img-thumbnail" width="288" height="408" align="left"/>
+                               <a  class="app_link" href="<?php echo site_url('apps_details/'.$app[0]->id);?>">
+  <img src="<?php echo get_app_large_image($app[0]->featured_img); ?>" id="image" style="display: block; margin: 0px auto;" class="img-responsive img-thumbnail app_image" width="288" height="408" align="left"/>
   </a>
      <h4> Gallery  </h4>
 <?php if(count($images)>0){?>
-	<ul class="gallery">
+	<ul class="gallery gallery_images">
 		<?php for($img=0;$img<count($images);$img++){?>
         <li>
 		<div class="mtop">
@@ -405,28 +403,28 @@
 </div>
                             <div class="mContent">
  <h2 style="border-bottom:none; margin-bottom:0px;">
-<font size="6"> <?php echo $app[0]->title;?> </font></h2>
+<font size="6" class="app_name"> <?php echo $app[0]->title;?> </font></h2>
 <?php include("share_this.php")?>
 	LANGUAGE : English
 	</br>
 	<h5>Apps Description</h5>
-	<p ><?php echo $app[0]->description;?>.</p>
-	<center> <a href="<?php echo $app[0]->android?>">
+	<div class="app_description"><?php echo $app[0]->description;?>.</div>
+	<center> <a href="<?php echo $app[0]->android?>" class="app_android">
                                         <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
                                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $app[0]->mac?>">
+                                        <a href="<?php echo $app[0]->mac?>" class="app_mac">
                                         <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
                                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $app[0]->window?>">
+                                        <a href="<?php echo $app[0]->window?>"  class="app_window">
                                         <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
                                         </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="<?php echo $app[0]->qr?>">
+                                        <a href="<?php echo $app[0]->qr?>"  class="app_qr">
                                         <img src="<?php echo get_thumbs_image($app[0]->qr); ?>" width="85" />
                                         </a>
                                         </center> <br>
                         <!-- <a href="#" class="dRead">READ MORE</a> -->
                         <p>&nbsp;</p></div>
-                          <div class="col-sm-12" style="text-align:center;">
+                           <h4 class="info-subtitle"><i class="fa fa-film"></i> Other Applications</h4>
                                   <?php
 									if(count($apps))
 									{   
@@ -435,33 +433,29 @@
 									   {
 											if($i>1)
 											echo " | ";
-											  echo "<a href='".site_url("apps_details/".$app->id)."'>$app->title $i</a>";
+											  echo "<a class='app_links' href='".$app->id."'>$app->title $i</a>";
 											$i++;  
                    					   }
 									  }
 									?>
-                                            </div> 
+                                          
                                 <?php  } ?>
                                 <div class="clearfix"></div>
-                                 <!--feature magazines-->
-								<?php if(isset($magazine->issue_id)){?>  
-                                <div class="mDetail">
+                                 <!--feature magazines------------------------------------- -->
+								<?php if(isset($magazine->issue_id)){ $my_issue_id = $magazine->issue_id;?>  
+                                <div class="mDetail" id="featured_emagazine">
                                 <h4 class="info-subtitle"><i class="fa fa-book"></i> Featured Emagazine</h4>
                                 <?php  
-                                
                                 $images = json_decode($magazine->gallery);
                                 ?>
-                                
                                 <div class="mPictureBox">
-                                <a href="<?php echo site_url('emagazine_details/'.$magazine->issue_id);?>">
-                                <img id="image" src="<?php echo get_app_large_image($magazine->issue_image)?>" style="display: block; margin: 0px auto;" width="288" height="408"/>
-                                </a>
+                                <a class ="mag_link" href="<?php echo $detail_link=$magazine->url?>">
+                                <img id="mag_image" src="<?php echo get_app_large_image($magazine->issue_image)?>" style="display: block; margin: 0px auto;" width="288" height="408"/>                         </a>
+                                
                                 <h4> Gallery  </h4>
                                 <?php if(count($images)>0){?>
-                                <ul class="gallery">
-                                
+                                <ul class="gallery magazine_gallery">
                                 <?php for($img=0;$img<count($images);$img++){?>
-                                
                                 <li>
                                 <div class="mtop">
                                 <a title="Read" href="<?php echo get_gallery_image($images[$img])?>" class="lightbox">
@@ -474,53 +468,62 @@
                                 </div>
                                 <div class="mContent">
                                 <h2 style="border-bottom:none; margin-bottom:0px;">
-                                <font size="6"> <?php echo $magazine->name;?> </font></h2>
+                                <font size="6" class="mag_name"> <?php echo $magazine->name;?> </font></h2>
                                 <?php include("share_this.php")?>
                                 <div class="cFl">
                                 FREQUENCY : <?php echo $magazine->magazine_frequency;?> <br> 
-                                LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?> </a><br></div></br>
+                                LANGUAGE : <a href="#"><?php echo $magazine->magazine_language;?></a><br></div></br>
                                 <h5>Magazine Description</h5>
-                                <p ><?php echo $magazine->mag_description;?>.</p>
-                                <h5 >Issue Description</h5>
-                                <p><?php echo $magazine->issue_description;?></p>
+                                <div class="mag_description"><?php echo $magazine->mag_description;?></div>
+                                <h5>Issue Description</h5>
+                                <div class="issuse_description"><?php echo $magazine->issue_description;?></div>
                                 </br>
-                                <center> <a href="<?php echo $magazine->android?>">
+                                <center> <a href="<?php echo $magazine->android?>" class="link_adroid">
                                 <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" />
                                 </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="<?php echo $magazine->mac?>">
+                                <a href="<?php echo $magazine->mac?>" class="link_mac">
                                 <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" />
                                 </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="<?php echo $magazine->window?>">
+                                <a href="<?php echo $magazine->window?>" class="link_window">
                                 <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" />
                                 </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="<?php echo $magazine->qr?>">
+                                <a href="<?php echo $magazine->qr?>" class="link_qr">
                                 <img src="<?php echo get_thumbs_image($magazine->qr); ?>" width="85" />
                                 </a>
-                                </center> <br>
+                           		<br />
+                                <br />
+                                <a class="mname mag_link" href="<?php echo $detail_link?>" title="Detail">
+                               		 <img src="<?php echo theme_url();?>/assets/img/preview_button.gif" width="85" height="50" />
+                                </a> <br>
+                                </center>
                                 <!-- <a href="#" class="dRead">READ MORE</a> -->
                                 <p>&nbsp;</p></div>
-                               
                                 <br style="clear:both;">
-                                <center>
-                                <?php
+                                <h4 class="info-subtitle"><i class="fa fa-book"></i> Other Issues</h4>
+                                <p id="issues_list">
+								<?php
                                 $n=1;             
                                 foreach ($issues as $issue) 
                                 {
-								    echo '<a href="'.site_url('emagazine_details/'.$issue->id).'">'.$issue->name.'|</a>';
+									echo '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n++.'</a> |';
                                 } 
                                 ?>
-                                </center>
-                                <center>
-                                Publications :
-                                <?php 
-									//var_dump($all_Magazines); 
-								foreach ($all_Magazines as $all_Magazines_user_id) 
+                                </p>
+                                <h4 class="info-subtitle"><i class="fa fa-book"></i> Other Publications</h4>
+                              
+								<?php 
+							    //var_dump($all_Magazines); 
+								foreach ($all_magazines as $all_Magazines_user_id) 
                                 {
-								echo '<a href="'.site_url('emagazine_details/'.$all_Magazines_user_id->emag_id).'">'.$all_Magazines_user_id->title.'|</a>';
+									if($all_Magazines_user_id->title!='')
+									{
+										$issue_data = get_issues_by_id($all_Magazines_user_id->emag_id);
+										if($my_issue_id!=$issue_data->id)
+										echo '<a class="publications" href="'.$issue_data->id.'" rel="'.$all_Magazines_user_id->emag_id.'">'.$all_Magazines_user_id->title.'</a> |';
+									}
 								}
 								
 								?>
-                                 </center>
                                 </div>
                                  <?php  
                                 }
@@ -598,7 +601,7 @@
         <img src="<?php echo base_url('uploads/images/' . $post->featured_img); ?>" alt="" class="img-responsive " />
                                 </a>
                             </div>
-                            <?php foreach ($images as $img) { ?>
+                            <?php foreach ($gallery_images as $img) { ?>
                             <div class="thumb">
                                 <a href="<?php echo base_url('uploads/gallery/' . $img); ?>" class="lightbox">
                                 <img src="<?php echo base_url('uploads/gallery/' . $img); ?>" alt="" class="img-responsive " />
@@ -945,7 +948,76 @@ jQuery(document).ready(function(){
         }
     );
 });
+jQuery(document).ready(function(){
+    jQuery('.vidoe_links').click(function(e){
+            e.preventDefault();
+	 		my_video_url = jQuery(this).attr('rel');
+			showVideoPreview(my_video_url);
+			jQuery('html,body').animate({scrollTop: jQuery("#featured_video").offset().top},'slow');
+		});
+	 
+	jQuery('.app_links').click(function(e){
+            e.preventDefault();
+	 mag_id = jQuery(this).attr('href');
+	 //alert(mag_id);
+	 req_link = '<?php echo site_url('show/ajax_apps_details/')?>';
+		jQuery.post( req_link, { app_id: mag_id}, function( data ) {
+		jQuery('.app_link').attr('href',data.url);
+		jQuery('.app_image').attr('src',data.featured_image);
+		//alert(data.mag_image);
+		jQuery('.app_android').attr('href',data.android);
+		jQuery('.app_window').attr('href',data.window);
+		jQuery('.app_mac').attr('href',data.mac);
+		jQuery('.app_qr').attr('href',data.qr);
+		jQuery('.app_name').html(data.app_title);
+		jQuery('.gallery_images').html(data.gallery_images);
+		jQuery('.app_description').html(data.app_description);
+		 jQuery('html,body').animate({
+        scrollTop: jQuery("#featured_app").offset().top},
+        'slow');
+		//console.log(data); // 2pm
+		}, "json");
+	 
+	});
 
+	jQuery(document.body).on('click', ".publications", function(e){
+            e.preventDefault();
+	 mag_id = jQuery(this).attr('href');
+	 //alert(mag_id);
+	 req_link = '<?php echo site_url('show/ajax_emagazine_details/')?>';
+		jQuery.post( req_link, { mag_id: mag_id}, function( data ) {
+		jQuery('.mag_link').attr('href',data.url);
+		jQuery('#mag_image').attr('src',data.mag_image);
+		//alert(data.mag_image);
+		jQuery('.link_android').attr('href',data.android);
+		jQuery('.link_window').attr('href',data.window);
+		jQuery('.link_mac').attr('href',data.mac);
+		jQuery('.link_qr').attr('href',data.qr);
+		jQuery('.mag_name').html(data.name);
+		jQuery('.magazine_gallery').html(data.gallery_images);
+		jQuery('.mag_description').html(data.mag_description);
+		jQuery('.issuse_description').html(data.issue_description);
+		jQuery("#featured_emagazine").focus();
+		//console.log(data); // 2pm
+		 jQuery('html,body').animate({
+        scrollTop: jQuery("#featured_emagazine").offset().top},
+        'slow');
+		}, "json");
+	 
+	});
+	jQuery(document.body).on('click', ".publications", function(e){
+            e.preventDefault();
+	 pid = jQuery(this).attr('rel');
+	 //alert(mag_id);
+	 req_link = '<?php echo site_url('show/ajax_emagazine_issues/')?>';
+		jQuery.post( req_link, { pid: pid}, function( data ) {
+		jQuery('#issues_list').html(data.issues_str);
+		//console.log(data); // 2pm
+		}, "json");
+	 
+	});
+    
+});
 function init_send_contact_email_js()
 {
         jQuery('#message-form').submit(function(e){
@@ -1028,7 +1100,6 @@ function init_send_contact_email_js()
                 }
             );
         });
-
     }
 </script>
 <?php } ?>

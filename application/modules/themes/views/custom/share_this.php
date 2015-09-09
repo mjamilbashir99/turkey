@@ -1,3 +1,4 @@
+                               <?php if($_SERVER['HTTP_HOST']!='localhost'){?>
                                 <!-- AddThis Button BEGIN -->
                                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                                 <table>
@@ -11,3 +12,4 @@
                                 
                                 </tr></table>                                <p></p>
                                 <!-- AddThis Button END -->
+                                <?php }?>

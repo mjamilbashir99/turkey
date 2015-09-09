@@ -53,7 +53,51 @@ class Show extends Show_core {
 		$value['featured'] = $this->show_model->listMagazines('featured','','',4);
 		$data['content']   = load_view('emagazines_details',$value,TRUE);
 		load_template($data,$this->active_theme);
-		$this->output->enable_profiler(TRUE);
+		//$this->output->enable_profiler(TRUE);
+	}
+	public function ajax_emagazine_details()
+	{
+		$value = array();
+        if($this->input->post('mag_id'))
+		    $id = $this->input->post('mag_id');
+		else	
+			$id=0;
+		$row = $this->show_model->getMagazineDetails($id);
+		//var_dump($row);
+		$value = (array) $row;
+		$value['mag_image']= get_app_large_image($row->issue_image);
+		$images = json_decode($value['gallery']);
+		$gallery_images ='';
+		 for($img=0;$img<count($images);$img++){
+        $gallery_images .='<li>';
+		$gallery_images .='<div class="mtop">';
+		$gallery_images .='<a href="'.get_gallery_image($images[$img]).'" class="lightbox">';
+		$gallery_images .='<img src="'.get_gallery_image($images[$img]).'" width="84" height="100"/>';
+		$gallery_images .='	</a>';
+		$gallery_images .='</div>';
+		$gallery_images .='</li>';
+        }
+		$value['gallery_images']=$gallery_images;
+		
+		echo json_encode($value);
+		exit;
+	}
+	public function ajax_emagazine_issues()
+	{
+		$value = array();
+        if($this->input->post('pid'))
+		    $id = $this->input->post('pid');
+		else	
+			$id=0;
+		$issues = $this->show_model->get_issues_post_id($id);
+		$n=1; 
+		$str = '';            
+		foreach ($issues as $issue) 
+		{
+			$str .= '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n++.'</a> |';
+		} 
+		echo json_encode(array('issues_str'=>$str));
+		exit;
 	}
 	public function apps()
 	{
@@ -87,6 +131,37 @@ class Show extends Show_core {
 		$data['content']   = load_view('apps_details',$value,TRUE);
 		load_template($data,$this->active_theme);
 		//$this->output->enable_profiler(TRUE);
+	}
+	public function ajax_apps_details()
+	{
+        $value = array();
+	
+        if($this->input->post('app_id'))
+		    $id = $this->input->post('app_id');
+		else	
+			$id=0;
+		$row = $this->show_model->getAppsDetails($id);
+		//var_dump($row);
+		$value = (array) $row;
+		$value['featured_image']= get_app_large_image($row->app_img);
+		$images = json_decode($value['app_gallery']);
+		$gallery_images ='';
+		 for($img=0;$img<count($images);$img++){
+        $gallery_images .='<li>';
+		$gallery_images .='<div class="mtop">';
+		$gallery_images .='<a href="'.get_gallery_image($images[$img]).'" class="lightbox">';
+		$gallery_images .='<img src="'.get_gallery_image($images[$img]).'" width="84" height="100"/>';
+		$gallery_images .='	</a>';
+		$gallery_images .='</div>';
+		$gallery_images .='</li>';
+        }
+		$value['gallery_images']=$gallery_images;
+		echo json_encode($value);
+		exit;
+	
+	
+	
+	
 	}
 	public function videos()
 	{
