@@ -90,11 +90,11 @@ class Show extends Show_core {
 		else	
 			$id=0;
 		$issues = $this->show_model->get_issues_post_id($id);
-		$n=1; 
+		$n=count($issues); 
 		$str = '';            
 		foreach ($issues as $issue) 
 		{
-			$str .= '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n++.'</a> |';
+			$str .= '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n--.'</a> |';
 		} 
 		echo json_encode(array('issues_str'=>$str));
 		exit;

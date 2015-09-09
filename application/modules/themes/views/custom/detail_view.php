@@ -433,7 +433,7 @@
 									   {
 											if($i>1)
 											echo " | ";
-											  echo "<a class='app_links' href='".$app->id."'>$app->title $i</a>";
+											  echo "<a class='app_links' href='".$app->id."'>$app->title </a>";
 											$i++;  
                    					   }
 									  }
@@ -502,10 +502,10 @@
                                 <h4 class="info-subtitle"><i class="fa fa-book"></i> Other Issues</h4>
                                 <p id="issues_list">
 								<?php
-                                $n=1;             
+                                $n= count($issues);          
                                 foreach ($issues as $issue) 
                                 {
-									echo '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n++.'</a> |';
+									echo '<a class="publications" href="'.$issue->id.'" rel="'.$issue->magazine_id.'">'.$issue->name.' '.$n--.'</a> |';
                                 } 
                                 ?>
                                 </p>
