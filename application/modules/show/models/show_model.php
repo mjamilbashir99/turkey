@@ -50,8 +50,8 @@ class Show_model extends Show_model_core {
  }
  function getMagazineDetails($id)
  {
-  $select = 'magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by,posts.title,';
-  $select .= 'magazines.title as mag_title,magazines.description as mag_description,issues.description as issue_description';
+  $select = 'magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by,posts.title,posts.unique_id,';
+  $select .= 'magazines.title as mag_title,magazines.description as mag_description,issues.description as issue_description,posts.*';
   $this->db->select($select);
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
