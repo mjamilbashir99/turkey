@@ -354,7 +354,7 @@
 
                                     <input type="hidden" name="video_url" id="video_url" value="<?php echo $post->video_url;?>">
                                 <?php }?>
-								 <?php if(isset($post->video_url)) {?>
+								 <?php if(isset($video_url->url_0) and $video_url->url_0!='') {?>
                                   
                                  <h4 class="info-subtitle"><i class="fa fa-film"></i> Other Videos</h4>
                                   <?php
@@ -377,10 +377,9 @@
 								 ?>
                                  <?php } ?> 
                                 <!--feature apps-->
-                                <?php if(isset($app[0]->title)){
-								
-										 $images = json_decode($app[0]->gallery);
-											   ?>
+                                <?php if(isset($app[0]->title) AND $app[0]->title!=''){
+									 $images = json_decode($app[0]->gallery);
+								?>
                                 <h4 class="info-subtitle"><i class="fa fa-film" id="featured_app"></i> Featured Application</h4>
                                <div class="mPictureBox">
                                <a  class="app_link" href="<?php echo site_url('apps_details/'.$app[0]->id);?>">
@@ -442,7 +441,7 @@
                                 <?php  } ?>
                                 <div class="clearfix"></div>
                                  <!--feature magazines------------------------------------- -->
-								<?php if(isset($magazine->issue_id)){ $my_issue_id = $magazine->issue_id;?>  
+								<?php if(isset($magazine->issue_id) and $magazine->title!=''){ $my_issue_id = $magazine->issue_id;?>  
                                 <div class="mDetail" id="featured_emagazine">
                                 <h4 class="info-subtitle"><i class="fa fa-book"></i> Featured Emagazine</h4>
                                 <?php  
@@ -509,6 +508,7 @@
                                 } 
                                 ?>
                                 </p>
+                                <?php if(count($all_magazines)){?>
                                 <h4 class="info-subtitle"><i class="fa fa-book"></i> Other Publications</h4>
                               
 								<?php 
@@ -527,6 +527,7 @@
                                 </div>
                                  <?php  
                                 }
+								}
                                 ?>
                                 <div class="col-sm-12" style="text-align:center;"></div> 
                                 <div class="clearfix"></div>
