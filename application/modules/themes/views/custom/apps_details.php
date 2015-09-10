@@ -31,14 +31,12 @@
         <div class="mContent">
           <h2><?php echo $title?></h2>
           <?php include("share_this.php")?>
-          
-          CATEGORY : <?php echo get_category_title_by_id($app_data->category)?><br>
-          PUBLISHED : <a href="<?php echo post_detail_url($app_data)?>"><?php echo get_post_data_by_lang($app_data,'title');?></a><br>
+            CATEGORY : <?php echo get_category_title_by_id($app_data->category)?><br>
+            PUBLISHED : <a href="<?php echo post_detail_url($app_data)?>"><?php echo get_post_data_by_lang($app_data,'title');?></a><br>
           	LANGUAGE : English
           <h5>App Description</h5>
           <p><?php echo $app_data->app_description?></p>
           <div class="cFl"> 
-            
             <!--LANGUAGE:  <?php echo $app_data->magazine_language?>  <br>--></div>
           <a href="<?php echo $app_data->mac?>"> <img src="<?php echo theme_url();?>/assets/img/mac-icon.png" width="35" /> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo $app_data->android?>"> <img src="<?php echo theme_url();?>/assets/img/android-icon.png" width="35" /> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo $app_data->window?>"> <img src="<?php echo theme_url();?>/assets/img/win8-icon.png" width="35" /> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="<?php echo get_thumbs_image($app_data->qr)?>" width="85" /> <br>
         </div>
