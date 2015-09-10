@@ -51,7 +51,7 @@ class Show_model extends Show_model_core {
  function getMagazineDetails($id)
  {
   $select = 'magazines.*,issues.id as mag_id,issues.*,issues.featured_img as issue_image,posts.category,posts.created_by,posts.title,posts.unique_id,';
-  $select .= 'magazines.title as mag_title,magazines.description as mag_description,issues.description as issue_description,posts.*';
+  $select .= 'magazines.title as mag_title,magazines.description as mag_description,issues.description as issue_description';
   $this->db->select($select);
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
@@ -124,7 +124,7 @@ class Show_model extends Show_model_core {
 	}
 	function topVideo($type='latest',$region='',$category='',$post_id=0)
 	{
-		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time,posts.id as post_id');
+		$this->db->select('dbc_extra_video_urls.*,dbc_extra_video_urls.id as video_id,posts.category,posts.city,posts.video_url,posts.title,posts.last_update_time,posts.id as post_id,posts.unique_id');
 		$this->db->from('posts');
 		$this->db->join('dbc_extra_video_urls','posts.created_by = dbc_extra_video_urls.user_id','left');
 		$this->db->limit(1);

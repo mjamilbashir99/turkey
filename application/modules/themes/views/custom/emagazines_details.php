@@ -40,9 +40,9 @@
 
 <div class="mContent">
 <h1><?php echo $title?> <?php echo $magazine_data->month?> - <?php echo $magazine_data->year?></h1>
-<?php include("share_this.php")?>
+<?php include("share_this.php"); //var_dump($magazine_data);?>
 	<div class="cFl">
-    PUBLISHED: <a href="<?php echo magazine_detail_url($magazine_data)?>"><?php echo get_post_data_by_lang($magazine_data,'title');?></a><br>
+    PUBLISHED: <a href="<?php echo post_detail_url($magazine_data)?>"><?php echo get_post_data_by_lang($magazine_data,'title');?></a><br>
 	CATEGORY:  <?php echo get_category_title_by_id($magazine_data->category)?><br>
 	FREQUENCY: <?php echo $magazine_data->magazine_frequency?><br>
 	LANGUAGE:  <?php echo $magazine_data->magazine_language?>  <br></div>

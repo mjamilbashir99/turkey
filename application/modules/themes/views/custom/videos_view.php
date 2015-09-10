@@ -64,9 +64,8 @@ img.mtop {
 			}
         ?>
         <?php //var_dump($topVideo) ?>
-        <h4>PUBLISHED : <?php echo ucwords(get_post_data_by_lang($topVideo,'title'));?><br></h4>
-<br><br><br><br>
-      
+        <h4>PUBLISHED : <a href="<?php echo post_detail_url($topVideo)?>" style="color:#1faabe"><?php echo ucwords(get_post_data_by_lang($topVideo,'title'));?></a></h4>
+<br><br><br>
 </div>
 <?php }?>
 
@@ -226,8 +225,9 @@ img.mtop {
           <div class="magazine">
           <h2><i class="fa fa-film"></i> Featured Vidoes</h2>
     <?php 
-	     if(count($featured)>0){
-			 echo "<ul>";
+	     if(count($featured)>0)
+		 {
+		 echo "<ul>";
 		 foreach($featured as $video)
 	     {
 			 $detail_link = site_url("videos?watch=").$video->post_id;
@@ -303,30 +303,27 @@ img.mtop {
     </div>
 </div>
 <script>
- function getUrlVars(url) {
-
+function getUrlVars(url)
+{
         var vars = {};
-
-        var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-
-            vars[key] = value;
-
-        });
-
+        var parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value){vars[key] = value;});
         return vars;
-
-    }
-function youtube_parser(url){
+}
+function youtube_parser(url)
+{
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     var match = url.match(regExp);
-    if (match&&match[7].length==11){
+    if(match&&match[7].length==11)
+	{
         return match[7];
-    }else{
+    }
+	else
+	{
         return '';
     }
 }
- function showVideoPreview(url)
-    {
+function showVideoPreview(url)
+{
         my_id = youtube_parser(url);
         if(my_id!='')
         {
@@ -347,34 +344,19 @@ function youtube_parser(url){
             jQuery('#video_preview').html(code);
         }
         else if(url.search("vimeo.com")!=-1)
-
         {
-
             //http://vimeo.com/64547919
-
             var segments = url.split("/");
-
             var length = segments.length;
-
             length--;
-
             var video_id = segments[length];
-
             var src  = url.replace("vimeo.com","player.vimeo.com/video");
-
             var code = '<iframe class="thumbnail" src="//player.vimeo.com/video/'+video_id+'" width="100%" height="420" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-
             jQuery('#video_preview').html(code);
-
         }
-
         else
-
         {
-
-
         }
-
-    }
+}
 showVideoPreview('<?php echo $current_video_url?>');
 </script>
