@@ -354,7 +354,8 @@
 
                                     <input type="hidden" name="video_url" id="video_url" value="<?php echo $post->video_url;?>">
                                 <?php }?>
-								 <?php if(isset($video_url->url_0) and $video_url->url_0!='') {?>
+								 <?php //var_dump($video_url);?>
+								 <?php if(isset($video_url[0]->url_0) and $video_url[0]->url_0!='') {?>
                                   
                                  <h4 class="info-subtitle"><i class="fa fa-film"></i> Other Videos</h4>
                                   <?php
