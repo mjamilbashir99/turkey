@@ -15,11 +15,11 @@ $parent_categories = $CI->post_model->get_all_post_categories();
             <?php
             $i = 0;
             foreach ($parent_categories->result() as $parent) {
-            var_dump($parent);
+       var_dump($parent);
 			$i++;
             ?>
                 <li class="col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                 <a href="<?php echo site_url('post-view/?category='.$parent->id);?>">
+                 <a href="<?php echo site_url('post-detail/'.$parent->id);?>">
 				 	<?php echo lang_key($parent->name); ?> 
                     <span class="color">(<?php echo $CI->post_model->count_news_by($parent->id);?>)</span>
                  </a>
