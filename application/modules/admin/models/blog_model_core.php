@@ -119,8 +119,8 @@ function get_all_locations_by_parent($parent='')
 	
 function get_all_categories()
 	{
-		$this->db->order_by('title','desc');
-		$query = $this->db->get_where('categories',array('status'=>1));
+		$this->db->order_by('name','desc');
+		$query = $this->db->get_where('categories_post');
 		$categories = array();
 		foreach ($query->result() as $row) {
 			array_push($categories,$row);
@@ -152,9 +152,28 @@ function get_all_categories()
 
 	}
 
+function get_catgory_type($type)
+
+	{
+		$query = $this->db->get_where('categories_post',array('type'=>$type));
+
+		if($query->num_rows()<=0)
+
+		{
+			$res = new stdClass();
+			return $res;
+		}
+		else
+
+		{
+			return $query->result();
+
+		}
+
+	}
+
+
 }
-
-
 
 /* End of file page_model_core.php */
 

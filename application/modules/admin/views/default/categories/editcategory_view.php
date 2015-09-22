@@ -39,31 +39,7 @@
 		?>
 		
 
-		<div class="form-group">
-
-			<label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('type');?></label>
-
-			<div class="col-sm-4 col-md-4 controls">
-				<?php 
-					$this->config->load('business_directory');
-					$options = $this->config->item('blog_post_types');
-				?>
-				<select name="type" class="form-control">
-					<?php foreach ($options as $key => $val) {
-						$sel = ($type==$key)?'selected="selected"':'';
-					?>
-						<option value="<?php echo $key;?>" <?php echo $sel;?>><?php echo lang_key($val);?></option>
-					<?php
-					}?>
-				</select>
-
-				<span class="help-inline">&nbsp;</span>
-
-				<?php echo form_error('type'); ?>
-
-			</div>
-
-		</div>
+		
 
 				<div class="form-group icon-class-holder">
 					<label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('fa_icon');?>:</label>
@@ -73,62 +49,7 @@
 					</div>
 				</div>
 	<div style="clear:both"></div>
-  <?php 
-            $CI = get_instance();
-            $CI->load->model('admin/system_model');
-            $langs = $CI->system_model->get_all_langs();
-            ?>
-            <div class="tabbable">
-                <ul class="nav nav-tabs" id="myTab1">
-                    <?php $flag=1; foreach ($langs as $lang=>$long_name){ 
-                    	?>
-                    <li class="<?php echo (default_lang()==$lang)?'active':'';?>"><a data-toggle="tab" href="#<?php echo $lang;?>"><i class="fa fa-home"></i> <?php echo $lang;?></a></li>
-                    <?php $flag++; }?>
-                </ul>
-                <div class="tab-content" id="myTabContent1">
-                     <?php $flag=1; foreach ($langs as $lang=>$long_name){ 
-                     	?>
-                     <div id="<?php echo $lang;?>" class="tab-pane fade in <?php echo (default_lang()==$lang)?'active':'';?>">
-                    
-
-						<div class="form-group">
-
-						<label class="col-sm-12 col-lg-12 control-label"style="text-align:left;"><?php echo lang_key('description');?> :</label>
-
-							<div class="col-sm-12 col-md-12 controls">
-
-								<?php 
-
-									$description = '';
-
-									if(set_value('description_'.$lang)!='')
-
-										$description = set_value('description_'.$lang);
-
-									else if(isset($post) && isset($post->description))
-									{
-										$data = json_decode($post->description);
-										$description = $data->{$lang};
-									}
-
-								?>		
-
-								<textarea name="description_<?php echo $lang;?>" class="rich" style="height:434px"><?php echo $description;?></textarea>
-
-								<span class="help-inline">&nbsp;</span>
-
-								<?php echo form_error('description_'.$lang); ?>
-
-							</div>
-
-						</div>
-
-
-
-                    </div>
-                    <?php $flag++; }?>
-                </div>
-            </div>
+  
             
             
             		<div style="clear:both"></div>	

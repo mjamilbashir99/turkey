@@ -365,7 +365,7 @@ if ( ! function_exists('get_all_countries'))
  
 if ( ! function_exists('get_all_locations_by_type'))
 {
-	function get_all_locations_by_type($type='country')
+	function get_all_locations_by_type($type='city')
 	{
 		$CI = get_instance();
 		$CI->load->database();
@@ -374,6 +374,29 @@ if ( ! function_exists('get_all_locations_by_type'))
 		return $query;
 	}
 }
+if ( ! function_exists('get_all_county_by_name'))
+{
+	function get_all_county_by_name()
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->order_by('name', 'asc');
+		$query = $CI->db->get_where('county',array('type'=>'city'));
+		return $query->result();
+	}
+}
+if ( ! function_exists('get_all_city_by_county'))
+{
+	function get_all_city_by_county($type)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->select('city');
+		$query = $CI->db->get_where('county',array('id'=>$type));
+		return $query->result();
+	}
+}
+//print_r ($re=get_all_city_by_county());
 
 if ( ! function_exists('get_all_child_of_location'))
 {
@@ -1396,6 +1419,42 @@ if ( ! function_exists('get_category_title_by_id'))
 		{
 			$row = $query->row();
 			return lang_key($row->title);
+		}
+		else
+			return '';
+	}
+}
+if ( ! function_exists('get_category_post_by_id'))
+{
+	function get_category_post_by_id($id='')
+	{
+		if($id==0)
+			return 'No id';
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('categories_post',array('id'=>$id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return lang_key($row->name);
+		}
+		else
+			return '';
+	}
+}
+if ( ! function_exists('get_county_by_id'))
+{
+	function get_county_by_id($id='')
+	{
+		if($id==0)
+			return 'No id';
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('county',array('id'=>$id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return lang_key($row->name);
 		}
 		else
 			return '';

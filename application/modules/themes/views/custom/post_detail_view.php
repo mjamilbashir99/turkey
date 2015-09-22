@@ -164,7 +164,9 @@ if(count($blogpost)<=0){
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
-                    <?php render_widgets('right_bar_blog_posts');?>
+                     <?php render_widgets('right_bar_blog_posts');?>
+                 <?php include_once('category_sidebar_new.php')?>
+                <?php include_once('locations_sidebar_new.php')?>
                 </div>
             </div>
 

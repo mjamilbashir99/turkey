@@ -3,6 +3,7 @@
 <!-- Page heading two starts -->
 <div class="page-heading-two">
     <div class="container">
+   
         <h2><?php echo get_location_name_by_id($location_id);?></h2>
         <div class="breads">
             <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <a href="<?php echo site_url('show/location/'); ?>"><?php echo lang_key('location'); ?></a> / <?php echo get_location_name_by_id($location_id);?>

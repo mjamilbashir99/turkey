@@ -33,31 +33,30 @@ class County_model_core extends CI_Model
 	function get_all_counties_by_range($start,$sort_by='')
 	{
 		$this->db->order_by($sort_by, "asc");
-		$this->db->where('status',1); 
-		$query = $this->db->get('locations');
+		//$this->db->where('status',1); 
+		$query = $this->db->get('county');
 		return $query;
 	}
 
 	function delete_county_by_id($id)
 	{
-		$data['status'] = 0;
-		$this->db->update('locations',$data,array('id'=>$id));
+		$this->db->delete('dbc_county',array('id'=>$id));
 	}
 
 	function insert_county($data)
 	{
-		$this->db->insert('dbc_locations',$data);
+		$this->db->insert('dbc_county',$data);
 		return $this->db->insert_id();
 	}
 
 	function update_county($data,$id)
 	{
-		$this->db->update('locations',$data,array('id'=>$id));
+		$this->db->update('county',$data,array('id'=>$id));
 	}
 
 	function get_county_by_id($id)
 	{
-		$query = $this->db->get_where('locations',array('id'=>$id));
+		$query = $this->db->get_where('county',array('id'=>$id));
 		if($query->num_rows()<=0)
 		{
 			echo 'Invalid county id';die;

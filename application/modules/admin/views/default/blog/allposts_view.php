@@ -41,9 +41,13 @@
 
                   <th class="numeric">#</th>
 
-                  <th class="numeric"><?php echo lang_key('type');?></th>
+                  <th class="numeric"><?php echo lang_key('Group');?></th>
 
                   <th class="numeric"><?php echo lang_key('title');?></th>
+                   <th class="numeric"><?php echo lang_key('Cities/County');?></th>
+
+                  <th class="numeric"><?php echo lang_key('Category');?></th>
+
 
                   <th class="numeric"><?php echo lang_key('description');?></th>
 
@@ -63,9 +67,31 @@
 
                   <td data-title="#" class="numeric"><?php echo $i;?></td>
 
-                  <td data-title="<?php echo lang_key('type');?>" class="numeric"><?php echo lang_key($row->type);?></td>
+                  <td data-title="<?php echo lang_key('type');?>" class="numeric"><?php 
+				  
+				  if(lang_key($row->type)=="Article"){
+						echo "Destination";
+						 }
+						 else{
+					 echo lang_key($row->type);
+					   }
+				  
+				  ?></td>
 
+<?php  $get_city =$row->country; 
+$res=get_all_city_by_county($get_city);
+
+?>
                   <td data-title="<?php echo lang_key('title');?>" class="numeric"><a href="<?php echo site_url('admin/blog/manage/'.$row->id);?>"><?php echo get_blog_data_by_lang($row,'title');?></a></td>
+                  <td data-title="<?php echo lang_key('Cities/County');?>" class="numeric">
+				  <?php
+				 
+				   foreach($res as $result)
+				{
+				echo $result->city;	
+					}?> - <?php echo get_county_by_id($row->country);?></td>
+
+                  <td data-title="<?php echo lang_key('Category');?>" class="numeric"><?php echo get_category_post_by_id($row->category);?></td>
 
                   <td data-title="<?php echo lang_key('description');?>" class="numeric"><?php echo truncate(encode_html(get_blog_data_by_lang($row,'description')),30,'...',false);?></td>
 
@@ -84,8 +110,6 @@
                     ?>
 
                   </td>
-
-                  
 
                    <?php $curr_page = ($this->uri->segment(5)!='')?$this->uri->segment(5):0;?>
 

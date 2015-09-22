@@ -12,27 +12,21 @@
 
       		<div class="box-content">
       		<form class="form-horizontal" id="addcounty" action="<?php echo site_url('admin/county/addcounty');?>" method="post">
-			<div class="form-group">
-                                 <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('Select County');?></label>
-                                        <div class="col-sm-4 col-md-4 controls">
-                                        <select id="input-11" name="state" class="form-control chosen-select">
-                                            <option data-name="" value="any"><?php echo lang_key('any_state');?></option>
-                                              <?php foreach (get_all_locations_by_type('state')->result() as $row) {
-                                                  $sel = ($row->id==set_value('state'))?'selected="selected"':'';
-                                                  ?>
-                                                  <option data-name="<?php echo $row->name;?>" class="cities state-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
-                                              <?php }?>
-                                        </select>
-                                    </div>
-                                </div>				
-
-        
+            <div class="form-group">
+					<label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('Add County');?>:</label>
+					<div class="col-sm-4 col-md-4 controls">
+						<input type="text" name="state" value="<?php echo(set_value('title')!='')?set_value('title'):'';?>" placeholder="<?php echo lang_key('type_something');?>" class="form-control input-sm" >
+						<?php echo form_error('title'); ?>
+					</div>
+				</div>	
                                     <div class="form-group">
                                         <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('select_city');?></label>
                                         <div class="col-sm-4 col-md-4 controls">
+                                        <?php $res =get_all_locations_by_type('state')->result()?>
                                         <select id="input-11" name="city" class="form-control chosen-select">
-                                            <option data-name="" value="any"><?php echo lang_key('any_city');?></option>
-                                              <?php foreach (get_all_locations_by_type('city')->result() as $row) {
+                                            <option data-name="" value="any"><?php echo lang_key('Select city');?></option>
+                                              <?php 
+											  foreach ($res as $row) {
                                                   $sel = ($row->id==set_value('city'))?'selected="selected"':'';
                                                   ?>
                                                   <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->name;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
@@ -41,77 +35,19 @@
                                     </div>
                                 </div>
 
-
-				
-                
-                
-<div style="clear:both"></div>
-
-  <?php 
-            $CI = get_instance();
-            $CI->load->model('admin/system_model');
-            $langs = $CI->system_model->get_all_langs();
-            ?>
-            <div class="tabbable">
-                <ul class="nav nav-tabs" id="myTab1">
-                    <?php $flag=1; foreach ($langs as $lang=>$long_name){ 
-                    	?>
-                    <li class="<?php echo (default_lang()==$lang)?'active':'';?>"><a data-toggle="tab" href="#<?php echo $lang;?>"><i class="fa fa-home"></i> <?php echo $lang;?></a></li>
-                    <?php $flag++; }?>
-                </ul>
-                <div class="tab-content" id="myTabContent1">
-                     <?php $flag=1; foreach ($langs as $lang=>$long_name){ 
-                     	?>
-                     <div id="<?php echo $lang;?>" class="tab-pane fade in <?php echo (default_lang()==$lang)?'active':'';?>">
-                    
-
-						<div class="form-group">
-
-							<label class="col-sm-12 col-lg-12 control-label"style="text-align:left;"><?php echo lang_key('description');?> :</label>
-
-
-							<div class="col-sm-12 col-md-12 controls">
-
-								<?php 
-
-									$description = '';
-
-									if(set_value('description_'.$lang)!='')
-
-										$description = set_value('description_'.$lang);
-
-									else if(isset($post) && isset($post->description))
-									{
-										$data = json_decode($post->description);
-										$description = $data->{$lang};
-									}
-
-								?>		
-
-								<textarea name="description_<?php echo $lang;?>" class="rich" style="height:434px"><?php echo $description;?></textarea>
-
-								<span class="help-inline">&nbsp;</span>
-
-								<?php echo form_error('description_'.$lang); ?>
-
-							</div>
-
-						</div>
-
-
-
-                    </div>
-                    <?php $flag++; }?>
-                </div>
-            </div>
-            
-            
+          <div style="clear:both"></div>
+<div class="form-group">
+                                 <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('Description');?></label>
+                                        <div class="col-sm-4 col-md-4 controls">
+    <textarea name="description" cols="42" rows="10"></textarea>
+    </div>
+    </div>
             		<div style="clear:both"></div>	
 
 				<div class="form-group">
 					<label class="col-sm-3 col-md-3 control-label">&nbsp;</label>
 					<div class="col-sm-4 col-md-4 controls">
-						<img class="thumbnail" id="featured_photo" src="<?php echo get_featured_photo_by_id('');?>" style="width:256px;">
+                    <img class="thumbnail" id="featured_photo" src="<?php echo get_featured_photo_by_id('');?>" style="width:256px;">
 					</div>
 					<div class="clearfix"></div>
 					<span id="featured-photo-error"></span>

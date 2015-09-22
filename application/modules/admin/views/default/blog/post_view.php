@@ -45,10 +45,38 @@
 		</div>	
 
 		<div style="margin-bottom:20px;"></div>
+        
+   
+    
+    
+     <script>
+		
+		jQuery( document ).ready(function() {
+              $("#type").change(function(){
+				   type = jQuery('#type').val();
+       			   if(type!='')
+				   {
+					jQuery.post("<?php echo site_url('admin/blog/getcat');?>", { type:type}, function( data ) {
+					if(data.status==1)
+					{
+
+						jQuery( "#category" ).empty().append(data.html_str);
+					}
+					else
+					{
+
+					}
+					}, "json");
+				   }
+			  
+			  });                		
+
+		});
+    </script>
+					
 
 		<?php 
-
-			$type = '';
+          $type = '';
 
 			if(set_value('type')!='')
 
@@ -62,20 +90,28 @@
 		
 		<div class="form-group">
 
-			<label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('type');?></label>
+			<label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('Group');?></label>
 
 			<div class="col-sm-12 col-lg-12 controls">
 				<?php 
 					$this->config->load('business_directory');
 					$options = $this->config->item('blog_post_types');
 				?>
-				<select name="type" class="form-control">
-					<?php foreach ($options as $key => $val) {
+				<select name="type" id="type" class="form-control">
+                  <option data-name="" value=""><?php echo lang_key('Select Type');?></option>
+					<?php 
+					    foreach ($options as $key => $val) {
 						$sel = ($type==$key)?'selected="selected"':'';
 					?>
-						<option value="<?php echo $key;?>" <?php echo $sel;?>><?php echo lang_key($val);?></option>
-					<?php
-					}?>
+						<option value="<?php echo $key;?>" <?php echo $sel;?>>
+						<?php if(lang_key($val)=="Article")
+						{
+						      echo "Destination";
+						}else{
+					          echo lang_key($val);
+					    }?>
+                    </option>
+					<?php }?>
 				</select>
 
 				<span class="help-inline">&nbsp;</span>
@@ -88,18 +124,20 @@
         
         
         <div class="form-group">
-       <?php //var_dump($categories) ?>
-            <label class="col-sm12 col-lg-12 control-label" for="inputEmail1"><?php echo lang_key('category');?></label>
+       <?php //var_dump($rw) ?>
+            <label class="col-sm12 col-lg-12 control-label" for="inputEmail1"><?php echo lang_key('Category Post');?></label>
             <div class="col-sm-12 col-lg-12 controls">
-                <select name="category" class="form-control">
-                    <option value=""><?php echo lang_key('select_category');?></option>
-                    <?php foreach ($categories as $row) 
+                <select name="category" id="category" class="form-control">
+                    <option value=""><?php echo lang_key('Select Category');?></option>
+                    <?php 
+				
+					foreach ($categories as $row) 
+					 echo $row->id;
                     {
-                        
                         $v = (set_value('category')!='')?set_value('category'):$row->id;
                         $sel = ($v==$page->category)?'selected="selected"':'';
                     ?>
-                        <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->title);?></option>
+                        <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->name);?></option>
                     <?php
                     }?>
                 </select>
@@ -108,20 +146,23 @@
                             </div>
                             
                 <div class="form-group">
-                <label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('country');?></label>
+                <label class="col-sm12 col-lg-12 control-label"><?php echo lang_key('County');?></label>
+                 <?php $rw=get_all_county_by_name();?>
                 <div class="col-sm-12 col-lg-12 controls">
-                <select name="country"  class="form-control">
-                <option data-name="" value=""><?php echo lang_key('select_country');?></option>
-               
-                <?php foreach (get_all_locations_by_type('country')->result() as $row) 
+                <select name="county"  class="form-control">
+                <option data-name="" value=""><?php echo lang_key('Select County - City');?></option>
+				<?php
+				//var_dump($page);
+				
+				foreach($rw as $rws)
                 {
-				 $v = (set_value('country')!='')?set_value('country'):$row->id;
+				 $v = (set_value('county')!='')?set_value('county'):$rws->name;
                 $sel = ($v==$page->country)?'selected="selected"':'';
                 ?>
-                <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
+                <option value="<?php echo $rws->id;?>" <?php echo $sel;?>><?php echo $rws->name;?> - <?php echo $rws->city;?></option>
                 <?php }?>
                 </select>
-                <?php echo form_error('country');?>
+                <?php echo form_error('county');?>
                 </div>
                 </div>
                 

@@ -47,7 +47,7 @@
 
                                 </div>
                                 <!-- Paragraph -->
-                                <p><?php echo truncate(strip_tags($desc),400,'&nbsp;<a href="'.site_url('post-detail/'.$post->id.'/'.dbc_url_title($title)).'">'.lang_key('view_more').'</a>',false);?></p>
+                                <p><?php echo truncate(strip_tags($desc),400,'&nbsp;<a href="'.site_url('post-detail/'.$post->id.'/'.dbc_url_title($title)).'">'.lang_key('Click').'</a>',false);?></p>
                             </div>
                         </div>
                         <!-- Blog item ends -->
@@ -62,7 +62,10 @@
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
-                    <?php render_widgets('right_bar_blog_posts');?>
+                   <?php render_widgets('right_bar_blog_posts');?>
+                 <?php include_once('category_sidebar_new.php')?>
+                <?php include_once('locations_sidebar_new.php')?>
+                 
                 </div>
             </div>
 

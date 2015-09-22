@@ -15,7 +15,7 @@ body{
 	    <div class="percent">0%</div >
 	</div>
 
-	<form action="<?php echo site_url('admin/category/uploadfeaturedfile');?>" method="post" enctype="multipart/form-data">
+	<form action="<?php echo site_url('admin/county/uploadfeaturedfile');?>" method="post" enctype="multipart/form-data">
 	    <ol class="filelist">
 	    </ol>	
 	    	<input type="file" name="photoimg" style="height:auto;" >
@@ -61,7 +61,7 @@ jQuery(document).ready(function(){
 			else
 			{
 				if(response.error=='upload_invalid_min_dimensions')
-					response.error = 'Image needs to be minimum 256x256 px';
+					response.error = 'Image needs to be minimum 100x100 px';
 				var error = '<label class="col-sm-3 col-lg-2">&nbsp;</label><div class="col-sm-4 col-lg-5"><div class="alert alert-danger" style="margin-bottom:0;">'+response.error+'</div></div>';
 				window.parent.jQuery('#featured-photo-error').html(error);
 			}

@@ -43,7 +43,8 @@ class Blog_core extends CI_Controller {
 		$value['posts']  	= $this->blog_model->get_all_posts_by_range('all',$this->per_page,'create_time');
         $data['title'] 		= lang_key('all_posts');
         $data['content'] 	= load_admin_view('blog/allposts_view',$value,TRUE);
-		load_admin_view('template/template_view',$data);		
+		load_admin_view('template/template_view',$data);	
+				
 	}
 
 
@@ -52,7 +53,7 @@ class Blog_core extends CI_Controller {
 		$values 			= array();
 		$values['title'] 	= lang_key('new_post');
 		$values['categories'] 	= $this->blog_model->get_all_categories();
-		//$values['country']       = $this->blog_model->get_all_locations_by_parent($parent);
+		//$values['category']   = $this->blog_model->get_catgory_type($type);
 		if($id!='')
 		{
 			$values['title']  		= lang_key('update_post');
@@ -86,7 +87,7 @@ class Blog_core extends CI_Controller {
 			$data['featured_img'] 	= $this->input->post('featured_img');
 			$data['type'] 			= $this->input->post('type');
 			$data['category'] 		= $this->input->post('category');
-            $data['country'] 		= $this->input->post('country');
+            $data['country'] 		= $this->input->post('county');
 			$data['gallery'] 		= $this->input->post('gallery');
 			$data['gallery']        = json_encode($data['gallery']); 
 			$this->load->model('admin/system_model');
@@ -98,9 +99,9 @@ class Blog_core extends CI_Controller {
 			$gallery      = array();
             foreach ($langs as $lang=>$long_name)
             { 
-            	$titles[$lang] = $this->input->post('title_'.$lang);
-				$category[$lang] = $this->input->post('category_'.$lang);
-				$country[$lang] = $this->input->post('country_'.$lang);
+            	$titles[$lang]       = $this->input->post('title_'.$lang);
+				$category[$lang]     = $this->input->post('category_'.$lang);
+				$country[$lang]      = $this->input->post('country_'.$lang);
             	$descriptions[$lang] = $this->input->post('description_'.$lang);
             }        	
 
@@ -136,6 +137,22 @@ class Blog_core extends CI_Controller {
 
 	}
 	
+    public function getcat($type='')
+	{
+			$type 	= $this->input->post('type');
+			$res = $this->blog_model->get_catgory_type($type);
+			
+			$html = "";
+			//$html .="<option value=''>".lang_key('select_category')."</option>";
+			
+			foreach ( $res as $row)
+			{
+				$html.= "<option value='".$row->id."'>".lang_key($row->name)."</option>";
+			}
+			 echo json_encode(array("html_str"=>$html,'status'=>1));                       
+			 exit;
+		   //$this->output->enable_profiler(1);		
+	}
 
 	public function delete($page='0',$id='',$confirmation='')
 	{

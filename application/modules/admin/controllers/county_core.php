@@ -112,20 +112,12 @@ class County_core extends CI_Controller {
 			$format = 'DATE_RFC822';
 			$time = time();
 			$data 					= array();	
-			$data['parent_country'] = 92;
-		    $data['parent']         = $this->input->post('state');
-			$data['name'] 	        = $this->input->post('city');
+			$data['parent']         = 92;
+		    $data['name']           = $this->input->post('state');
+			$data['city'] 	        = $this->input->post('city');
 			$data['type']           = 'city';
 			$data['featured_img'] 	= $this->input->post('featured_img');
-			$data['status']			= 1;
-			$this->load->model('admin/system_model');
-            $langs = $this->system_model->get_all_langs();
-            $descriptions = array();
-            foreach ($langs as $lang=>$long_name)
-            { 
-            	$descriptions[$lang] = $this->input->post('description_'.$lang);
-            }        	
-			$data['description'] 	 = json_encode($descriptions);
+			$data['description'] 	 = $this->input->post('description');
 			
 			if(constant("ENVIRONMENT")=='demo')
 			{
@@ -157,25 +149,18 @@ class County_core extends CI_Controller {
 		else
 		{
 			$id = $this->input->post('id');
-
-		$this->load->helper('date');
+            $this->load->helper('date');
 			$format = 'DATE_RFC822';
 			$time = time();
-			$data 					= array();			
-			$data['parent_country'] = 92;
-		    $data['parent']         = $this->input->post('state');
-			$data['name'] 	        = $this->input->post('city');
+			$data 					= array();	
+			$data['parent']         = 92;
+		    $data['name']           = $this->input->post('state');
+			$data['city'] 	        = $this->input->post('city');
 			$data['type']           = 'city';
 			$data['featured_img'] 	= $this->input->post('featured_img');
-			$data['status']			= 1;
-			$this->load->model('admin/system_model');
-            $langs = $this->system_model->get_all_langs();
-            $descriptions = array();
-            foreach ($langs as $lang=>$long_name)
-            { 
-            	$descriptions[$lang] = $this->input->post('description_'.$lang);
-            }        	
-			$data['description'] 	 = json_encode($descriptions);
+			//$data['status']			= 1;
+			$data['description'] 	 = $this->input->post('description');
+			
 			
 			if(constant("ENVIRONMENT")=='demo')
 			{
@@ -190,7 +175,7 @@ class County_core extends CI_Controller {
 		}
 	}
 
-	public function featuredimguploader()
+	        public function featuredimguploader()
 
 	{
 
@@ -204,10 +189,10 @@ class County_core extends CI_Controller {
 		$config['upload_path'] 		= './uploads/'.$dir_name;
 		$config['allowed_types'] 	= 'gif|jpg|png';
 		$config['max_size'] 		= '5120';
-		$config['min_width'] 		= '300';
-		$config['min_height'] 		= '256';
+		$config['min_width'] 		= '100';
+		$config['min_height'] 		= '100';
 
-		$this->load->library('dbcupload', $config);
+		$this->load->library('dbcupload',$config);
 		$this->dbcupload->display_errors('', '');
 
 		if($this->dbcupload->do_upload('photoimg'))

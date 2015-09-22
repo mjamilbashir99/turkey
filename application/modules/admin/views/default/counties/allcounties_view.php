@@ -20,8 +20,10 @@
            <thead>
                <tr>
                   <th class="numeric">#</th>
-                  <th class="numeric"><?php echo lang_key('title');?></th>
+                  <th class="numeric"><?php echo lang_key('County');?></th>
+                   <th class="numeric"><?php echo lang_key('City');?></th>
                    <th class="numeric"><?php echo lang_key('Type');?></th>
+                    <th class="numeric"><?php echo lang_key('Description');?></th>
                   <th class="numeric"><?php echo lang_key('image');?></th>
                   <th class="numeric"><?php echo lang_key('actions');?></th>
                </tr>
@@ -32,8 +34,10 @@
 			?>
                <tr>
                   <td data-title="#" class="numeric"><?php echo $i;?></td>
-                  <td data-title="<?php echo lang_key('title');?>" class="numeric"><?php echo lang_key($row->name);?></td>
+                  <td data-title="<?php echo lang_key('County');?>" class="numeric"><?php echo lang_key($row->name);?></td>
+                   <td data-title="<?php echo lang_key('City');?>" class="numeric"><?php echo lang_key($row->city);?></td>
                   <td data-title="<?php echo lang_key('Type');?>" class="numeric"><?php echo $row->type;?></td>
+                  <td data-title="<?php echo lang_key('Description');?>" class="numeric"><?php echo $row->description;?></td>
                    <td data-title="<?php echo lang_key('image');?>" class="numeric"><img class="thumbnail" style="width:50px;margin-bottom:0px;" src="<?php echo get_featured_photo_by_id($row->featured_img);?>" /></td>
                   
                   <td data-title="<?php echo lang_key('actions');?>" class="numeric">
