@@ -1,3 +1,5 @@
+<link href="<?php echo theme_url();?>/assets/css/lightGallery.css" rel="stylesheet">
+<link href="<?php echo theme_url();?>/assets/css/style_listings.css" rel="stylesheet">
 <script type="text/javascript">
     var switchTo5x=true;
     var url = "http://w.sharethis.com/button/buttons.js";
@@ -5,6 +7,8 @@
         stLight.options({publisher: "14ee463c-2587-4a82-9bf6-73dad7fc1c93", doNotHash: false, doNotCopy: true, hashAddressBar: false});
     });
 </script>
+<script src="<?php echo theme_url(); ?>/assets/js/jquery.lightSlider.min.js"></script>
+<script src="<?php echo theme_url(); ?>/assets/js/lightGallery.min.js"></script>
 <?php
 if(count($blogpost)<=0){
 
@@ -71,14 +75,40 @@ if(count($blogpost)<=0){
                                 <div class="carousel-inner">
                                     <!-- Item, First item should have extra class "active" -->
                                     <div class="item active">
-                                        <!-- Image -->
-                                        <img src="<?php echo base_url('uploads/images/' . $blogpost->featured_img); ?>" alt="">
+                                        <!-- Image
+                                        <img src="<?php echo base_url('uploads/images/' . $blogpost->featured_img); ?>" alt=""> -->
                                     </div>
                                         
                                 </div>
 
                             </div>
+     						<div>
+                             <?php $i=0; $gallery_images = $images = ($blogpost->gallery!='')?json_decode($blogpost->gallery):array();?>
+                              <div class="detail-slider">
+                                    <ul id="imageGallery">
+                                        <li data-thumb="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>" data-src="<?php echo base_url().'uploads/images/'.$post->featured_img?>">
+                                           <img  src="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>" />
+                                        </li>
 
+                                        <?php $i=0; $images = ($blogpost->gallery!='')?json_decode($blogpost->gallery):array();?>
+                                        <?php 
+                                        if(count($images)>0)
+                                        { 
+                                            foreach ($images as $img) 
+                                            { 
+                                        ?>
+                                        <li data-thumb="<?php echo base_url('uploads/gallery/' . $img); ?>" data-src="<?php echo base_url('uploads/gallery/' . $img); ?>">
+                                            <img  src="<?php echo base_url('uploads/gallery/' . $img); ?>"/>
+                                        </li>
+                                        <?php 
+                                            }
+                                        } 
+                                        ?>
+
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
 
                             <!-- Paragraph -->
                             <p><?php echo get_blog_data_by_lang($blogpost,'description');?></p>
@@ -108,21 +138,14 @@ if(count($blogpost)<=0){
                         </div>
                         <div class="blog-author-content">
                         <?php
-						
 						$city=get_county_by_id($blogpost->country);
-							
 						$location_id=get_locations_by_name($city);
-					
-						
-							foreach($location_id as $locations)
-							//echo $locations->id ;
-							
-						 ?>
-                       <a href="<?php echo  site_url('video/?region='.$locations->parent);?>">
+						?>
+                       <a href="<?php echo  site_url('video/?region='.$blogpost->country);?>">
                        <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="80" style="margin-left:0px;" height="80"/> <strong><?php echo $city?> Base Video </strong>
-                       </a>  <a href="<?php echo site_url('magazine/?region='.$locations->parent);?>">
+                       </a>  <a href="<?php echo site_url('magazine/?region='.$blogpost->country);?>">
                        <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="80" style="margin-left:23px;" height="80"/> <strong> <?php echo $city?> Base Magazine </strong>
-                       </a>  <a href="<?php echo site_url('apps/?region='.$locations->parent);?>">
+                       </a>  <a href="<?php echo site_url('apps/?region='.$blogpost->country);?>">
                        <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="80" style="margin-left:30px;" height="80"/> <strong><?php echo $city?> Base App </strong>
                        </a>
                         </div>
@@ -199,3 +222,37 @@ if(count($blogpost)<=0){
     </div>
 
 </div>
+<script>
+  $(document).ready(function() {
+       /* $('#imageGallery').lightSlider({
+            gallery:false,
+            item:1,
+            speed:1000,
+            auto:true,
+            loop: true,
+            thumbItem:9,
+            slideMargin:0,
+            currentPagerPosition:'left',
+            onSliderLoad: function(plugin) {
+                plugin.lightGallery();
+            }
+        });*/
+		
+		    $('#imageGallery').lightSlider({
+        gallery:true,
+        item:1,
+        loop:true,
+        thumbItem:9,
+        slideMargin:0,
+        enableDrag: false,
+        currentPagerPosition:'left',
+        onSliderLoad: function(el) {
+            el.lightGallery({
+                selector: '#imageGallery .lslide'
+            });
+        }   
+    });  
+		
+		
+    });
+</script>

@@ -43,11 +43,11 @@ img.mtop {
 				   $current_video_url = $topVideo->$obj;
 			  }
 		?>
-        <div class="magazine">
+        <div class="magazine" id="featured_video">
         <?php //echo $current_video_url?>
-        <span id="video_preview">
-		</span>
+        <span id="video_preview"></span>
 		<?php 
+			//if(isset($topVideo[0]->url_0) and $topVideo[0]->url_0!='') {
 		    $k=1;
 			for($j=0;$j<10;$j++)
 			{
@@ -58,7 +58,7 @@ img.mtop {
 				{   $show_link = site_url("videos?watch=").$topVideo->post_id."-".$k;
 					if($k>1)
 					echo " | ";
-					echo "<a href='".$show_link."'><strong>Vidoe $k</strong></a>";
+					echo "<a href='".$show_link."' class='vidoe_links' rel='".$vido_link."'><strong>Video $k</strong></a>";
 					$k++;
 				} 
 			}
@@ -359,4 +359,13 @@ function showVideoPreview(url)
         }
 }
 showVideoPreview('<?php echo $current_video_url?>');
+
+jQuery(document).ready(function(){
+    jQuery('.vidoe_links').click(function(e){
+            e.preventDefault();
+	 		my_video_url = jQuery(this).attr('rel');
+			showVideoPreview(my_video_url);
+			jQuery('html,body').animate({scrollTop: jQuery("#featured_video").offset().top},'slow');
+		});
+});
 </script>
