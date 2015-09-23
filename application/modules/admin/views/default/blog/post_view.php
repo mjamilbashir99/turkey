@@ -159,7 +159,11 @@
 				 $v = (set_value('county')!='')?set_value('county'):$rws->name;
                 $sel = ($v==$page->country)?'selected="selected"':'';
                 ?>
+<<<<<<< HEAD
                 <option value="<?php echo $rws->id;?>" <?php echo $sel;?>><?php echo $rws->city;?>-<?php echo $rws->name;?>  </option>
+=======
+                <option value="<?php echo $rws->id;?>" <?php echo $sel;?>> <?php echo $rws->city;?> - <?php echo $rws->name;?> </option>
+>>>>>>> d8fe42090a31703b503a275e53e5220fece85e49
                 <?php }?>
                 </select>
                 <?php echo form_error('county');?>
