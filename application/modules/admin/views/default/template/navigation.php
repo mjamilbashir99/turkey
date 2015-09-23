@@ -348,7 +348,7 @@
                     <i class="fa fa-file-o"></i>
 
 
-                    <span><?php echo lang_key('blog_news_article'); ?></span>
+                    <span><?php echo lang_key('Blog News Destination'); ?></span>
 
 
                     <b class="arrow fa fa-angle-right"></b>

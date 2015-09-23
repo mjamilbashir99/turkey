@@ -431,15 +431,26 @@ class Show_core extends CI_controller {
     #********** blog posts functions start**************#
 	public function post($type='all',$start=0)
 	{
+
+     	$category ='all';
+		$location ='all';
+		if(isset($category) and $this->input->get('category')!=0 )
+		   $category = $this->input->get('category');
+		if(isset($location) and $this->input->get('location')!=0 )
+		   $location = $this->input->get('location');
+		 
 		$this->config->load('business_directory');
 		$options 				= $this->config->item('blog_post_types');
-		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,$this->PER_PAGE,'id','desc',$type);
+		$value['type']=$type;
+		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,$this->PER_PAGE,'id','desc',$type,$category,$location);
 		$total 					= $this->show_model->count_all_active_blog_posts($type);
 		$value['pages']			= configPagination('show/post/'.$type,$total,5,$this->PER_PAGE);
 		$value['page_title']	= (isset($options[$type]))?$options[$type]:$type;
 		$data['sub_title']		= (isset($options[$type]))?$options[$type]:$type;
 		$data['content'] 		= load_view('posts_view',$value,TRUE);
+
 		load_template($data,$this->active_theme);
+		//$this->output->enable_profiler(TRUE);
 
 	}
 

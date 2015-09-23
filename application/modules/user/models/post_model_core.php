@@ -99,20 +99,6 @@ class Post_model_core extends CI_Model
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
-	function count_news_by($category='',$region='')
-	{
-		$this->db->select('blog.category');
-		$this->db->from('blog');
-		$this->db->join('categories_post', 'categories_post.id = blog.category');
-		if($region!='')
-			$this->db->where('blog.country', $region);		
-	    if($category!='')
-		   $this->db->where('blog.category', $category); 
-		$query = $this->db->get();
-		return $query->num_rows();
-	}
-	
-	
 	function count_video_by($category='',$region='')
 	{
 	    $this->db->select('extra_video_urls.user_id');

@@ -374,6 +374,47 @@ if ( ! function_exists('get_all_locations_by_type'))
 		return $query;
 	}
 }
+
+if ( ! function_exists('get_county_by_id'))
+{
+	function get_county_by_id($id='')
+	{
+		if($id==0)
+			return 'No id';
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('county',array('id'=>$id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return lang_key($row->city);
+		}
+		else
+			return '';
+	}
+}
+if ( ! function_exists('get_locations_by_name'))
+{
+	function get_locations_by_name($name='')
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->order_by('name', 'asc');
+		$query = $CI->db->get_where('locations',array('name'=>$name,'status'=>1));
+		return $query->result();
+	}
+}
+if ( ! function_exists('get_county_by_id_city'))
+{
+	function get_county_by_id_city()
+	{
+		$CI = get_instance();
+		$CI->load->database($id='');
+		$CI->db->order_by('name', 'asc');
+		$query = $CI->db->get_where('county',array('id'=>$id));
+		return $query->result();
+	}
+}
 if ( ! function_exists('get_all_county_by_name'))
 {
 	function get_all_county_by_name()
@@ -1442,24 +1483,7 @@ if ( ! function_exists('get_category_post_by_id'))
 			return '';
 	}
 }
-if ( ! function_exists('get_county_by_id'))
-{
-	function get_county_by_id($id='')
-	{
-		if($id==0)
-			return 'No id';
-		$CI = get_instance();
-		$CI->load->database();
-		$query = $CI->db->get_where('county',array('id'=>$id));
-		if($query->num_rows()>0)
-		{
-			$row = $query->row();
-			return lang_key($row->name);
-		}
-		else
-			return '';
-	}
-}
+
 
 if ( ! function_exists('get_profile_photo_by_id'))
 {
@@ -1991,6 +2015,21 @@ if ( ! function_exists('get_review_with_half_stars'))
         
         $html .= '</span>';
 	    return $html;
+	}
+}
+if ( ! function_exists('count_blog_by'))
+{
+function count_blog_by($type,$category='',$region='')
+	{
+	   $CI = get_instance();
+		$CI->load->database();
+		$CI->db->where('blog.type', $type);		
+		if($region!='')
+			$CI->db->where('blog.country', $region);		
+		if($category!='')
+			$CI->db->where('blog.category', $category); 
+		return $num_rows = $CI->db->count_all_results('blog');
+
 	}
 }
 /* End of file array_helper.php */

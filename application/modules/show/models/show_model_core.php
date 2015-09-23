@@ -31,13 +31,16 @@ class Show_model_core extends CI_Model
 
 
 
-    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all")
-
+    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all",$category='all',$location='all')
     {
-
         if($type!='all')
             $this->db->where('type',$type);
+        if($category!='all')
+            $this->db->where('category',$category);
 
+        if($location!='all')
+            $this->db->where('country',$location);
+	    		
         $this->db->order_by($sort_by, $sort);
 
         $this->db->where('status',1); 
@@ -225,8 +228,6 @@ class Show_model_core extends CI_Model
 
     }
 
-
-
     function count_all_featured_estates() {
 
     	$this->db->where('featured',1);
@@ -236,8 +237,6 @@ class Show_model_core extends CI_Model
     	return $query->num_rows();
 
     }
-
-
 
     function count_all_estates_by_agent($agent_id){
 
@@ -249,17 +248,11 @@ class Show_model_core extends CI_Model
 
     }
 
-
-
     function get_estates_by_agent($agent_id, $start='all', $limit='10') {
-
-    	
 
     	$this->db->order_by('id','desc');
 
     	$this->db->where('created_by',$agent_id);
-
-
 
     	if($start==='all')
 
@@ -280,8 +273,6 @@ class Show_model_core extends CI_Model
 		return $query;
 
     }
-
-
 
     function get_latitude_longitude($address) {
 	

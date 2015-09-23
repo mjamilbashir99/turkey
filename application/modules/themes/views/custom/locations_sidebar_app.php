@@ -5,6 +5,7 @@
 
     <div class="widget-content categories">
         <ul class="list-6">
+        <?php // var_dump($locations); ?>
             <?php foreach ($locations as $post) { ?>
                 <li class="col-xs-12 col-sm-6 col-md-12 col-lg-12">
                     <a href="<?php echo site_url('apps/?region='.$post->state);?>">

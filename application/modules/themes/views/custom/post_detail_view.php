@@ -22,7 +22,7 @@ if(count($blogpost)<=0){
 <?php
 }
 ?>
-
+<?php // var_dump($blogpost);?>
 <!-- Container -->
 <div class="container">
 
@@ -74,7 +74,7 @@ if(count($blogpost)<=0){
                                         <!-- Image -->
                                         <img src="<?php echo base_url('uploads/images/' . $blogpost->featured_img); ?>" alt="">
                                     </div>
-
+                                        
                                 </div>
 
                             </div>
@@ -100,14 +100,39 @@ if(count($blogpost)<=0){
                     <div class="blog-author well">
                         <!-- Author image -->
                         <div class="blog-author-img">
-                            <img src="<?php echo get_profile_photo_by_id($blogpost->created_by); ?>" alt="" class="img-responsive img-thumbnail" />
+                            <img src="<?php //echo get_profile_photo_by_id($blogpost->created_by); ?>" alt="" class="img-responsive img-thumbnail" />
                         </div>
                         <!-- Author details -->
                         <div class="blog-author-content">
-                            <h5><?php echo get_user_fullname_by_id($blogpost->created_by); ?></h5>
+                            <h5><?php // echo get_user_fullname_by_id($blogpost->created_by); ?></h5>
+                        </div>
+                        <div class="blog-author-content">
+                        <?php
+						
+						$city=get_county_by_id($blogpost->country);
+							
+						$location_id=get_locations_by_name($city);
+					
+						
+							foreach($location_id as $locations)
+							//echo $locations->id ;
+							
+						 ?>
+                       <a href="<?php echo  site_url('video/?region='.$locations->parent);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="80" style="margin-left:0px;" height="80"/> <strong><?php echo $city?> Base Video </strong>
+                       </a>  <a href="<?php echo site_url('magazine/?region='.$locations->parent);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="80" style="margin-left:23px;" height="80"/> <strong> <?php echo $city?> Base Magazine </strong>
+                       </a>  <a href="<?php echo site_url('apps/?region='.$locations->parent);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="80" style="margin-left:30px;" height="80"/> <strong><?php echo $city?> Base App </strong>
+                       </a>
+                        </div>
+                        <div class="blog-author-content">
+                       
                         </div>
                         <div class="clearfix"></div>
+                      
                     </div>
+                    
                 <!-- Comments section -->
                     <div class="blog-comments">
                         <?php $comment_settings = get_settings('business_settings', 'enable_comment', 'No'); ?>
@@ -164,9 +189,9 @@ if(count($blogpost)<=0){
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
-                     <?php render_widgets('right_bar_blog_posts');?>
+                 <?php render_widgets('right_bar_blog_posts');?>
                  <?php include_once('category_sidebar_new.php')?>
-                <?php include_once('locations_sidebar_new.php')?>
+                 <?php include_once('locations_sidebar_new.php')?>
                 </div>
             </div>
 
