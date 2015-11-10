@@ -9,16 +9,40 @@
 </script>
 <script src="<?php echo theme_url(); ?>/assets/js/jquery.lightSlider.min.js"></script>
 <script src="<?php echo theme_url(); ?>/assets/js/lightGallery.min.js"></script>
+<style>
+.lSGallery li img{ height:75px !important; width:101px !important; padding:2; border:1px solid #ddd;}
+.lSGallery li{ height:76px !important; width:102px !important;}
+.lSPager  { width:800px !important;}
+</style>
 <?php
+ $article = $blogpost->type;
+ 
 if(count($blogpost)<=0){
 
 }else{
+	
 ?>
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php echo get_blog_data_by_lang($blogpost,'title'); ?> </h2>
+        <h2><?php 
+		if($article=="article"){
+			echo "Destination";
+			
+			}else{
+				
+				echo lang_key($article);
+				}
+		 ?>/<?php echo get_blog_data_by_lang($blogpost,'title'); ?> </h2>
         <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <?php echo get_blog_data_by_lang($blogpost,'title'); ?>
+            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a>/<?php 
+		if($article=="article"){
+			echo "Destination";
+			
+			}else{
+				
+				echo lang_key($article);
+				}
+		 ?> / <?php echo get_blog_data_by_lang($blogpost,'title'); ?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -86,8 +110,8 @@ if(count($blogpost)<=0){
                              <?php $i=0; $gallery_images = $images = ($blogpost->gallery!='')?json_decode($blogpost->gallery):array();?>
                               <div class="detail-slider">
                                     <ul id="imageGallery">
-                                        <li data-thumb="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>" data-src="<?php echo base_url().'uploads/images/'.$post->featured_img?>">
-                                           <img  src="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>" />
+                                        <li data-thumb="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>" data-src="<?php echo base_url().'uploads/images/'.$blogpost->featured_img?>">
+                                           <img  src="<?php  echo base_url().'uploads/images/'.$blogpost->featured_img?>"/>
                                         </li>
 
                                         <?php $i=0; $images = ($blogpost->gallery!='')?json_decode($blogpost->gallery):array();?>
@@ -98,7 +122,7 @@ if(count($blogpost)<=0){
                                             { 
                                         ?>
                                         <li data-thumb="<?php echo base_url('uploads/gallery/' . $img); ?>" data-src="<?php echo base_url('uploads/gallery/' . $img); ?>">
-                                            <img  src="<?php echo base_url('uploads/gallery/' . $img); ?>"/>
+                                            <img  src="<?php echo base_url('uploads/gallery/' . $img); ?>" />
                                         </li>
                                         <?php 
                                             }
@@ -138,16 +162,18 @@ if(count($blogpost)<=0){
                         </div>
                         <div class="blog-author-content">
                         <?php
-						$city=get_county_by_id($blogpost->country);
-						$location_id=get_locations_by_name($city);
-						?>
-                       <a href="<?php echo  site_url('video/?region='.$blogpost->country);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="80" style="margin-left:0px;" height="80"/> <strong><?php echo $city?> Base Video </strong>
-                       </a>  <a href="<?php echo site_url('magazine/?region='.$blogpost->country);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="80" style="margin-left:23px;" height="80"/> <strong> <?php echo $city?> Base Magazine </strong>
-                       </a>  <a href="<?php echo site_url('apps/?region='.$blogpost->country);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="80" style="margin-left:30px;" height="80"/> <strong><?php echo $city?> Base App </strong>
+						 $city=get_county_by_id($blogpost->country);
+						 $location_id=get_locations_by_name($city);
+						//var_dump($location_id);
+						foreach($location_id as $id){?>
+                       <a href="<?php echo  site_url('videos/?region='.$id->id);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="40" style="margin-left:0px;" height="40"/> <strong><?php echo $city?> Base Video </strong>
+                       </a>  <a href="<?php echo site_url('emagazine/?region='.$id->id);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="40" style="margin-left:72px;" height="40"/> <strong> <?php echo $city?> Base Magazine </strong>
+                       </a>  <a href="<?php echo site_url('apps/?region='.$id->id);?>">
+                       <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="40" style="margin-left:60px;" height="40"/> <strong><?php echo $city?> Base App </strong>
                        </a>
+                       <?php }?>
                         </div>
                         <div class="blog-author-content">
                        
@@ -212,9 +238,25 @@ if(count($blogpost)<=0){
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
-                 <?php render_widgets('right_bar_blog_posts');?>
-                 <?php include_once('category_sidebar_new.php')?>
-                 <?php include_once('locations_sidebar_new.php')?>
+                   <?php  include_once('blog_search.php');?>
+                  <?php  
+				  if($article=="article")
+				  {
+					 include_once('category_sidebar_article.php');
+					 include_once('locations_sidebar_article.php');
+			
+			     }
+			     elseif($article=="news")
+				 {
+				 include_once('category_sidebar_new.php');
+				 include_once('locations_sidebar_new.php');
+				 }
+				 else
+				 {
+					 include_once('category_sidebar_blog.php');
+					 include_once('locations_sidebar_blog.php');
+				 }
+				?>
                 </div>
             </div>
 
@@ -224,25 +266,11 @@ if(count($blogpost)<=0){
 </div>
 <script>
   $(document).ready(function() {
-       /* $('#imageGallery').lightSlider({
-            gallery:false,
-            item:1,
-            speed:1000,
-            auto:true,
-            loop: true,
-            thumbItem:9,
-            slideMargin:0,
-            currentPagerPosition:'left',
-            onSliderLoad: function(plugin) {
-                plugin.lightGallery();
-            }
-        });*/
-		
-		    $('#imageGallery').lightSlider({
+        $('#imageGallery').lightSlider({
         gallery:true,
         item:1,
         loop:true,
-        thumbItem:9,
+        thumbItem:10,
         slideMargin:0,
         enableDrag: false,
         currentPagerPosition:'left',

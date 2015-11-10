@@ -1,8 +1,26 @@
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php echo lang_key($page_title); ?> </h2>
+   
+        <h2><?php $article=lang_key($page_title);
+		if($article=="Article"){
+			echo "Destination";
+			
+			}else{
+				
+				echo lang_key($page_title);
+				}
+		
+		
+		 ?> </h2>
         <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <?php echo lang_key($page_title); ?>
+            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <?php $article;
+		if($article=="Article"){
+			echo "Destination";
+			
+			}else{
+				
+				echo lang_key($page_title);
+				} ?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -47,7 +65,7 @@
 
                                 </div>
                                 <!-- Paragraph -->
-                                <p><?php echo truncate(strip_tags($desc),400,'&nbsp;<a href="'.site_url('post-detail/'.$post->id.'/'.dbc_url_title($title)).'">'.lang_key('Click').'</a>',false);?></p>
+                                <p><?php echo truncate(strip_tags($desc),400,'&nbsp;<a href="'.site_url('post-detail/'.$post->id.'/'.dbc_url_title($title)).'">'.lang_key('Read More').'</a>',false);?></p>
                             </div>
                         </div>
                         <!-- Blog item ends -->
@@ -62,10 +80,24 @@
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
-                   <?php render_widgets('right_bar_blog_posts');?>
-                 <?php include_once('category_sidebar_new.php')?>
-                <?php include_once('locations_sidebar_new.php')?>
+                 <?php  include_once('blog_search.php');?>
+                  <?php  if($article=="Article"){
+			 include_once('category_sidebar_article.php');
+			 include_once('locations_sidebar_article.php');
+			
+			}elseif($article=="News"){
+
+				 include_once('category_sidebar_new.php');
+				 include_once('locations_sidebar_new.php');
+				}else{
+					 
+					 include_once('category_sidebar_blog.php');
+					 include_once('locations_sidebar_blog.php');
+					
+					} ?>
+                
                  
+                           
                 </div>
             </div>
 

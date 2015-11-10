@@ -434,15 +434,19 @@ class Show_core extends CI_controller {
 
      	$category ='all';
 		$location ='all';
+		$search ='all';
+		
+		if(isset($search) and $this->input->get('search')!='' )
+		   $search = $this->input->get('search');
 		if(isset($category) and $this->input->get('category')!=0 )
 		   $category = $this->input->get('category');
 		if(isset($location) and $this->input->get('location')!=0 )
 		   $location = $this->input->get('location');
-		 
 		$this->config->load('business_directory');
 		$options 				= $this->config->item('blog_post_types');
-		$value['type']=$type;
-		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,$this->PER_PAGE,'id','desc',$type,$category,$location);
+        $value['type']=$type;
+		$value['location']=$location;
+		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,$this->PER_PAGE,'id','desc',$type,$category,$location,$search);
 		$total 					= $this->show_model->count_all_active_blog_posts($type);
 		$value['pages']			= configPagination('show/post/'.$type,$total,5,$this->PER_PAGE);
 		$value['page_title']	= (isset($options[$type]))?$options[$type]:$type;
@@ -458,9 +462,11 @@ class Show_core extends CI_controller {
 
 	{			
 		$this->load->model('admin/blog_model');
-		$value['blogpost']			= $this->blog_model->get_post_by_id($id);
+		$value['blogpost']		= $this->blog_model->get_post_by_id($id);
+		$value['blogpost']->type;
+		
         $data['blog_meta']		=$value['blogpost'];
-		$data['sub_title']			= get_blog_data_by_lang($value['blogpost'],'title');
+		$data['sub_title']		= get_blog_data_by_lang($value['blogpost'],'title');
 		$data['content'] 		= load_view('post_detail_view',$value,TRUE);
 		load_template($data,$this->active_theme);
 
@@ -640,7 +646,6 @@ class Show_core extends CI_controller {
     {
     	$value['query']			= $this->show_model->get_users_by_range($start,$this->PER_PAGE,'id');
         $total 					= $this->show_model->get_users_by_range('total');
-
         $value['pages']			= configPagination('show/members/',$total,4,$this->PER_PAGE);
 		$data['content'] 		= load_view('members_view',$value,TRUE);
 		$data['alias']	    	= 'members';

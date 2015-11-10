@@ -42,17 +42,73 @@ class Post_model_core extends CI_Model
 		$query = $this->db->get('categories');
 		return $query;
 	}
-	function get_all_post_county()
+	function get_all_post_county_blog()
 	{
 		$this->db->order_by('name','asc');
-		//$this->db->where('status',1);
+		//$this->db->where('type','blog');
+		$query = $this->db->get('county');
+		return $query;
+	}
+	function get_all_post_city($type)
+	{
+		//$this->db->order_by('name','asc');
+		//$this->db->group_by('city'); 
+		//$query = $this->db->get_where('blog',array('type'=>$type));
+		//return $query;
+		$this->db->select('blog.city,locations.name');
+		$this->db->from('blog');
+		$this->db->join('locations', 'locations.id = blog.city');
+		$this->db->where('blog.type',$type);
+		$this->db->group_by('city'); 		
+		$query = $this->db->get();
+		return $query;
+		
+		
+	}
+	function get_all_post_county_by_city($location)
+	{
+		//$this->db->order_by('name','asc');
+		//$this->db->distinct();
+		//$query = $this->db->get('county');
+		//$query = $this->db->get_where('county',array('city_id'=>$location));
+		//return $query;
+		
+		$this->db->select('blog.city,county.name');
+		$this->db->from('blog');
+		$this->db->join('county', 'blog.city = county.city_id');
+		$this->db->where('blog.city',$location);
+		$this->db->group_by('city'); 		
+		$query = $this->db->get();
+		return $query;
+		
+		
+		
+	}
+	function get_all_post_county_news()
+	{
+		$this->db->order_by('name','asc');
+		//$this->db->where('type','news');
 		$query = $this->db->get('county');
 		return $query;
 	}
 	function get_all_post_categories()
 	{
 		$this->db->order_by('name','asc');
-		//$this->db->where('status',1);
+		$this->db->where('type','news');
+		$query = $this->db->get('categories_post');
+		return $query;
+	}
+	function get_all_post_categories_by_article()
+	{
+		$this->db->order_by('name','asc');
+		$this->db->where('type','article');
+		$query = $this->db->get('categories_post');
+		return $query;
+	}
+	function get_all_post_categories_by_blog()
+	{
+		$this->db->order_by('name','asc');
+		$this->db->where('type','blog');
 		$query = $this->db->get('categories_post');
 		return $query;
 	}

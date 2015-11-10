@@ -23,7 +23,7 @@
                                         <label for="input-11"><?php echo lang_key('select_city');?></label>
                                         <select id="input-11" name="city" class="form-control chosen-select">
                                             <option data-name="" value="any"><?php echo lang_key('any_city');?></option>
-                                              <?php foreach (get_all_locations_by_type('city')->result() as $row) {
+                                              <?php foreach (get_all_locations_by_type('state')->result() as $row) {
                                                   $sel = ($row->id==set_value('city'))?'selected="selected"':'';
                                                   ?>
                                                   <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>

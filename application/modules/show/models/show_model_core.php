@@ -31,7 +31,7 @@ class Show_model_core extends CI_Model
 
 
 
-    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all",$category='all',$location='all')
+    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all",$category='all',$location='all',$search='all')
     {
         if($type!='all')
             $this->db->where('type',$type);
@@ -39,7 +39,13 @@ class Show_model_core extends CI_Model
             $this->db->where('category',$category);
 
         if($location!='all')
-            $this->db->where('country',$location);
+            $this->db->where('county',$location);
+       if($search!='all')
+	   {
+		    $this->db->or_like('title',$search);
+		    $this->db->or_like('description',$search);
+		    $this->db->or_like('title',$search);
+	   }
 	    		
         $this->db->order_by($sort_by, $sort);
 

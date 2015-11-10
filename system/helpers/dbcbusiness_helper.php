@@ -421,7 +421,7 @@ if ( ! function_exists('get_all_county_by_name'))
 	{
 		$CI = get_instance();
 		$CI->load->database();
-		$CI->db->order_by('name', 'asc');
+		$CI->db->order_by('city', 'asc');
 		$query = $CI->db->get_where('county',array('type'=>'city'));
 		return $query->result();
 	}
@@ -437,6 +437,29 @@ if ( ! function_exists('get_all_city_by_county'))
 		return $query->result();
 	}
 }
+if ( ! function_exists('get_all_city_name_from_county'))
+{
+	function get_all_city_name_from_county($city_id)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->select('city');
+		$query = $CI->db->get_where('county',array('city_id'=>$city_id));
+		return $query->result();
+	}
+}
+if ( ! function_exists('get_all_county'))
+{
+	function get_all_county($type)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->select('name');
+		$query = $CI->db->get_where('county',array('id'=>$type));
+		return $query->result();
+	}
+}
+
 //print_r ($re=get_all_city_by_county());
 
 if ( ! function_exists('get_all_child_of_location'))
@@ -2025,7 +2048,7 @@ function count_blog_by($type,$category='',$region='')
 		$CI->load->database();
 		$CI->db->where('blog.type', $type);		
 		if($region!='')
-			$CI->db->where('blog.country', $region);		
+			$CI->db->where('blog.city', $region);		
 		if($category!='')
 			$CI->db->where('blog.category', $category); 
 		return $num_rows = $CI->db->count_all_results('blog');
