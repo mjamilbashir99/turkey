@@ -17,7 +17,7 @@ class Show_core extends CI_controller {
 	{
 		parent::__construct();
 		is_installed(); #defined in auth helper		
-		
+		$this->load->helper('cookie');
 		expiration_cron();
 		//$this->PER_PAGE = get_per_page_value();#defined in auth helper
 		
@@ -429,26 +429,31 @@ class Show_core extends CI_controller {
 
 
     #********** blog posts functions start**************#
-	public function post($type='all',$start=0)
+	public function post_($type='all',$start=0)
 	{
 
      	$category ='all';
-		$location ='all';
+		$city ='all';
+		$county ='all';
 		$search ='all';
 		
 		if(isset($search) and $this->input->get('search')!='' )
 		   $search = $this->input->get('search');
 		if(isset($category) and $this->input->get('category')!=0 )
 		   $category = $this->input->get('category');
-		if(isset($location) and $this->input->get('location')!=0 )
-		   $location = $this->input->get('location');
+		if(isset($city) and $this->input->get('city')!=0 )
+		   $city = $this->input->get('city');
+		   if(isset($county) and $this->input->get('county')!=0 )
+		   $county = $this->input->get('county');
 		$this->config->load('business_directory');
 		$options 				= $this->config->item('blog_post_types');
-        $value['type']=$type;
-		$value['location']=$location;
-		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,$this->PER_PAGE,'id','desc',$type,$category,$location,$search);
+		$value['type']=$type;
+		$value['city']=$city;
+		$value['county']=$county;
+		$value['category']=$category;
+		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,20,'id','desc',$type,$category,$city,$county,$search);
 		$total 					= $this->show_model->count_all_active_blog_posts($type);
-		$value['pages']			= configPagination('show/post/'.$type,$total,5,$this->PER_PAGE);
+		$value['pages']			= configPagination('show/post/'.$type,$total,4,20);
 		$value['page_title']	= (isset($options[$type]))?$options[$type]:$type;
 		$data['sub_title']		= (isset($options[$type]))?$options[$type]:$type;
 		$data['content'] 		= load_view('posts_view',$value,TRUE);
@@ -457,14 +462,60 @@ class Show_core extends CI_controller {
 		//$this->output->enable_profiler(TRUE);
 
 	}
+public function post($type='all',$start=0)
+	{
+        $current_view = get_cookie('current_view');
+		if(!$current_view)
+		{  
+			$current_view = "list_view";
+		}
+     	$category ='all';
+		$city ='all';
+		$county ='all';
+		$search ='all';
+		
+		if(isset($search) and $this->input->get('search')!='' )
+		   $search = $this->input->get('search');
+		if(isset($category) and $this->input->get('category')!=0 )
+		   $category = $this->input->get('category');
+		if(isset($city) and $this->input->get('city')!=0 )
+		   $city = $this->input->get('city');
+		   if(isset($county) and $this->input->get('county')!=0 )
+		   $county = $this->input->get('county');
+		$this->config->load('business_directory');
+		$options 				= $this->config->item('blog_post_types');
+		$value['type']=$type;
+		$value['city']=$city;
+		$value['county']=$county;
+		$value['category']=$category;
+		$value['posts']			= $this->show_model->get_all_active_blog_posts_by_range($start,20,'id','desc',$type,$category,$city,$county,$search);
+		$total 					= $this->show_model->count_all_active_blog_posts($type);
+		$value['pages']			= configPagination('show/post/'.$type,$total,4,20);
+		$value['page_title']	= (isset($options[$type]))?$options[$type]:$type;
+		$data['sub_title']		= (isset($options[$type]))?$options[$type]:$type;
+		if($current_view=="list_view" )
+			$data['content'] 		= load_view('posts_view',$value,TRUE);
+		else
+			$data['content'] 		= load_view('posts_view_grid',$value,TRUE);
 
-	public function postdetail($id='')
+		load_template($data,$this->active_theme);
+		//$this->output->enable_profiler(TRUE);
 
-	{			
+	}
+	//change view
+	public function change_view()
+	{		 
+        $current_view = $this->input->post('current_view');
+	 	$this->session->set_userdata('current_view', $current_view);
+		echo json_decode(array("current_view"=>$current_view));
+		exit;
+	}
+
+	public function postdetail($id='',$type='all')
+	{		
 		$this->load->model('admin/blog_model');
 		$value['blogpost']		= $this->blog_model->get_post_by_id($id);
 		$value['blogpost']->type;
-		
         $data['blog_meta']		=$value['blogpost'];
 		$data['sub_title']		= get_blog_data_by_lang($value['blogpost'],'title');
 		$data['content'] 		= load_view('post_detail_view',$value,TRUE);

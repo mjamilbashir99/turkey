@@ -44,7 +44,8 @@
                   <th class="numeric"><?php echo lang_key('Group');?></th>
 
                   <th class="numeric"><?php echo lang_key('title');?></th>
-                   <th class="numeric"><?php echo lang_key('Cities/County');?></th>
+                  <th class="numeric"><?php echo lang_key('Author');?></th>
+                   <th class="numeric"><?php echo lang_key('Cities/Counties');?></th>
 
                   <th class="numeric"><?php echo lang_key('Category');?></th>
 
@@ -78,18 +79,27 @@
 				  
 				  ?></td>
 
-<?php  $get_city =$row->country; 
-$res=get_all_city_by_county($get_city);
+<?php  $get_county =$row->county; 
+//$get_city =$row->city; 
+  $county =get_all_county($get_county);
+ //var_dump($county);
+ $res=get_all_city_by_county($get_county);
 
 ?>
                   <td data-title="<?php echo lang_key('title');?>" class="numeric"><a href="<?php echo site_url('admin/blog/manage/'.$row->id);?>"><?php echo get_blog_data_by_lang($row,'title');?></a></td>
+                  <td data-title="<?php echo lang_key('Author');?>" class="numeric"><?php echo get_user_by_id($row->created_by);?></a></td>
                   <td data-title="<?php echo lang_key('Cities/County');?>" class="numeric">
-				  <?php
-				 
-				   foreach($res as $result)
+				<?php
+				foreach($res as $result)
 				{
 				echo $result->city;	
-					}?> - <?php echo get_county_by_id($row->country);?></td>
+				}?> - <?php
+			    foreach($county as $counties)
+				{
+				echo $counties->name;	
+				}
+				?>  
+				  </td>
 
                   <td data-title="<?php echo lang_key('Category');?>" class="numeric"><?php echo get_category_post_by_id($row->category);?></td>
 

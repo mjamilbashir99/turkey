@@ -44,14 +44,19 @@
                 <div class="clearfix"></div>
             <?php } ?>
 
-            <?php render_widgets('location_page');?>
+            <?php
+			 render_widgets('location_page');?>
             <div class="clearfix"></div>
         </div>
 
 
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
-                <?php render_widgets('right_bar_locations');?>
+                <?php 
+				 
+				render_widgets('right_bar_locations');
+			
+				?>
             </div>
         </div>
 

@@ -78,13 +78,22 @@
            No Data Found
            </div>
     <?php }?>
-      <?php render_widgets('footerApps');?>
+    		<?php 
+             $mybanners = get_banner_target_area(11);
+		   ?>
+      <?php ?>
     </div>
     <div class="col-md-3 col-sm-12 col-xs-12">
       <div class="sidebar">
         <?php include_once('category_sidebar_app.php')?>
         <?php include_once('locations_sidebar_app.php')?>
-        <?php render_widgets('RightBarApps');?>
+        <?php //render_widgets('RightBarApps');?>
+        <?php 
+            for($i=12; $i<=20; $i++)
+			 {
+                 get_banner_target_area($i);
+			 }?>
+             <div style="clear:both"></div>
       </div>
     </div>
   </div>

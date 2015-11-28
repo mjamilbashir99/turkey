@@ -1,6 +1,7 @@
 <?php
 $CI = get_instance();
 $CI->load->model('user/post_model');
+$city;
 $parent_categories = $CI->post_model->get_all_post_categories_by_blog();
 //var_dump($parent_categories->result());
 ?>

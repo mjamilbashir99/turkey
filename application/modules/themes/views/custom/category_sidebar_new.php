@@ -21,7 +21,7 @@ $parent_categories = $CI->post_model->get_all_post_categories();
                 <li class="col-xs-12 col-sm-6 col-md-12 col-lg-12">
                  <a href="<?php echo site_url('news-posts/?category='.$parent->id);?>">
 				 	<?php echo lang_key($parent->name); ?> 
-                    <span class="color">(<?php echo $count?>)</span>
+                    <span class="color" style="width:auto">(<?php echo $count?>)</span>
                  </a>
                  </li>
             <?php } }?>

@@ -28,7 +28,7 @@ class Show_model extends Show_model_core {
    $this->db->where('posts.city', $region);  
      if($category!='')
      $this->db->where('posts.category', $category);
-	 
+	 $this->db->where('posts.status !=',0);
       $this->db->where('magazines.title !=', '');	  
 
   $this->db->order_by("magazines.id","desc");  
@@ -42,7 +42,8 @@ class Show_model extends Show_model_core {
   $this->db->from('magazines');
   $this->db->join('posts', 'posts.id = magazines.post_id');
   $this->db->limit(10);
-  $this->db->where('posts.created_by', $created_by); 
+  $this->db->where('posts.created_by', $created_by);
+  $this->db->where('posts.status !=',0); 
   $this->db->where('magazines.title !=', '');	
   $this->db->order_by("magazines.id","desc");  
    $query = $this->db->get();
@@ -73,7 +74,7 @@ class Show_model extends Show_model_core {
 		$query = $this->db->get();
 		return $query->result();
 	}
-	function listApps($type='all',$region='',$category='',$limit=18)
+	function listApps($type='all',$region='',$category='',$limit=20)
 	{
 			
 		$this->db->select('apps.*,posts.category,posts.city');
@@ -86,7 +87,8 @@ class Show_model extends Show_model_core {
 			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
-		$this->db->where('apps.title !=', '');	   
+		$this->db->where('apps.title !=', '');
+		$this->db->where('posts.status !=',0);	   
 		$this->db->order_by('apps.id', "desc");    
 		$query = $this->db->get();
 		return $query->result();
@@ -114,7 +116,10 @@ class Show_model extends Show_model_core {
 	    if($region!='')
 			$this->db->where('posts.state', $region);		
 	    if($category!='')
-		   $this->db->where('posts.category', $category); 
+		   $this->db->where('posts.category', $category);
+		   $this->db->where('posts.video_url !=','');
+		   $this->db->where('extra_video_urls.url_0 !=','');
+		   $this->db->where('posts.status !=',0); 
 		if($type=='latest')
 		   $this->db->order_by('posts.total_view desc');
 		else
@@ -134,13 +139,16 @@ class Show_model extends Show_model_core {
 			$this->db->where('posts.state', $region);		
 	    if($category!='')
 		   $this->db->where('posts.category', $category); 
-		$this->db->where('video_url !=','');
+		$this->db->where('posts.video_url !=','');
+		$this->db->where('extra_video_urls.url_0 !=','');
+		$this->db->where('posts.status !=',0);
 		if($type=='latest')
 		   $this->db->order_by('posts.total_view desc');
 		else
 		  $this->db->order_by('posts.id desc');   
 		$query = $this->db->get();
 		return $query->row();
+		var_dump($query);
 	}
 }
 /* End of file install.php */

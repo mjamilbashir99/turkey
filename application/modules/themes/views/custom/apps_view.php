@@ -100,18 +100,22 @@
 		<?php }?>
     </div>
 <div class="clear"></div>
-		<?php render_widgets('footerApps');?>
-        </div>
-            
-    
 
+        <?php  get_banner_target_area(1);?>
+        </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
              <?php include_once('category_sidebar_app.php')?>
-                <?php include_once('locations_sidebar_app.php')?>
-                <?php render_widgets('RightBarApps');?>
+             <?php include_once('locations_sidebar_app.php')?>
+             <?php 
+            for($i=2; $i<=10; $i++)
+			 {
+                 get_banner_target_area($i);
+			 }?>
+             <div style="clear:both"></div>
+             <?php //render_widgets('RightBarApps');?>
             </div>
         </div>
-
+</div>
     </div>
 </div>

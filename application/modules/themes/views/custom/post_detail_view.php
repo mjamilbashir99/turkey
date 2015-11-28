@@ -16,6 +16,9 @@
 </style>
 <?php
  $article = $blogpost->type;
+ $city = $blogpost->city;
+ $category = $blogpost->category;
+ $county = $blogpost->county;
  
 if(count($blogpost)<=0){
 
@@ -24,26 +27,35 @@ if(count($blogpost)<=0){
 ?>
 <div class="page-heading-two">
     <div class="container">
-        <h2><?php 
-		if($article=="article"){
-			echo "Destination";
-			
-			}else{
-				
-				echo lang_key($article);
-				}
-		 ?>/<?php echo get_blog_data_by_lang($blogpost,'title'); ?> </h2>
-        <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a>/<?php 
-		if($article=="article"){
-			echo "Destination";
-			
-			}else{
-				
-				echo lang_key($article);
-				}
-		 ?> / <?php echo get_blog_data_by_lang($blogpost,'title'); ?>
-        </div>
+        <?php 
+			   if($article=="article" || $article=="Article")
+			    {
+					$url="destinations-posts";
+					$title='Destinations';
+				} 
+				else if($article=="news" || $article=="News")
+			    {
+					$url="news-posts";
+					$title='News';
+				} 
+			else
+			    {
+					$url="blog-posts";
+					$title='Blog';
+				} 
+			 ?>
+           <h2><?php echo $title?></h2>
+            <div class="breads" >
+                <a href="<?php echo site_url(); ?>"><?php echo lang_key('home');?></a>/
+                <a href="<?php echo site_url($url); ?>"><?php echo $title; ?>/</a>
+                <a href="<?php echo site_url($url.'/?city='.$city) ?>"><?php echo get_location_name_by_id($city) ?></a>/
+                <a href="<?php echo site_url($url.'/?county='.$county) ?>"><?php echo get_county_name_by_id($county) ?></a>/
+                <a href="<?php echo site_url($url.'/?category='.$category) ?>"><?php echo get_category_post_by_id($category) ?></a>/
+                <?php echo get_blog_data_by_lang($blogpost,'title')?>
+	        </div>
+            
+            <!--///////////////////old code ///////////////-->
+          
         <div class="clearfix"></div>
     </div>
 </div>
@@ -138,9 +150,37 @@ if(count($blogpost)<=0){
                             <p><?php echo get_blog_data_by_lang($blogpost,'description');?></p>
                         </div>
                     </div>
+                     <label>Other Related Post</label>
+                      <div class="well" style="float:left; width:100%">
+                     
+                      <?php 
+					         $other_category=get_other_blog_post_by_ctegory_type($blogpost->type,$blogpost->category);
+						 	 $i=0;
+						 ?>
+						 <?php
+
+						  foreach($other_category as $other_category_name){
+							
+							?>
+                             
+                              <div style="float:left; width:50%">
+							  <li style="list-style:square; padding:10px;">
+                              <a href="<?php echo  site_url('post-detail/'.$other_category_name->id)."/".get_blog_data_by_lang($other_category_name,'title');?>">
+                              <?php  echo get_blog_data_by_lang($other_category_name,'title');?>
+                              </a>  </li>
+                             </div>				  
+                           
+							  <?php 
+						     }
+						   ?>
+                      
+                    </div>
                     <!-- Blog item ends -->
                     <!-- Social media sharing section -->
-                    <div class="well">
+                    <div class="blog-author-content well">
+                       
+                        
+                   <div class="well" >
                         <span class='st_sharethis_large' displayText='ShareThis'></span>
                         <span class='st_facebook_large' displayText='Facebook'></span>
                         <span class='st_twitter_large' displayText='Tweet'></span>
@@ -148,7 +188,8 @@ if(count($blogpost)<=0){
                         <span class='st_pinterest_large' displayText='Pinterest'></span>
                         <span class='st_email_large' displayText='Email'></span>
 
-                    </div>
+                   </div>
+                   </div>
 
                     <!-- Author section -->
                     <div class="blog-author well">
@@ -160,18 +201,20 @@ if(count($blogpost)<=0){
                         <div class="blog-author-content">
                             <h5><?php // echo get_user_fullname_by_id($blogpost->created_by); ?></h5>
                         </div>
+                         
+                         
                         <div class="blog-author-content">
                         <?php
-						 $city=get_county_by_id($blogpost->country);
-						 $location_id=get_locations_by_name($city);
+						 $city_name=get_county_by_id($blogpost->county);
+						 $location_id=get_locations_by_name($city_name);
 						//var_dump($location_id);
 						foreach($location_id as $id){?>
                        <a href="<?php echo  site_url('videos/?region='.$id->id);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="40" style="margin-left:0px;" height="40"/> <strong><?php echo $city?> Base Video </strong>
+                       <img src="<?php echo theme_url();?>/assets/img/video.jpg" width="40" style="margin-left:0px;" height="40"/> <strong><?php echo $city_name?> Base Video </strong>
                        </a>  <a href="<?php echo site_url('emagazine/?region='.$id->id);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="40" style="margin-left:72px;" height="40"/> <strong> <?php echo $city?> Base Magazine </strong>
+                       <img src="<?php echo theme_url();?>/assets/img/magazine.jpg" width="40" style="margin-left:72px;" height="40"/> <strong> <?php echo $city_name?> Base Magazine </strong>
                        </a>  <a href="<?php echo site_url('apps/?region='.$id->id);?>">
-                       <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="40" style="margin-left:60px;" height="40"/> <strong><?php echo $city?> Base App </strong>
+                       <img src="<?php echo theme_url();?>/assets/img/app.jpg" width="40" style="margin-left:60px;" height="40"/> <strong><?php echo $city_name?> Base App </strong>
                        </a>
                        <?php }?>
                         </div>
@@ -232,31 +275,62 @@ if(count($blogpost)<=0){
                     </div>
 
                 <?php } ?>
-
+               <div>
+               <?php
+              	//destination 
+			   if($article=="article" || $article=="Article")
+			   {
+			   get_banner_target_area(101);
+			   }
+			   //news
+			   else if($article=="news" || $article=="News")
+			   {
+               get_banner_target_area(141);
+			   }
+			   //Blog
+			   else
+			   {
+               get_banner_target_area(61);
+			   }?>
+               </div>
+<div style="clear:both"></div>
             </div>
-
+          <div>
+          </div>
 
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
                    <?php  include_once('blog_search.php');?>
                   <?php  
-				  if($article=="article")
+				  if($article=="article" || $article=="Article")
 				  {
 					 include_once('category_sidebar_article.php');
 					 include_once('locations_sidebar_article.php');
-			
+					 for($i=102; $i<=110; $i++)
+				      { 
+				       get_banner_target_area($i);
+				      }
 			     }
 			     elseif($article=="news")
 				 {
 				 include_once('category_sidebar_new.php');
 				 include_once('locations_sidebar_new.php');
+				 for($i=142; $i<=150; $i++)
+				      { 
+				       get_banner_target_area($i);
+				      }
 				 }
 				 else
 				 {
 					 include_once('category_sidebar_blog.php');
 					 include_once('locations_sidebar_blog.php');
+					 for($i=62; $i<=70; $i++)
+				      { 
+				       get_banner_target_area($i);
+				      }
 				 }
 				?>
+
                 </div>
             </div>
 
@@ -266,11 +340,25 @@ if(count($blogpost)<=0){
 </div>
 <script>
   $(document).ready(function() {
-        $('#imageGallery').lightSlider({
+       /* $('#imageGallery').lightSlider({
+            gallery:false,
+            item:1,
+            speed:1000,
+            auto:true,
+            loop: true,
+            thumbItem:9,
+            slideMargin:0,
+            currentPagerPosition:'left',
+            onSliderLoad: function(plugin) {
+                plugin.lightGallery();
+            }
+        });*/
+		
+		    $('#imageGallery').lightSlider({
         gallery:true,
         item:1,
         loop:true,
-        thumbItem:10,
+        thumbItem:9,
         slideMargin:0,
         enableDrag: false,
         currentPagerPosition:'left',

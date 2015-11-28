@@ -19,7 +19,7 @@
             <div class="image-style-one">
                 <!-- Image -->
                 <a href="<?php echo $detail_link;?>">
-                    <img class="img-responsive" alt="" src="<?php echo get_featured_photo_by_id($post->featured_img);?>">                        <!-- image hover style for image #1 -->
+                    <img class="img-responsive" alt="" src="<?php echo  get_featured_photo_by_id($post->featured_img);?>">                        <!-- image hover style for image #1 -->
                 </a>
 
             </div>

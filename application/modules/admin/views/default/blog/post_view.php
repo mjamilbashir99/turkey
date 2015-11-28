@@ -150,20 +150,18 @@
                  <?php $rw=get_all_county_by_name();?>
                 <div class="col-sm-12 col-lg-12 controls">
                 <select name="county"  class="form-control">
-                <option data-name="" value=""><?php echo lang_key('Select County - City');?></option>
+                <option data-name="" value=""><?php echo lang_key('Select City - County ');?></option>
 				<?php
-				//var_dump($page);
+				//var_dump($rw);
 				
 				foreach($rw as $rws)
+				
                 {
+					
 				 $v = (set_value('county')!='')?set_value('county'):$rws->name;
                 $sel = ($v==$page->country)?'selected="selected"':'';
                 ?>
-<<<<<<< HEAD
-                <option value="<?php echo $rws->id;?>" <?php echo $sel;?>><?php echo $rws->city;?>-<?php echo $rws->name;?>  </option>
-=======
-                <option value="<?php echo $rws->id;?>" <?php echo $sel;?>> <?php echo $rws->city;?> - <?php echo $rws->name;?> </option>
->>>>>>> d8fe42090a31703b503a275e53e5220fece85e49
+                <option value="<?php echo $rws->id;?>-<?php echo $rws->city_id;?>" <?php echo $sel;?>><?php echo $rws->city;?>-<?php echo $rws->name;?>  </option>
                 <?php }?>
                 </select>
                 <?php echo form_error('county');?>

@@ -1,5 +1,5 @@
-<?php render_widgets('right_bar_home');?>
-
-
-
-
+<?php render_widgets('right_bar_home');?>
+
+
+
+

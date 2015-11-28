@@ -12,6 +12,7 @@ $parent_categories = $CI->post_model->get_all_parent_categories();
         <ul class="list-6">
             <?php
             $i = 0;
+			//var_dump($parent_categories);
             foreach ($parent_categories->result() as $parent) {
             $i++;
             ?>

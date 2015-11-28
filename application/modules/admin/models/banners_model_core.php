@@ -24,7 +24,7 @@ class Banners_model_core extends CI_Model
 	{
 		$this->db->order_by('id', "asc");
 		$this->db->where('parent',0); 
-		//$this->db->where('status',1); 
+		$this->db->where('status',1); 
 		$query = $this->db->get('dbc_advertesing');
 		return $query;
 	}
@@ -82,6 +82,23 @@ class Banners_model_core extends CI_Model
 		else
 		{
 			return $query->row();
+		}
+	}
+	////////////////////////////// county by city id //////////////////
+	function get_county_by_city_id($id)
+	{ 
+		$this->db->select();
+		$this->db->where('parent',$id);
+		$this->db->where('type','city'); 
+		$query = $this->db->get('dbc_locations');
+		//$query = $this->db->get_where('dbc_county',array('city_id'=>$id));
+		if($query->num_rows()<=0)
+		{
+			echo 'Invalid banners id';die;
+		}
+		else
+		{
+			return $query->result();
 		}
 	}
 

@@ -23,7 +23,7 @@ class User extends User_core {
         $value['categories'] 	= $this->post_model->get_all_categories();
         $value['post']			= $this->post_model->get_post_by_id($id);
 //
-        $user_id = $this->session->userdata('user_id');
+        $user_id = rand();
         $value['extra_urls']	= $this->post_model->get_extra_urls($user_id);
 //
         $value['apps_data']     = $this->post_model->get_apps_data($id);
@@ -49,7 +49,7 @@ class User extends User_core {
         $state_active = get_settings('business_settings', 'show_state_province', 'yes');
 
         $this->form_validation->set_rules('category', lang_key('category'), 'required');
-        $this->form_validation->set_rules('phone_no', lang_key('phone'), 'required');
+        $this->form_validation->set_rules('phone', lang_key('phone'), 'required');
         $this->form_validation->set_rules('email', lang_key('email'), 'required');
 
         $this->form_validation->set_rules('country', 			lang_key('country'), 			'required');
@@ -57,11 +57,9 @@ class User extends User_core {
             $this->form_validation->set_rules('state', 			lang_key('state'), 				'required');
 
         $this->form_validation->set_rules('selected_city', 		lang_key('city'), 				'xss_clean');
-        $this->form_validation->set_rules('city', 				lang_key('city'), 				'required');
-        $this->form_validation->set_rules('zip_code', 			lang_key('zip_code'), 			'xss_clean');
-        $this->form_validation->set_rules('address', 			lang_key('address'), 			'required');
-        $this->form_validation->set_rules('latitude', 			lang_key('latitude'), 			'required');
-        $this->form_validation->set_rules('longitude', 			lang_key('longitude'), 			'required');
+        
+
+
 
         $this->form_validation->set_rules('title_'.default_lang(), 				lang_key('title'), 				'required');
         $this->form_validation->set_rules('description_'.default_lang(), 		lang_key('description'), 		'required');
@@ -89,16 +87,16 @@ class User extends User_core {
             $data['category'] 			= $this->input->post('category');
             $meta_search_text .= get_category_title_by_id($data['category']).' ';
 
-            $data['price_range'] 		= $this->input->post('price_range');
-            $data['phone_no'] 			= $this->input->post('phone_no');
+            $data['price_range'] 		= $this->input->post('price_rage');
+            $data['phone'] 			= $this->input->post('phone');
             $data['email'] 				= $this->input->post('email');
-            $data['website'] 			= $this->input->post('website');
+            $data['website'] 			= $this->input->post('websit');
 //
             $data['project_website'] 	= $this->input->post('project_website');
             $extra_url 						= array();
             $extra_url['user_id'] = $this->session->userdata('user_id');
 //
-            $data['founded'] 			= $this->input->post('founded');
+            $data['founded'] 			= $this->input->post('found');
             $meta_search_text .= $data['founded'].' ';
 
             $data['country'] 			= $this->input->post('country');
@@ -107,7 +105,7 @@ class User extends User_core {
             $data['state'] 				= $state_active == 'yes' ? $this->input->post('state') : 0;
             $meta_search_text .= get_location_name_by_id($data['state']).' ';
 
-            $selected_city = $this->input->post('selected_city');
+            $selected_city = $this->input->post('select_city');
             $city = $this->input->post('city');
             if($selected_city == ''){
                 $new_city_id = $this->post_model->get_location_id_by_name($city, 'city', $data['state'], $data['country']);
@@ -142,10 +140,10 @@ class User extends User_core {
             $data['title'] 			= json_encode($titles);
             $data['description'] 	= json_encode($descriptions);
 
-            $data['tags'] 				= $this->input->post('tags');
+            $data['tags'] 				= $this->input->post('tag');
             $meta_search_text		.=  $data['tags'].' ';
 
-            $data['featured_img'] 		= $this->input->post('featured_img');
+            $data['featured_img'] 		= $this->input->post('feature_img');
 
 
             $data['created_by']			= $this->session->userdata('user_id');
@@ -153,8 +151,8 @@ class User extends User_core {
             $data['publish_time'] 		= $time;
             $data['last_update_time'] 	= $time;
 
-            $publish_directly 			= get_settings('business_settings','publish_directly','Yes');
-            $enable_pricing				= get_settings('package_settings','enable_pricing','Yes');
+            $publish_directly 			= get_settings('business_settings','publish_direct','Yes');
+            $enable_pricing				= get_settings('package_settings','enable_price','Yes');
 
             /**************************
 
@@ -205,7 +203,7 @@ class User extends User_core {
 
 
         $this->form_validation->set_rules('category', lang_key('category'), 'required');
-        $this->form_validation->set_rules('phone_no', lang_key('phone'), 'required');
+        $this->form_validation->set_rules('phone', lang_key('phone'), 'required');
         $this->form_validation->set_rules('email', lang_key('email'), 'required');
 
 
@@ -213,12 +211,7 @@ class User extends User_core {
         if($state_active == 'yes')
             $this->form_validation->set_rules('state', 				lang_key('state'), 				'required');
 
-        $this->form_validation->set_rules('selected_city', 		lang_key('city'), 				'xss_clean');
-        $this->form_validation->set_rules('city', 				lang_key('city'), 				'required');
-        $this->form_validation->set_rules('zip_code', 			lang_key('zip_code'), 			'xss_clean');
-        $this->form_validation->set_rules('address', 			lang_key('address'), 			'required');
-        $this->form_validation->set_rules('latitude', 			lang_key('latitude'), 			'required');
-        $this->form_validation->set_rules('longitude', 			lang_key('longitude'), 			'required');
+      
 
         $this->form_validation->set_rules('title_'.default_lang(), 				lang_key('title'), 				'required');
         $this->form_validation->set_rules('description_'.default_lang(), 		lang_key('description'), 		'required');
@@ -245,7 +238,7 @@ class User extends User_core {
             $meta_search_text .= get_category_title_by_id($data['category']).' ';
 
             $data['price_range'] 				= $this->input->post('price_range');
-            $data['phone_no'] 			= $this->input->post('phone_no');
+            $data['phone'] 			= $this->input->post('phone');
             $data['email'] 			= $this->input->post('email');
             $data['website'] 			= $this->input->post('website');
 //

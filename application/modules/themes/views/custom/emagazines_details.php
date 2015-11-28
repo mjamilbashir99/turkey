@@ -143,13 +143,19 @@
               No Data Found
            </div>
     <?php }?>
-		<?php render_widgets('footeremagazine');?>
+		<?php //render_widgets('footeremagazine');
+		get_banner_target_area(41);
+		?>
         </div>
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
              <?php include_once('category_sidebar_magazines.php')?>
                 <?php include_once('locations_sidebar_magazines.php')?>
-                <?php render_widgets('RightBarEmagazines');?>
+                <?php 
+				for($i=42; $i<=50; $i++)
+				{ 
+				get_banner_target_area($i);
+				}?>
             </div>
         </div>
     </div>

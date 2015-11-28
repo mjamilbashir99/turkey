@@ -21,63 +21,68 @@
 
 		<?php }?>
 
-
-            <div class="form-group">
-                                        <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('select_state');?></label>
-                                        <div class="col-sm-4 col-md-4 controls">
-                                        <select id="input-11" name="state" class="form-control chosen-select">
-                                            <option data-name="" value="any"><?php echo lang_key('any_state');?></option>
-                                              <?php foreach (get_all_locations_by_type('state')->result() as $row) {
-												  $v = (set_value('state')!='')?set_value('state'):$row->id;
-                                                  $sel = ($v==$post->county)?'selected="selected"':'';
-                                                  ?>
-                                                  <option data-name="<?php echo $row->name;?>" class="cities state-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
-                                              <?php }?>
-                                        </select>
-                                    </div>
-                                </div>				
-        
-                                    <div class="form-group">
-                                        <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('select_city');?></label>
-                                        <div class="col-sm-4 col-md-4 controls">
-                                        <select id="input-11" name="city" class="form-control chosen-select">
-                                            <option data-name="" value="any"><?php echo lang_key('any_city');?></option>
-                                              <?php foreach (get_all_locations_by_type('city')->result() as $row) {
-												  $v = (set_value('city')!='')?set_value('city'):$row->id;
-                                                  $sel = ($v==$post->city)?'selected="selected"':'';
-                                                  ?>
-                                                  <option data-name="<?php echo $row->name;?>" class="cities city-<?php echo $row->parent;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
-                                              <?php }?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('select_category');?></label>
-                                       <div class="col-sm-4 col-md-4 controls">
-                                        <?php
-                                        $CI = get_instance();
-                                        $CI->load->model('user/post_model');
-                                        $categories = $CI->post_model->get_all_categories();
-                                        ?>
-                                        <select id="input-14" name="category" class="form-control chosen-select">
-                                            <option value="any"><?php echo lang_key('any_category');?></option>
-                                              <?php foreach ($categories as $row) {
-												   $v = (set_value('category')!='')?set_value('category'):$row->id;
-                                                  $sel = ($v==$post->categories)?'selected="selected"':'';
-                                              ?>
-                                                  <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->title);?></option>
-                                              <?php
-                                              }?>
-                                        </select>
-                                    </div>
-                                </div>
-                               <?php //var_dump($post)?>
+ <div class="form-group icon-class-holder">
+					<label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('Advertiser');?>:</label>
+					<div class="col-sm-4 col-md-4 controls">
+						<input type="text" name="advertiser" value="<?php echo $post->advertiser?>" class="form-control input-sm" >
+						<?php echo form_error('advertiser'); ?>
+					</div>
+				</div>
+ <div class="form-group">
+                        <label class="col-md-3 control-label"><?php echo lang_key('City');?>:</label>
+                        <div class="col-md-4">                        
+                        <select id="state" name="state" class="form-control chosen-select">
+                        <option name="state" selected="selected" value="all"><?php echo lang_key('all');?></option>
+                        <?php //var_dump($post) ?>
+                        <?php foreach (get_all_locations_by_type('state')->result() as $row) {
+                        $v = (set_value('state')!='')?set_value('state'):$row->id;
+                        $sel = ($v==$post->city)?'selected="selected"':'';                        
+                        ?>
+                        <option data-name="<?php echo $row->name;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
+                        <?php }?>                        
+                        </select>
+                        <?php echo form_error('state');?>                        
+                        </div>
+                        </div>                        
+                        <div class="form-group">
+                        <label class="col-md-3 control-label"><?php echo lang_key('counties');?>:</label>
+                        <div class="col-md-4">                       
+                        <select id="county" name="county" class="form-control chosen-select">
+                        <option name="county" id="county" selected="selected" value="all"><?php echo lang_key('all');?></option>
+                        <?php //var_dump($post) ?>
+                        <?php foreach (get_all_locations_by_type('city')->result() as $row) {
+                        $v = (set_value('county')!='')?set_value('county'):$row->id;
+                        $sel = ($v==$post->county)?'selected="selected"':'';                        
+                        ?>
+                        <option data-name="<?php echo $row->name;?>" id="county" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
+                        <?php }?>                        </select>
+                        <?php echo form_error('county');?>                        
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('select_category');?>:</label>
+                        <div class="col-sm-4 col-md-4 controls">
+                        <?php
+                        $CI = get_instance();
+                        $CI->load->model('user/post_model');
+                        $categories = $CI->post_model->get_all_categories();
+                        ?>
+                        <select id="input-14" name="category" class="form-control chosen-select">
+                        <option value="all" selected="selected"><?php echo lang_key('all');?></option>
+                        <?php foreach ($categories as $row) {
+                        $v = (set_value('category')!='')?set_value('category'):$row->id;
+                        $sel = ($v==$post->categories)?'selected="selected"':'';
+                        ?>
+                        <option value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo lang_key($row->title);?></option>
+                        <?php
+                        }?>
+                        </select>
+                        </div>
+                        </div>
                               <div class="form-group icon-class-holder">
 					<label class="col-sm-3 col-md-3 control-label"><?php echo lang_key('Target Area');?>:</label>
 					<div class="col-sm-4 col-md-4 controls">
                       <select id="input-14" name="target_area" class="form-control chosen-select">
-                          <option value="any"><?php echo lang_key('Target Area');?></option>
                           <?php foreach($banners as $banner){ 
 						   $v = (set_value('banner')!='')?set_value('banner'):$banner->id;
                            $sel = ($v==$post->target_area)?'selected="selected"':'';
@@ -119,7 +124,7 @@
                 <div class="form-group">
             <label class="col-sm-3 col-lg-2 control-label">&nbsp;</label>
             <div class="col-sm-4 col-lg-5 controls">
-                <img class="thumbnail" id="featured_photo" src="<?php echo get_featured_photo_by_id('');?>" style="width:256px;">
+                <span id="featured_photo"></span> 
             </div>
             <div class="clearfix"></div>                   
             <span id="featured-photo-error"></span> 
@@ -139,13 +144,9 @@
                 <div class="form-group icon-class-holder">
 					<label class="col-sm-2 col-md-2 control-label"><?php echo lang_key('Ad type');?>:</label>
 					<div class="col-sm-12 col-md-12 controls">
-                   <label class="radio-inline"><input type="radio" name="ad_type" value="1" <?php if ($post->ad_type == '1') echo 'checked="checked"'; ?>>picture</label>
+                   <label class="radio-inline"><input type="radio" name="ad_type" value="1"  checked="checked"<?php if ($post->ad_type == '1') echo 'checked="checked"'; ?>>picture</label>
                     <label class="radio-inline"><input type="radio" name="ad_type" value="2" <?php if ($post->ad_type == '2') echo 'checked="checked"'; ?>>Adveresting Code</label>
-                    <label class="radio-inline"><input type="radio" name="ad_type" value="3" <?php if ($post->ad_type == '3') echo 'checked="checked"'; ?>>8 second opening</label>
-                     <label class="radio-inline"><input type="radio" name="ad_type" value="4" <?php if ($post->ad_type == '4') echo 'checked="checked"'; ?>>Background</label>
-                    <label class="radio-inline"><input type="radio" name="ad_type" value="5" <?php if ($post->ad_type == '5') echo 'checked="checked"'; ?>>Flash</label>
-                    <label class="radio-inline"><input type="radio" name="ad_type" value="6" <?php if ($post->ad_type == '6') echo 'checked="checked"'; ?>>Growing Flash</label>
-						<?php echo form_error('Ad type'); ?>
+                    <label class="radio-inline"><input type="radio" name="ad_type" value="5" <?php if ($post->ad_type == '5') echo 'checked="checked"'; ?>>Flash</label>	<?php echo form_error('Ad type'); ?>
 					</div>
 				</div>
                 
@@ -187,7 +188,7 @@ echo "</select>";
 ?>
 <?php
 $current_year = date("Y");
-$range = range($current_year, ($current_year - 50));
+$range = range($current_year, ($current_year + 5));
 echo '<select name="start_year" id="contact-year" tabindex="7">';
  
 //Now we use a foreach loop and build the option tags
@@ -279,7 +280,7 @@ echo "</select>";
 ?>
 <?php
 $current_year = date("Y");
-$range = range($current_year, ($current_year - 50));
+$range = range($current_year, ($current_year + 5));
 echo '<select name="end_year" id="contact-year" tabindex="7">';
  
 //Now we use a foreach loop and build the option tags
@@ -370,22 +371,26 @@ echo "</select>";
   </div>
 </div>
 <script type="text/javascript" src="<?php echo base_url('assets/tinymce/tinymce.min.js');?>"></script>
-<script type="text/javascript">
-tinymce.init({
-	convert_urls : 0,
-    selector: ".rich",
+<script>
+jQuery(document).ready(function(){
 
-    plugins: [
-
-         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-
-         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-
-         "save code table contextmenu directionality emoticons template paste textcolor"
-
-   ]
-
- });
+jQuery("#state").change(function(){
+currentstate=jQuery(this).val();
+//alert(currentstate);
+if(currentstate!="all"){
+  jQuery.post( "<?php echo site_url('admin/banners/select_county');?>", { state: currentstate }, function( data ) {
+  jQuery("#county").html('');
+  jQuery("#county").append(data.html_str);
+}, "json");
+	}
+else{
+  jQuery.post( "<?php echo site_url('admin/banners/all_county');?>", { state: currentstate }, function( data ) {
+  jQuery("#county").html('');
+  jQuery("#county").append(data.html_str);
+}, "json");	
+	}
+	});
+});	
 </script>
 <script type="text/javascript">
 	var base_url = '<?php echo base_url();?>';

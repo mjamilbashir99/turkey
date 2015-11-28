@@ -513,13 +513,13 @@
                                 <h4 class="info-subtitle"><i class="fa fa-book"></i> Other Publications</h4>
                               
 								<?php 
-							    //var_dump($all_Magazines); 
+							    //var_dump($all_magazines); 
 								foreach ($all_magazines as $all_Magazines_user_id) 
                                 {
 									if($all_Magazines_user_id->title!='')
 									{
 										$issue_data = get_issues_by_id($all_Magazines_user_id->emag_id);
-										if($my_issue_id!=$issue_data->id)
+										//if($my_issue_id!=$issue_data->id)
 										echo '<a class="publications" href="'.$issue_data->id.'" rel="'.$all_Magazines_user_id->emag_id.'">'.$all_Magazines_user_id->title.'</a> |';
 									}
 								}
@@ -588,9 +588,15 @@
                              <div id="reviews-holder" class="team-two">
                                  <?php require('all_reviews_view.php');?>
                              </div>
+                             
                         </div>
                     </div>
                 </div>
+                <?php 
+			    $mes = $post->id;
+				get_sponsor_area_by_target_area($mes);
+				get_banner_target_area(40);
+				?>
             </div>
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="sidebar">
@@ -670,7 +676,8 @@
                         </div>
                     </div>
 
-                    <?php render_widgets('right_bar_detail');?>
+                    <?php 
+					render_widgets('right_bar_detail');?>
                 </div>
             </div>
         </div>

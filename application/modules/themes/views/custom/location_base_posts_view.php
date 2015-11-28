@@ -18,7 +18,7 @@
 
         <div class="col-md-9 col-sm-12 col-xs-12">
             <div class="block-heading-two">
-                <h3><span><i class="fa fa-map-marker"></i> <?php echo lang_key($location_type);?> : <?php echo get_location_name_by_id($location_id);?></span>
+                <h3><span><i class="fa fa-map-marker"></i> <?php echo lang_key($location_type);?> : <?php echo get_location_name_by_id($location_id); echo "amjad";?></span>
                     <div class="pull-right list-switcher">
                         <a target="recent-posts" href="<?php echo site_url('show/location_posts_ajax/'.$per_page.'/grid/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th "></i></a>
                         <a target="recent-posts" href="<?php echo site_url('show/location_posts_ajax/'.$per_page.'/list/'.$location_id.'/'.$location_type);?>"><i class="fa fa-th-list "></i></a>

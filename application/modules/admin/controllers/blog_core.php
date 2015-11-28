@@ -87,7 +87,12 @@ class Blog_core extends CI_Controller {
 			$data['featured_img'] 	= $this->input->post('featured_img');
 			$data['type'] 			= $this->input->post('type');
 			$data['category'] 		= $this->input->post('category');
-            $data['country'] 		= $this->input->post('county');
+             $county_city_id       	= $this->input->post('county');
+		 $county_city=(explode("-",$county_city_id));
+			//print_r(explode("-",$data['county_city']));
+			//var_dump($county_city);
+			 $data['county']         = $county_city[0];
+			 $data['city']           = $county_city[1];
 			$data['gallery'] 		= $this->input->post('gallery');
 			$data['gallery']        = json_encode($data['gallery']); 
 			$this->load->model('admin/system_model');

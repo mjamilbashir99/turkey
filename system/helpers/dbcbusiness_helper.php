@@ -393,9 +393,25 @@ if ( ! function_exists('get_county_by_id'))
 			return '';
 	}
 }
+if ( ! function_exists('get_county_name_by_id'))
+{
+	function get_county_name_by_id($id='')
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('county',array('id'=>$id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return $row->name;
+		}
+		else
+			return '';
+	}
+}
 if ( ! function_exists('get_locations_by_name'))
 {
-	function get_locations_by_name($name='')
+	function get_locations_by_name($name)
 	{
 		$CI = get_instance();
 		$CI->load->database();
@@ -415,6 +431,21 @@ if ( ! function_exists('get_county_by_id_city'))
 		return $query->result();
 	}
 }
+if ( ! function_exists('get_city_name_by_id'))
+{
+	function get_city_name_by_id($city)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->select('city');
+		$query = $CI->db->get_where('county',array('city_id'=>$city));
+		return $query->result();
+	}
+}
+
+
+
+
 if ( ! function_exists('get_all_county_by_name'))
 {
 	function get_all_county_by_name()
@@ -459,6 +490,20 @@ if ( ! function_exists('get_all_county'))
 		return $query->result();
 	}
 }
+
+if ( ! function_exists('get_other_blog_post_by_ctegory_type'))
+{
+	function get_other_blog_post_by_ctegory_type($type,$category,$limit=10)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		 $CI->db->limit($limit);
+		//$query = $CI->db->select('name');
+		$query = $CI->db->get_where('blog',array('type'=>$type,'category'=>$category));
+		return $query->result();
+	}
+}
+
 
 //print_r ($re=get_all_city_by_county());
 
@@ -664,6 +709,22 @@ if ( ! function_exists('get_thumbs_image'))
 		 // $img_link = base_url('assets/admin/img/preview.jpg');
 		
 		return $img_link;   
+		
+	}
+}
+if ( ! function_exists('get_banner_image'))
+{
+	function get_banner_image($img='')
+	{
+		if($img=='' || $img==0)
+		$img_link ='';
+		else
+		$img_link = base_url('uploads/thumbs/'.$img);
+		// if(getimagesize('uploads/thumbs/'.$img))
+		 return $img_link;  
+		// else 
+		  //return $img_link ='';
+		 
 		
 	}
 }
@@ -930,6 +991,68 @@ if ( ! function_exists('create_square_thumb'))
 	}
 	
 }
+if ( ! function_exists('create_square_thumb_n'))
+{
+	function create_square_thumb_n($img,$dest)
+	{
+		$seg = explode('.',$img);
+		$thumbType    = 'jpg';
+		$thumbSize    =  1200;
+		$thumbPath    = $dest;
+		$thumbQuality = 100;
+
+		$last_index = count($seg);
+		$last_index--;
+
+		if(strcasecmp($seg[$last_index], 'jpg') == 0 || strcasecmp($seg[$last_index], 'jpeg') == 0)
+		{
+			if (!$full = imagecreatefromjpeg($img)) {
+			    return 'error';
+			}			
+		}
+		else if(strcasecmp($seg[$last_index], 'png') == 0)
+		{
+			if (!$full = imagecreatefrompng($img)) {
+			    return 'error';
+			}			
+		}
+		else if(strcasecmp($seg[$last_index], 'gif') == 0)
+		{
+			if (!$full = imagecreatefromgif($img)) {
+			    return 'error';
+			}			
+		}
+		 
+	    $width  = imagesx($full);
+	    $height = imagesy($full);
+		 
+	    /* work out the smaller version, setting the shortest side to the size of the thumb, constraining height/wight */
+	    if ($height > $width) {
+	      $divisor = $width / $thumbSize;
+	    } else {
+	      $divisor = $height / $thumbSize;
+	    }
+		 
+	    $resizedWidth   = ceil($width / $divisor);
+	    $resizedHeight  = ceil($height / $divisor);
+		 
+	    /* work out center point */
+	    $thumbx = floor(($resizedWidth  - $thumbSize) / 2);
+	    $thumby = floor(($resizedHeight - $thumbSize) / 2);
+		 
+	    /* create the small smaller version, then crop it centrally to create the thumbnail */
+	    $resized  = imagecreatetruecolor($resizedWidth, $resizedHeight);
+	    $thumb    = imagecreatetruecolor($thumbSize, $thumbSize);
+	    imagecopyresized($resized, $full, 0, 0, 0, 0, $resizedWidth, $resizedHeight, $width, $height);
+	    imagecopyresized($thumb, $resized, 0, 0, $thumbx, $thumby, $thumbSize, $thumbSize, $thumbSize, $thumbSize);
+		 
+		 $name = name_from_url($img);
+
+	    imagejpeg($thumb, $thumbPath.str_replace('_large.jpg', '_thumb.jpg', $name), $thumbQuality);
+	}
+	
+}
+
 
 if ( ! function_exists('humanTiming'))
 {
@@ -2042,17 +2165,172 @@ if ( ! function_exists('get_review_with_half_stars'))
 }
 if ( ! function_exists('count_blog_by'))
 {
-function count_blog_by($type,$category='',$region='')
+function count_blog_by($type,$category='',$city='',$county='')
 	{
-	   $CI = get_instance();
+	    $CI = get_instance();
 		$CI->load->database();
 		$CI->db->where('blog.type', $type);		
-		if($region!='')
-			$CI->db->where('blog.city', $region);		
+		if($city!='')
+			$CI->db->where('blog.city', $city);	
+		if($county!='')
+			$CI->db->where('blog.county', $county);	
 		if($category!='')
 			$CI->db->where('blog.category', $category); 
 		return $num_rows = $CI->db->count_all_results('blog');
 
+	}
+}
+if ( ! function_exists('get_banner_target_area'))
+{
+	function get_banner_target_area($id)
+	{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->select();
+		$query = $CI->db->get_where('dbc_advertesing',array('target_area'=>$id,'status'=>1,'start_date <='=>time(),'end_date >='=>time()));
+		if($query->num_rows()>0)
+		{  
+			$mybanners = $query->result();
+			foreach($mybanners as $banners)
+			{
+				if($banners->ad_type==1)
+				{ 
+				     $img = get_thumbs_image($banners->advertesing);
+				     if($img!='') 
+                     echo '<div style="margin-top:20px"><a href="'.$banners->url.'"><img src="'.$img.'" style="width:100%;hight:100%"></div>';
+					 else
+					 echo "amjad";
+                 }
+				elseif($banners->ad_type==2)
+				{
+			     echo  '<div style="margin-top:20px;" >'
+			     .$banners->script_area.'</div>';
+				}
+				elseif($banners->ad_type==5)
+				{
+					?>
+                 <div style="margin-top:20px;">   
+                <object type="application/x-shockwave-flash" 
+                data="<?php echo get_thumbs_image($banners->advertesing)?>">
+                <param name="movie" value="
+                <?php echo get_thumbs_image($banners->advertesing)?>"/>
+                <param name="allowfullscreen" value="true" />
+                <param name="allowscriptaccess" value="always" />
+                <param name="wmode" value="opaque" />
+                <param name="quality" value="high" />
+                <param name="menu" value="false" />
+                </object></div>
+				<?php }
+				elseif($banners->ad_type==7)
+				{?>
+				<?php  echo  $banners->sponsor_add;?>
+				<?php 
+				}
+			}
+		}
+		else
+		return ''; 
+	}
+if ( ! function_exists('get_banner_area_by_target_area'))
+{
+	function get_banner_area_by_target_area($id)
+	{
+	 if($id==0){
+	 return 'Sponsor Message';
+	 }else{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('dbc_banners_area',array('id'=>$id));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			return $row->banner_area;
+		}
+		else
+		{
+			return 'not Selected';
+		}
+	 }
+	}
+}
+if ( ! function_exists('get_sponsor_area_by_target_area'))
+{
+	function get_sponsor_area_by_target_area($id)
+	{
+	 if($id==0){
+	 return 'Sponsor Message';
+	 }else{
+		$CI = get_instance();
+		$CI->load->database();
+		$query = $CI->db->get_where('dbc_posts',array('id'=>$id,'show_sponsor_add'=>1));
+		if($query->num_rows()>0)
+		{
+			$row = $query->row();
+			echo '<div style=" border-radius:10px; border: 1px solid #73AD21; padding: 5px;  width: 100p%; text-align: center;">'.$row->sponsor_add.'</div>';
+		}
+		else
+		{
+			return 'not Selected';
+		}
+	 }
+	}
+}
+if ( ! function_exists('get_sponoper_sms_by_county'))
+{
+	function get_sponoper_sms_by_county($id)
+	{
+		//echo $id;
+	 if($id==0){
+	 return 'Sponsor Message';
+	 }else{
+		$CI = get_instance();
+		$CI->load->database();
+		$CI->db->limit(1);
+		//$CI->db->order_by("desc");
+		$query = $CI->db->get_where('dbc_advertesing',array('county'=>$id,'ad_type'=>7));
+		
+		if($query->num_rows()>0)
+		{
+			$mybanners = $query->result();
+			foreach($mybanners as $banners)
+			{
+				echo $banners->sponsor_add;
+				//var_dump($banners);
+			}
+		}
+		else
+		{
+			echo 'not Selected';
+		}
+	 }
+	}
+ }
+	if ( ! function_exists('getDuration'))
+	{function getDuration($video_url) {
+		
+    $api_key='AIzaSyCwsDLvdT8fjCZp2RNLN3t41PgVk1a70_k';
+    // video id from url
+    parse_str(parse_url($video_url, PHP_URL_QUERY), $get_parameters);
+    $video_id = $get_parameters['v'];
+
+    // video json data
+    $json_result = file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=$video_id&key=$api_key");
+    $result = json_decode($json_result, true);
+   //var_dump( $result);
+    // video duration data
+    if (!count($result['items'])) {
+        return null;
+    }
+    $duration_encoded = $result['items'][0]['contentDetails']['duration'];
+
+    // duration
+    $interval = new DateInterval($duration_encoded);
+    $seconds = $interval->days * 86400 + $interval->h * 3600 + $interval->i * 60 + $interval->s;
+
+   // return $seconds;
+	return gmdate("H:i:s", $seconds);
+ 
+	}
 	}
 }
 /* End of file array_helper.php */

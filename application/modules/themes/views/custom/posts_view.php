@@ -1,6 +1,20 @@
+<script>
+// A $( document ).ready() block.
+jQuery( document ).ready(function() {
+		jQuery(".change_view").click(function(e){
+			e.preventDefault();
+			current_view = jQuery(this).attr('target');
+			document.cookie="current_view="+current_view;
+			document.cookie="current_view="+current_view;
+			location.reload();
+		});
+});
+</script>
 <div class="page-heading-two">
     <div class="container">
+   <?php  $city;
    
+    ?>
         <h2><?php $article=lang_key($page_title);
 		if($article=="Article"){
 			echo "Destination";
@@ -12,15 +26,40 @@
 		
 		
 		 ?> </h2>
-        <div class="breads">
-            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home'); ?></a> / <?php $article;
-		if($article=="Article"){
-			echo "Destination";
-			
-			}else{
-				
-				echo lang_key($page_title);
-				} ?>
+         <div class="breads" >
+         
+            <a href="<?php echo site_url(); ?>"><?php echo lang_key('home');?></a>/
+			<?php 
+			   if($article=="article" || $article=="Article")
+			    {
+					$url="destinations-posts";
+					$title='Destinations';
+					$banner="artical";
+				} 
+				else if($article=="news" || $article=="News")
+			    {
+					$url="news-posts";
+					$title='News';
+					$banner="news";
+				} 
+			else
+			    {
+					$url="blog-posts";
+					$title='Blog';
+					$banner="blog";
+				} 
+			 ?>
+			<a href="<?php echo site_url($url); ?>"><?php echo $title; ?></a>/
+             <?php if($city != 'all'){?>
+                <a href="<?php echo site_url($url.'/?city='.$city) ?>"><?php echo get_location_name_by_id($city) ?></a>/
+				<?php }
+                if($county != 'all')
+                {?>
+                <a href="<?php echo site_url($url.'/?county='.$county) ?>"><?php echo get_county_name_by_id($county) ?></a>/<?php	
+                }if($category != 'all')
+                {?>
+                <a href="<?php echo site_url($url.'/?category='.$category) ?>"><?php echo get_category_post_by_id($category) ?></a>/<?php	
+                }?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -30,10 +69,20 @@
 <div class="container">
     <div class="blog-one">
         <div class="row">
-
             <div class="col-md-9 col-sm-12 col-xs-12">
+            <div>
+         <div class="block-heading-two">
+                <h3><span><i class="fa fa-map-marker">&nbsp;&nbsp;</i><?php echo $title; ?></span>
+                    <div class="pull-right">
+                      <a target="gird_view" href="#" class="change_view"><i class="fa fa-th"></i></a>
+                      <a target="list_view" href="#" class="change_view"><i class="fa fa-th-list"  style="color:#F00"></i></a>
+                    </div>
+                </h3>
+            </div>
+</div>
 
                 <?php
+				
                 if($posts->num_rows()<=0){
                     ?>
                     <div class="alert alert-warning"><?php echo lang_key('post_not_found'); ?></div>
@@ -73,28 +122,141 @@
                 <ul class="pagination">
                     <?php echo (isset($pages))?$pages:'';?>
                 </ul>
-
-
+               <div>
+               <?php
+			   //destination 
+			   if($article=="Article")
+			   {
+				   if($city != 'all')
+				   {
+					  echo get_banner_target_area(121);
+				   }
+				   elseif($category != 'all')
+				   {
+					   get_banner_target_area(111);
+				   }
+				   else
+				   {
+					 get_banner_target_area(131); 
+				   }
+			   }
+			   //news
+			   elseif($article=="News")
+			   {
+				   if($city != 'all')
+				   {
+					  echo get_banner_target_area(161);
+				   }
+				   elseif($category != 'all')
+				   {
+					   get_banner_target_area(151);
+				   }
+				   else
+				   {
+					 get_banner_target_area(171); 
+				   }
+			   }
+			   //Blog
+			   else
+			   {
+				   if($city != 'all')
+				   {
+					  echo get_banner_target_area(81);
+				   }
+				   elseif($category != 'all')
+				   {
+					   get_banner_target_area(71);
+				   }
+				   else
+				   {
+					 get_banner_target_area(91); 
+				   }
+			   }?>
+               </div>
+<div style="clear:both"></div>
             </div>
 
-
             <div class="col-md-3 col-sm-12 col-xs-12">
-                <div class="sidebar">
                  <?php  include_once('blog_search.php');?>
                   <?php  if($article=="Article"){
 			 include_once('category_sidebar_article.php');
-			 include_once('locations_sidebar_article.php');
-			
-			}elseif($article=="News"){
+			 include_once('locations_sidebar_article.php');			 
+				if($city != 'all')
+				   {
+					  for($i=122; $i<=130; $i++)
+				       { 
+				       get_banner_target_area($i);
+				       }
+				   }
+				   elseif($category != 'all')
+				   {
+					   for($i=112; $i<=120; $i++)
+				       { 
+				       get_banner_target_area($i);
+				       }
+				   }
+				   else
+				   {
+					  for($i=132; $i<=140; $i++)
+				       { 
+				       get_banner_target_area($i);
+				       } 
+				   }?>
+				<div style="clear:both"></div>
+			 <?php }elseif($article=="News"){
 
 				 include_once('category_sidebar_new.php');
 				 include_once('locations_sidebar_new.php');
-				}else{
+					if($city != 'all')
+					   {
+						  for($i=162; $i<=170; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   }
+					   }
+					   elseif($category != 'all')
+					   {
+						   for($i=152; $i<=160; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   }
+					   }
+					   else
+					   {
+						  for($i=172; $i<=180; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   } 
+					   }?>
+				<div style="clear:both"></div>
+			 <?php }else{
 					 
 					 include_once('category_sidebar_blog.php');
 					 include_once('locations_sidebar_blog.php');
-					
-					} ?>
+				if($city != 'all')
+					   {
+						  for($i=82; $i<=90; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   }
+					   }
+					   elseif($category != 'all')
+					   {
+						   for($i=72; $i<=80; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   }
+					   }
+					   else
+					   {
+						  for($i=92; $i<=100; $i++)
+						   { 
+						   get_banner_target_area($i);
+						   } 
+					   }?>
+				<div style="clear:both"></div>
+			 <?php	} 
+					?> 
                 
                  
                            

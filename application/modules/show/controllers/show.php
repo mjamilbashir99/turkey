@@ -192,7 +192,7 @@ class Show extends Show_core {
 			   $sub_video_id = $tmp_array[1];
 			   $value['current_video_id']=$sub_video_id;
 			}
-			$value['topVideo'] = $this->show_model->topVideo('latest',$region,$category,$main_video_id);
+			 $value['topVideo'] = $this->show_model->topVideo('latest',$region,$category,$main_video_id);
 		}
 		else
 		{
@@ -200,7 +200,9 @@ class Show extends Show_core {
 		}
 		$value['all']      = $this->show_model->listVideos('all',$region,$category,$limit);
 		$value['latest']   = $this->show_model->listVideos('latest',$region,$category,$limit);
+		//var_dump($value['latest']);
 		$value['featured'] = $this->show_model->listVideos('featured','','',$limit);
+	
 		$data['content']   = load_view('videos_view',$value,TRUE);
 		load_template($data,$this->active_theme);
 		//$this->output->enable_profiler(TRUE);

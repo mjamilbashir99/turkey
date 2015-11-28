@@ -138,7 +138,7 @@ $user = $user->row();
 
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="sidebar">
-                <?php render_widgets('right_bar_all_users');?>
+                <?php //render_widgets('right_bar_all_users');?>
             </div>
         </div>
 

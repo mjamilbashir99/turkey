@@ -249,46 +249,9 @@
                                 </div>
 
                             </div>
+                               <div class="form-group">
 
-                        <?php $state_active = get_settings('business_settings', 'show_state_province', 'yes'); ?>
-
-                        <?php if($state_active == 'yes'){ ?>
-<div class="form-group">
-
-                                <label class="col-md-3 control-label"><?php echo lang_key('cities');?></label>
-
-                                <div class="col-md-8">
-
-                                    <?php $city_field_type = get_settings('business_settings', 'city_dropdown', 'autocomplete'); ?>
-
-                                    <input type="hidden" name="selected_city" id="selected_city" value="<?php echo(set_value('selected_city')!='')?set_value('selected_city'):'';?>">
-
-                                    <?php if ($city_field_type=='dropdown') {?>
-
-                                    <select name="city" id="city_dropdown" class="form-control">                                        
-
-                                    </select>
-
-                                    <?php }else {?>
-
-                                    <input type="text" id="city" name="city" value="<?php echo(set_value('city')!='')?set_value('city'):'';?>" placeholder="<?php echo lang_key('city');?>" class="form-control" >
-
-                                    <span class="help-inline city-loading">&nbsp;</span>
-
-                                    <?php }?>
-
-                                    <?php echo form_error('city');?>
-
-                                </div>
-
-                            </div>
-                            
-
-                        <?php } ?>
-
-                            <div class="form-group">
-
-                                <label class="col-md-3 control-label"><?php echo lang_key('County');?></label>
+                                <label class="col-md-3 control-label"><?php echo lang_key('Cities');?></label>
 
                                 <div class="col-md-8">
 
@@ -304,6 +267,41 @@
 
                             </div>
 
+                        <?php $state_active = get_settings('business_settings', 'show_state_province', 'yes'); ?>
+
+                        <?php if($state_active == 'yes'){ ?>
+                   <div class="form-group">
+
+                                <label class="col-md-3 control-label"><?php echo lang_key('Counties');?></label>
+
+                                <div class="col-md-8">
+
+                                    <?php $city_field_type = get_settings('business_settings', 'city_dropdown', 'autocomplete'); ?>
+
+                                    <input type="hidden" name="selected_city" id="selected_city" value="<?php echo(set_value('selected_city')!='')?set_value('selected_city'):'';?>">
+
+                                    <?php if ($city_field_type=='dropdown') {?>
+
+                                    <select name="city" id="city_dropdown" class="form-control">                                        
+
+                                    </select>
+
+                                    <?php }else {?>
+
+                                    <input type="text" id="city" name="city" value="<?php echo(set_value('city')!='')?set_value('city'):'';?>" placeholder="<?php echo lang_key('county');?>" class="form-control" >
+
+                                    <span class="help-inline city-loading">&nbsp;</span>
+
+                                    <?php }?>
+
+                                    <?php echo form_error('city');?>
+
+                                </div>
+
+                            </div>
+                            
+
+                        <?php } ?>
                             <div class="form-group">
 
                                 <label class="col-md-3 control-label"><?php echo lang_key('zip_code');?></label>

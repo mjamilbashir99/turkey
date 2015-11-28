@@ -53,15 +53,18 @@ jQuery(document).ready(function(){
 			var response = jQuery.parseJSON(xhr.responseText);
 			if(response.error==0)
 			{
-				var base_url = "<?php echo base_url();?>uploads/";
+				var base_url = "<?php echo base_url();?>uploads/thumbs/";
 				//window.parent.jQuery('#featured_photo_input').attr("value",response.name);
 				window.parent.jQuery('#featured_photo_input').attr("value",response.name);
-				window.parent.jQuery('#featured_photo_input').trigger('change');
+				//window.parent.jQuery('#featured_photo').css("dispaly",'inline');
+				window.parent.jQuery('#featured_photo').html("File has uplaoded successully");
+				//window.parent.jQuery('#featured_photo_input').trigger('change');
 			}
+			
 			else
 			{
 				if(response.error=='upload_invalid_min_dimensions')
-					response.error = 'Image needs to be minimum 256x256 px';
+					response.error = 'Image needs to be minimum 100x100 px';
 				var error = '<label class="col-sm-3 col-lg-2">&nbsp;</label><div class="col-sm-4 col-lg-5"><div class="alert alert-danger" style="margin-bottom:0;">'+response.error+'</div></div>';
 				window.parent.jQuery('#featured-photo-error').html(error);
 			}

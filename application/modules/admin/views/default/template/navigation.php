@@ -187,6 +187,11 @@
                         <?php echo lang_key('new_ad'); ?>
                     </a>
                 </li>
+                <li class="<?php echo is_active_menu('admin/banners/sponsor_message'); ?>">
+                    <a href="<?php echo site_url('admin/banners/sponsor_message'); ?>">
+                        <?php echo lang_key('add_sponsor_message'); ?>
+                    </a>
+                </li>
             </ul>
         </li>
 

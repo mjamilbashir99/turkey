@@ -2,11 +2,13 @@
 <!-- Page heading two starts -->
 <style>
 .thumb {position: relative; width: 129px; height:70px; margin-bottom:20px;}
-.thumb a {position: absolute; top: 0; display: block; width: 98%; height: 100%; text-align: center; text-decoration: none;}
+.thumb a {position: absolute; top: 0; display: block; width: 98%; height: 100%; text-align: center;  text-decoration: none;}
+.thumb span.timing {position: absolute; top: 45px; left:35px;  width: 98%; font-size:12px; color:#FFFFFF;}
+
 .thumb a .play, .thumb a .overlay {opacity: 0;}
 .thumb a:hover .play, .thumb a:hover .overlay {display: block; transition: opacity .25s ease-in-out;-moz-transition: opacity .25s ease-in-out;-webkit-transition: opacity .25s ease-in-out;}
 .thumb a:hover .play {position: relative; font-size: 35px; color: #ffffff; margin-top: 22px; z-index: 1000; opacity: 1;}
-.thumb a:hover .overlay {position: absolute; top: 0px; width: 100%; height: 100%; background-color: #000000; opacity: .7;}
+.thumb a:hover .overlay {position: absolute; top: 0px; width: 100%; height: 100%; background-color: #000000; opacity: .5;}
 
 img.mtop {
     height: 80px;
@@ -73,12 +75,12 @@ img.mtop {
                 <div class="nav-tabs-one">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#p-nav-1" data-toggle="tab"><i class="fa fa-film"></i> New Videos</a></li>
-                        <li><a href="#p-nav-2" data-toggle="tab"><i class="fa fa-film"></i> Top Videos</a></li>
+                        <li class="active" id="tab_1"><a href="#" data-toggle="tab"><i class="fa fa-film"></i> New Videos</a></li>
+                        <li id="tab_2"><a href="#" data-toggle="tab"><i class="fa fa-film"></i> Top Videos</a></li>
                     </ul>
                     <!-- Tab content -->
                     <div class="tab-content">
-                        <div class="tab-pane fade in active magazine" id="p-nav-1">
+                     <div class="tab-pane fade in active magazine" id="p-nav-1">
     <?php 
 	     if(count($all)>1){
 			 echo "<ul>";
@@ -94,11 +96,13 @@ img.mtop {
    				<div class="overlay"></div>
                   
                 </a>
+                <span class="timing"><?php  echo getDuration($video->video_url)?></span>
                 <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
             <a style="line-height:none !important" href="<?php echo $detail_link?>" title="<?php echo get_text_by_lang($video->title)?> 1">
                 <?php echo get_text_by_lang($video->title)?> 1
+             
             </a>
             </div>
             <br>
@@ -124,6 +128,7 @@ img.mtop {
    							<div class="overlay"></div>
                                  
                             </a>
+                            <span class="timing"><?php  echo getDuration($video->video_url)?></span>
                             <img src="<?php echo $video_image;?>" width="126" height="70"/>
                         </div>
                         <div style="width:125px; overflow:hidden;height:50px;">
@@ -147,8 +152,7 @@ img.mtop {
           <strong> No Vidoes were found</strong>
 		<?php }?>
       </div>
-					     <div class="clear"></div>
-           			    <div class="tab-pane fade in active magazine" id="p-nav-2">
+	<div  class="tab-pane fade in active magazine" id="p-nav-2">
     <?php 
 	     if(count($all)>0){
 			 echo "<ul>";
@@ -164,6 +168,7 @@ img.mtop {
    				<div class="overlay"></div>
                   
                 </a>
+                <span class="timing"><?php  echo getDuration($video->video_url)?></span>
                 <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
@@ -194,6 +199,7 @@ img.mtop {
    							<div class="overlay"></div>
                                      
                             </a>
+                            <span class="timing"><?php  echo getDuration($video->video_url)?></span>
                             <img src="<?php echo $video_image;?>" width="126" height="70"/>
                         </div>
                         <div style="width:125px; overflow:hidden;height:50px;">
@@ -205,6 +211,7 @@ img.mtop {
                         <?php echo humanTiming($video->last_update_time)?>
                     </li>
 				<?php
+				
                 } 
 			}
         ?>
@@ -239,6 +246,7 @@ img.mtop {
                   <span class="play">&#9658;</span>
    							<div class="overlay"></div>
                 </a>
+                <span class="timing"><?php  echo getDuration($video->video_url)?></span>
                 <img src="<?php echo $video_image;?>" width="126" height="70"/>
             </div>
              <div style="width:125px; overflow:hidden;height:50px;">
@@ -265,7 +273,8 @@ img.mtop {
                     <li>
                         <div class="mtop">
                             <a href="<?php echo $detail_link?>">
-                                     <img src="<?php echo $video_image;?>" width="126" height="70"/>
+                            <span class="timing"><?php  echo getDuration($video->video_url)?></span>
+                            <img src="<?php echo $video_image;?>" width="126" height="70"/>
                             </a>
                         </div>
                         <div style="width:125px; overflow:hidden;height:50px;">
@@ -359,7 +368,25 @@ function showVideoPreview(url)
         }
 }
 showVideoPreview('<?php echo $current_video_url?>');
-
+$("document").ready(function() {
+    $("#tab_1").click(function(){
+	   $("#tab_2").removeClass("active");
+	   $(this).addClass("active");
+	   $("#p-nav-2").hide();
+	   $("#p-nav-1").show();
+	});
+	 $("#tab_2").click(function(){
+		 $("#tab_1").removeClass("active");
+	   $(this).addClass("active");
+	   $("#p-nav-1").hide();
+	   $("#p-nav-2").show();
+	});
+});
+$("document").ready(function() {
+    setTimeout(function() {
+        $("#tab_1").trigger('click');
+    },10);
+});
 jQuery(document).ready(function(){
     jQuery('.vidoe_links').click(function(e){
             e.preventDefault();

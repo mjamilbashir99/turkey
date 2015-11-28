@@ -295,7 +295,7 @@
                                         <?php foreach (get_all_locations_by_type('country')->result() as $row) {
 
                                             $sel = ($row->id==$v)?'selected="selected"':'';
-
+                                            $state=$sel;
                                             ?>
 
                                             <option data-name="<?php echo $row->name;?>" value="<?php echo $row->id;?>" <?php echo $sel;?>><?php echo $row->name;?></option>
@@ -304,7 +304,28 @@
 
                                     </select>
 
-                                    <?php echo form_error('country');?>
+                                    <?php echo form_error('City');?>
+
+                                </div>
+
+                            </div>
+                             <?php $state_active = get_settings('business_settings', 'show_state_province', 'yes'); ?>
+
+                        <?php if($state_active == 'yes'){ ?>
+
+                        <div class="form-group">
+
+                                <label class="col-md-3 control-label"><?php echo lang_key('Cities');?></label>
+
+                                <div class="col-md-8">
+
+                                    <select name="state" id="state" class="form-control">
+
+                                      
+
+                                    </select>
+
+                                    <?php echo form_error('state');?>
 
                                 </div>
 
@@ -314,7 +335,7 @@
 
                             <div class="form-group">
 
-                                <label class="col-md-3 control-label"><?php echo lang_key('city');?></label>
+                                <label class="col-md-3 control-label"><?php echo lang_key('Counties');?></label>
 
                                 <div class="col-md-8">
 
@@ -332,34 +353,13 @@
 
                                     <?php }else {?>
 
-                                    <input type="text" id="city" name="city" value="<?php echo get_location_name_by_id($selected_city);?>" placeholder="<?php echo lang_key('city');?>" class="form-control input-sm" >
+                                    <input type="text" id="city" name="city" value="<?php echo get_location_name_by_id($selected_city);?>" placeholder="<?php echo lang_key('Counties');?>" class="form-control input-sm" >
 
                                     <span class="help-inline city-loading">&nbsp;</span>
 
                                     <?php }?>
 
                                     <?php echo form_error('city');?>
-
-                                </div>
-
-                            </div>
-                              <?php $state_active = get_settings('business_settings', 'show_state_province', 'yes'); ?>
-
-                        <?php if($state_active == 'yes'){ ?>
-
-                        <div class="form-group">
-
-                                <label class="col-md-3 control-label"><?php echo lang_key('County');?></label>
-
-                                <div class="col-md-8">
-
-                                    <select name="state" id="state" class="form-control">
-
-                                        
-
-                                    </select>
-
-                                    <?php echo form_error('state');?>
 
                                 </div>
 
@@ -1144,7 +1144,7 @@
                             </div>
 
                         </div>
-
+                          
                     </div>
 
                 </div>
@@ -1477,9 +1477,18 @@
                                 <input type="text" name="magazine_android1" id="magazine_android1" value="<?php echo $v; ?>" class="form-control">
 
                             </div>
-
                         </div>
+                        <div class="form-group">
 
+                            <label class="col-md-2 control-label" style="padding-top: 0px;"><?php echo lang_key('Sponsor Message');?></label>
+
+                            <div class="col-md-8">
+                           <input type="text" name="sponsor_add" value="<?php   get_sponoper_sms_by_county($selected_city); //echo $post->sponsor_add?>" class="form-control input-sm" >
+                            </div>
+                            <div class="col-md-2">
+                             <input type="checkbox" name="show_sponsor_add" value="1" <?php if($post->show_sponsor_add==1) echo 'checked="checked"';?>>                         
+                              </div>
+                        </div>
                     </div>
 
                 </div>
@@ -2663,95 +2672,48 @@
                             <option value="September">September</option>
 
                             <option value="October">October</option>
-
                             <option value="November">November</option>
-
                             <option value="December">December</option>
-
                         </select>
-
                     </div>
-
                 </div>
-
                 <div class="form-group">
-
                     <div class="col-md-10" style="padding: 0px;">
-
                         <textarea rows="7" name="issue_modal_description" id="issue_modal_description" class="form-control"></textarea>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="col-md-6">
-
                 <div class="featured-img">
-
                     <input type="hidden" name="magazine_featured_img_issue" id="magazine_featured-img-input_issue" onchange="test1();" value="">
-
                     <img id="magazine_featured-img_issue" src="">
-
                     <div class="upload-button" id="magazine_issue_upload_button" identfy="1" onclick="test();"><?php echo lang_key('upload');?></div>
-
                 </div>
-
                 <div class="form-group">
-
                     <div class="col-md-10" style="padding: 0px; margin-top: 15px;">
-
                         <input type="text" name="issue_modal_url" id="issue_modal_url" value="" class="form-control">
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
         <div class="row">
-
             <div class="col-md-12">
-
                 <div class="form-group align-centre" style="margin-top: 20px; margin-bottom: 0px;">
-
                     <button class="btn btn-color" type="button" onclick="update_issue();"><?php echo lang_key('submit');?></button>
-
                     <button class="btn btn-default" type="button" onclick="clear_form();"><?php echo lang_key('reset');?></button>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
 <!-- end issue modal -->
-
-
-
 <script src="//maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-
 <script src="<?php echo theme_url();?>/assets/js/markercluster.min.js"></script>
-
 <script src="<?php echo theme_url();?>/assets/js/map-icons.min.js"></script>
-
 <script src="<?php echo theme_url();?>/assets/js/map_config.js"></script>
-
-
-
 <script src="<?php echo theme_url();?>/assets/js/jquery.form.js"></script>
-
 <?php require'multiple-uploader.php';?>
-
 <?php require'bulk_uploader_view.php';?>
-
 <script type="text/javascript">
 
 jQuery(document).ready(function(){
@@ -2841,9 +2803,6 @@ jQuery(document).ready(function(){
 });
 
 </script>
-
-
-
 <script type="text/javascript">
 
 jQuery(document).ready(function(){
@@ -2979,9 +2938,6 @@ jQuery(document).ready(function(){
 });
 
 </script>
-
-
-
 <script type="text/javascript">
 
     function add_app_form(){
@@ -3921,9 +3877,6 @@ function populate_city(parent) {
 
 
 </script>
-
-
-
 <script type="text/javascript">
 
     var markers = [];

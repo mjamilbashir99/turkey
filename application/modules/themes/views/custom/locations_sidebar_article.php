@@ -1,40 +1,58 @@
 <?php
 $CI = get_instance();
 $CI->load->model('user/post_model');
-if($location=='all'){
+ $city;
+if($city=='all')
+{
 	$type="article";
-$parent_categories = $CI->post_model->get_all_post_city($type);
-   } 
+	$parent_categories = $CI->post_model->get_all_post_city($type);
+} 
 else
-   {
-	$parent_categories = $CI->post_model->get_all_post_county_by_city($location);
-	}
+{
+	$parent_categories = $CI->post_model->get_all_post_county_by_city($city);
+}
 ?>
 <div class="s-widget">
  
     <!-- Heading -->
-    <h5><i class="fa fa-map-marker color"></i>  <?php echo lang_key('Destination Base City') ?></h5>
+    <h5><i class="fa fa-folder color"></i>&nbsp; <?php
+	
+	if($city=='all'){
+	
+	
+	 echo lang_key('Destination Base City');}else{ echo lang_key('Destination Base County');} ?></h5>
     <!-- Widgets Content -->
 
     <div class="widget-content categories">
         <ul class="list-6">
             <?php
-			//var_dump($parent_categories->result());
 			  $count = 0;
 			 foreach($parent_categories->result() as $posts)
-			
-					 {
-						
-				$count  = count_blog_by('article','',$posts->city);
+			 	 {
+						if($city=='all')
+						{	
+							$count  = count_blog_by('article','',$posts->city);
+						}
+						else
+						{
+							$count  = count_blog_by('article','',$city,$posts->county);
+						}
 				  if($count)
 				 {
 					
 			 ?>
             
                 <li class="col-xs-12 col-sm-6 col-md-12 col-lg-12">
-                    <a href="<?php echo site_url('destinations-posts/?location='.$posts->city);?>">
+                <?php 
+					if($city=='all'){
+					 $url= site_url('destinations-posts/?city='.$posts->city);
+					}else{
+						 $url= site_url('destinations-posts/?county='.$posts->county);
+					}
+					 ?>
+                    <a href="<?php echo $url; ?>">
                     <?php
-					if($location=='all'){
+					if($city=='all'){
 						
 					echo $posts->name;
 					 }

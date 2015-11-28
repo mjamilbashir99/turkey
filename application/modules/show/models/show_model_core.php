@@ -31,15 +31,18 @@ class Show_model_core extends CI_Model
 
 
 
-    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all",$category='all',$location='all',$search='all')
+    function get_all_active_blog_posts_by_range($start,$limit='',$sort_by='',$sort='desc',$type="all",$category='all',$city='all',$county='all',$search='all')
     {
+		
         if($type!='all')
             $this->db->where('type',$type);
         if($category!='all')
             $this->db->where('category',$category);
 
-        if($location!='all')
-            $this->db->where('county',$location);
+        if($city!='all')
+		    $this->db->where('city',$city);
+			if($county!='all')
+            $this->db->where('county',$county);
        if($search!='all')
 	   {
 		    $this->db->or_like('title',$search);
